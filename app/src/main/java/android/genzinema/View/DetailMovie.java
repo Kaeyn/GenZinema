@@ -1,11 +1,10 @@
 package android.genzinema.View;
 
-import android.genzinema.Controller.MyFragmentAdapterDetailMovie;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import android.genzinema.R;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.google.android.material.tabs.TabLayout;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DetailMovie#newInstance} factory method to
@@ -23,8 +20,7 @@ import com.google.android.material.tabs.TabLayout;
  */
 public class DetailMovie extends Fragment {
     ProgressBar pb;
-    TabLayout tabLayout;
-    ViewPager2 viewPager;
+    Button btnEp,btnSimilar;
     MyFragmentAdapterDetailMovie adapter;
 
 
@@ -70,9 +66,20 @@ public class DetailMovie extends Fragment {
 
     private void addControl(View view){
         pb = view.findViewById(R.id.pbDetailMV);
-        tabLayout = view.findViewById(R.id.tablayoutDM);
-        viewPager = view.findViewById(R.id.viewPageDM);
-
+        btnEp = view.findViewById(R.id.btnEps);
+        btnSimilar = view.findViewById(R.id.btnSimilarStyle);
+        btnEp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FragmentEps());
+            }
+        });
+        btnSimilar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FragmentSimilarStyle());
+            }
+        });
     }
 
 
@@ -84,40 +91,15 @@ public class DetailMovie extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
         pb.setProgress(20);
-        tabLayout.addTab(tabLayout.newTab().setText("Các tập"));
-        tabLayout.addTab(tabLayout.newTab().setText("Nội dung tương tự"));
-
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        adapter = new MyFragmentAdapterDetailMovie(fragmentManager , getLifecycle());
-        viewPager.setAdapter(adapter);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
-
-
-
 
         return view;
+    }
+    public void loadFragment(Fragment fragment){
+//        Toast.makeText(getContext(),"loadFragment",Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getParentFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayout, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

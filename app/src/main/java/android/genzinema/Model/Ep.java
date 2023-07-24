@@ -44,4 +44,15 @@ public class Ep {
     public void setDetailEp(String detailEp) {
         DetailEp = detailEp;
     }
+
+    public static ArrayList<Ep> initData(int [] lstImg, String[]lstName, String[]lstTime, String[]lstDetail)
+    {
+        ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
+        for(int i=0; i<lstImg.length;i++)
+        {
+            Ep ep = new Ep(lstImg[i],lstName[i],lstTime[i],lstDetail[i]);
+            arrayListEp.add(ep);
+        }
+        return arrayListEp;
+    }
 }
