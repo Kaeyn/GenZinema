@@ -13,13 +13,22 @@
         android:theme="@style/Theme.GenZinema"
         tools:targetApi="31">
         <activity
-            android:name=".View.SearchPage"
+            android:name=".View.Login"
+            android:exported="false" />
+        <activity
+            android:name=".View.UserProfile_Edit"
+            android:exported="false" />
+        <activity
+            android:name=".View.UserProfile"
             android:exported="false" />
         <activity
             android:name=".View.HomePage"
             android:exported="false" />
         <activity
             android:name=".View.UserProfile"
+            android:exported="false" />
+        <activity
+            android:name=".View.BottomNav"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

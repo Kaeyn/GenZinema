@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/black"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/baseline_add_24"
+                    android:drawableTop="@drawable/add_icon"
                     android:text="Danh sách" />
 
                 <Button
@@ -118,25 +118,35 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/black"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/baseline_favorite_24"
+                    android:drawableTop="@drawable/favorite_icon"
                     android:text="Xếp hạng" />
             </LinearLayout>
-            <com.google.android.material.tabs.TabLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/tablayoutDM"
-                app:tabMode="fixed"
-                app:tabGravity="fill"
-                app:tabIndicatorGravity="stretch"
-                app:tabSelectedTextColor="@color/white"
-                app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicator="@drawable/tab_indicator"/>
 
-            <androidx.viewpager2.widget.ViewPager2
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/viewPageDM"/>
+                android:orientation="horizontal" >
 
+                <Button
+                    android:id="@+id/btnEps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:text="Các tập" />
+                <Button
+                    android:id="@+id/btnSimilarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:text="Button" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
