@@ -1,10 +1,17 @@
 package android.genzinema.View;
 
+import android.annotation.SuppressLint;
+import android.genzinema.Controller.CustomAdapterRecyFilm;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +19,7 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -38,6 +46,14 @@ public class Fragment_Home extends Fragment {
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
 
     String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
+
+    int[] lstId = new int[]{1,2,3,4,5};
+    int[] lstImg = new int[]{R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak};
+
+    RecyclerView recyclerView;
+    ImageView imgFilm;
+    ArrayList<Movie> filmArrayList = new ArrayList<>();
+    CustomAdapterRecyFilm adapterRecyFilm;
 
 
     public Fragment_Home() {
@@ -73,18 +89,22 @@ public class Fragment_Home extends Fragment {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
         btnMovie = rootView.findViewById(R.id.btnMovie);
+        recyclerView = rootView.findViewById(R.id.recyViewFilm);
+        imgFilm = rootView.findViewById(R.id.imgHomeFilm);
 
         // Initialize your ArrayList and populate it with data
         type_of_filmArrayList = new ArrayList<>();
         // Add your data to the ArrayList
-        type_of_filmArrayList.add("Thể loại"); // Add the prompt as the first item
-        type_of_filmArrayList.add("Action");
-        type_of_filmArrayList.add("Drama");
+        type_of_filmArrayList.add("Thể loại");
+        type_of_filmArrayList.add("Animme");
+        type_of_filmArrayList.add("Hành động");
+        type_of_filmArrayList.add("Kinh dị");
         // ... Add more items as needed
 
         // Find the Spinner in your fragment's layout
@@ -98,6 +118,15 @@ public class Fragment_Home extends Fragment {
 
         // Apply the adapter to the spinner
         spinner.setAdapter(adapterTypeFilmSpinner);
+        filmArrayList = Movie.initData(lstId, lstImg);
+
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(filmArrayList);
+        recyclerView.setAdapter(adapterRecyFilm);
 
 
         return rootView;
@@ -111,4 +140,5 @@ public class Fragment_Home extends Fragment {
         ft.addToBackStack(null);
         ft.commit();
     }
+
 }
