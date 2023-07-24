@@ -13,10 +13,10 @@
         android:theme="@style/Theme.GenZinema"
         tools:targetApi="31">
         <activity
-            android:name=".View.BottomNav"
+            android:name=".View.HomePage"
             android:exported="false" />
         <activity
-            android:name=".View.HomePage"
+            android:name=".View.BottomNav"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

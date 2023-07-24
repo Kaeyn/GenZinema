@@ -2,9 +2,13 @@ package android.genzinema.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,6 +36,22 @@ public class BottomNav extends AppCompatActivity {
     }
 
     public void addEvents(){
+
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.top_navigation, menu);
+        if (menu instanceof MenuBuilder) {
+            MenuBuilder menuBuilder = (MenuBuilder) menu;
+            menuBuilder.setOptionalIconsVisible(true);
+
+        }
+
+        return super.onCreateOptionsMenu(menu);
+
 
     }
 }
