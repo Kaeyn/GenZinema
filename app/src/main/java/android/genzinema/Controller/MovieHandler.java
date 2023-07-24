@@ -36,29 +36,27 @@ public class MovieHandler extends SQLiteOpenHelper {
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ( " +
                 IDMOVIE_COL+" INTEGER NOT NULL UNIQUE, " +
+                NAMEMOVIE_COL+" TEXT NOT NULL, " +
                 IDGENREMOVIE_COL+" INTEGER NOT NULL, " +
+                IDSTYLEMOVIE_COL+" INTEGER NOT NULL, " +
                 TRAILERMOVIE_COL+" TEXT NOT NULL, " +
                 ACTORMOVIE_COL+" TEXT NOT NULL, " +
                 AUTHORMOVIE_COL+" TEXT NOT NULL, " +
-                NAMEMOVIE_COL+" TEXT NOT NULL, " +
                 YEARMOVIE_COL+" TEXT NOT NULL, " +
                 DETAILMOVIE_COL+" TEXT NOT NULL, " +
-                IDSTYLEMOVIE_COL+" INTEGER NOT NULL, " +
                 THUMBNAILMOVIE_COL+" TEXT NOT NULL, " +
                 "FOREIGN KEY("+IDGENREMOVIE_COL+") REFERENCES "+GenresHandler.TABLE_NAME+"("+GenresHandler.IDGENRE_COL+")," +
                 "FOREIGN KEY("+IDSTYLEMOVIE_COL+") REFERENCES "+StyleHandler.TABLE_NAME+"("+StyleHandler.IDSTYLE_COL+")," +
                 "PRIMARY KEY( "+IDMOVIE_COL+" ));";
         db.execSQL(sql);
         db.close();
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','1','')";
-        db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Kinh dị')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','JohnWaj','1','1','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW','Jon','Tony','2121','Phim rat hay.','johnweak')";
         db.execSQL(sql);
         db.close();
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('3','Tình cảm')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Wajigi','4','1','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r','Min','JonhnWajiz','2921','Phim danh cho anh JohnWaji.','johnwick')";
         db.execSQL(sql);
         db.close();
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('4','Hài ướt')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('3','Joji','2','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','edit_icon')";
         db.execSQL(sql);
         db.close();
     }
