@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".View.FrgamentEps">
+    tools:context=".View.FragmentEps">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:textColor="@color/white"
             android:text="Tên phim" />
         <ListView
-            android:id="@+id/litView"
+            android:id="@+id/lvEp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
