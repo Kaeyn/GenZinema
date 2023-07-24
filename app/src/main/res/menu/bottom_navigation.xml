@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_bottom_nav_home"
+        android:id="@+id/home"
         android:title="Home"
         android:icon="@drawable/bottom_nav_home"
         app:showAsAction="always"
         />
 
     <item
-        android:id="@+id/item_bottom_nav_hotnew"
+        android:id="@+id/hotnnew"
         android:title="Hot &amp; New"
         android:icon="@drawable/bottom_nav_hot_new"
         app:showAsAction="always"
         />
 
     <item
-        android:id="@+id/item_bottom_nav_favor"
+        android:id="@+id/collections"
         android:title="Collections"
         android:icon="@drawable/bottom_nav_favorite"
         app:showAsAction="always"

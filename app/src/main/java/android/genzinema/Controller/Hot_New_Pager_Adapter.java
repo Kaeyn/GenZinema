@@ -18,15 +18,15 @@ public class Hot_New_Pager_Adapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if(position == 0){
-
             return new HotnNew_RecycleView("Popular");
-
+        } else if (position == 1) {
+            return new HotnNew_RecycleView("Top10");
         }
         return null;
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 2;
     }
 }

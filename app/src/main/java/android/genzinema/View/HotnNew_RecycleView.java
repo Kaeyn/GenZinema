@@ -43,21 +43,9 @@ public class HotnNew_RecycleView extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HotnNew_RecycleView.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CustomRecycleView newInstance(String param1, String param2) {
-        CustomRecycleView fragment = new CustomRecycleView();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
+    public static HotnNew_RecycleView newInstance(String subcategoryName) {
+        HotnNew_RecycleView fragment = new HotnNew_RecycleView(subcategoryName);
         return fragment;
     }
 
@@ -80,15 +68,16 @@ public class HotnNew_RecycleView extends Fragment {
         ArrayList<Movie> dataList = getSubcategoryData(subcategoryName);
 
         CustomRecycleView adapter = new CustomRecycleView(dataList);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
 
     private ArrayList<Movie> getSubcategoryData(String subcategoryName) {
-        // Replace this with your actual data retrieval logic for each subcategory
-        // For example, you can fetch data from a database or a network call based on the subcategoryName
-        // Create a list of YourSubcategoryItem objects and return it
-        return [];
+        ArrayList<Movie> arrayList = new ArrayList<>();
+        Movie movie = new Movie(1, 1, 1, null,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        arrayList.add(movie);
+        return arrayList;
     }
     private class CustomRecycleView extends RecyclerView.Adapter<CustomRecycleView.YourViewHolder> {
 
@@ -110,7 +99,7 @@ public class HotnNew_RecycleView extends Fragment {
             Movie movie = dataList.get(position);
             // Bind data to your views in the holder (e.g., set text, images, etc.)
             // Example:
-            
+//            holder.imageView.setImageResource(movie.getIdThumbnails());
             holder.textViewTitle.setText(movie.getNameMovie());
             holder.textViewDescription.setText(movie.getDetail());
             // Set other views as needed based on YourDataModel properties

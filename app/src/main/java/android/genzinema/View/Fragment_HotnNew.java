@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +73,16 @@ public class Fragment_HotnNew extends Fragment {
 
         Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity());
         subcategoryViewPager.setAdapter(hot_new_pager_adapter);
+
+        new TabLayoutMediator(subcategoryLayout, subcategoryViewPager, (tab, position) -> {
+            if (position == 0){
+                tab.setText("Popular");
+            } else if (position == 1) {
+                tab.setText("Top10");
+            }
+        }).attach();
+
+
         return view;
     }
 }

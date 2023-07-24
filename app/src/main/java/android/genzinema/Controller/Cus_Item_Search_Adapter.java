@@ -28,6 +28,7 @@ public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Searc
     @Override
     public void onBindViewHolder(@NonNull Cus_Item_Search_Adapter.MyViewHolder holder, int position) {
         Movie movie = arrayListMovie.get(position);
+        holder.imageView.setImageResource(movie.getIdThumbnails());
         holder.textView.setText(movie.getNameMovie());
         holder.imageButton.setImageResource(R.drawable.play_icon);
     }
