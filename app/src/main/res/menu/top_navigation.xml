@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_top_nav_search"
+        android:id="@+id/searchIcon"
         android:icon="@drawable/top_nav_search"
         android:title="Search"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/item_top_nav_avatar"
+        android:id="@+id/userProfile"
         android:icon="@drawable/ic_launcher_background"
         android:title="Search"
         app:showAsAction="always"/>

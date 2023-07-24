@@ -75,8 +75,11 @@ public class HotnNew_RecycleView extends Fragment {
 
     private ArrayList<Movie> getSubcategoryData(String subcategoryName) {
         ArrayList<Movie> arrayList = new ArrayList<>();
-        Movie movie = new Movie(1, 1, 1, R.drawable.johnwick,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        arrayList.add(movie);
+        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        for (int i = 0; i < 5; i++) {
+            arrayList.add(movie);
+        }
+
         return arrayList;
     }
     private class CustomRecycleView extends RecyclerView.Adapter<CustomRecycleView.YourViewHolder> {
