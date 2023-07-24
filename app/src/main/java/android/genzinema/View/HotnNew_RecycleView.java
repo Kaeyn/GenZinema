@@ -75,7 +75,7 @@ public class HotnNew_RecycleView extends Fragment {
 
     private ArrayList<Movie> getSubcategoryData(String subcategoryName) {
         ArrayList<Movie> arrayList = new ArrayList<>();
-        Movie movie = new Movie(1, 1, 1, null,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        Movie movie = new Movie(1, 1, 1, R.drawable.johnwick,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         arrayList.add(movie);
         return arrayList;
     }
@@ -99,7 +99,7 @@ public class HotnNew_RecycleView extends Fragment {
             Movie movie = dataList.get(position);
             // Bind data to your views in the holder (e.g., set text, images, etc.)
             // Example:
-//            holder.imageView.setImageResource(movie.getIdThumbnails());
+            holder.imageView.setImageResource(movie.getIdThumbnails());
             holder.textViewTitle.setText(movie.getNameMovie());
             holder.textViewDescription.setText(movie.getDetail());
             // Set other views as needed based on YourDataModel properties
