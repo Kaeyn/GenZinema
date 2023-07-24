@@ -30,8 +30,10 @@ public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Searc
         Movie movie = arrayListMovie.get(position);
         holder.imageView.setImageResource(movie.getIdThumbnails());
         holder.textView.setText(movie.getNameMovie());
-        holder.imageButton.setImageResource(R.drawable.play_icon);
+        holder.imageButton.setImageResource(R.drawable.circleplay_icon);
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -40,6 +42,16 @@ public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Searc
 
     public Cus_Item_Search_Adapter(ArrayList<Movie> arrayListMovie){
         this.arrayListMovie = arrayListMovie;
+    }
+
+    @Override
+    public int findRelativeAdapterPositionIn(@NonNull RecyclerView.Adapter<? extends RecyclerView.ViewHolder> adapter, @NonNull RecyclerView.ViewHolder viewHolder, int localPosition) {
+        return super.findRelativeAdapterPositionIn(adapter, viewHolder, localPosition);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
