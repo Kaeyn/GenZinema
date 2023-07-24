@@ -14,18 +14,19 @@
         android:layout_height="match_parent">
 
         <!-- Subcategory Navigation (TabLayout) -->
+
+        <!-- Subcategory Fragment Container (ViewPager or ViewPager2) -->
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/hotNewTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black"
-            app:tabMode="scrollable"
-            app:tabIndicatorColor="@color/black"
-            app:tabTextColor="@color/white"
-            app:tabSelectedTextColor="@color/black" />
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
+            android:textColor="@color/black"
+            app:tabMode="scrollable" />
 
-        <!-- Subcategory Fragment Container (ViewPager or ViewPager2) -->
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/hotNewViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
