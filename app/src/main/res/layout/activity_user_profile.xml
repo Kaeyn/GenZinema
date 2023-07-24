@@ -44,7 +44,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginBottom="15dp"
-            app:srcCompat="@drawable/test" />
+            app:srcCompat="@drawable/account_icon" />
 
         <TextView
             android:id="@+id/tv_UserName"
