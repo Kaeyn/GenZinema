@@ -62,6 +62,10 @@ public class BottomNav extends AppCompatActivity {
                     loadFragment(new Fragment_HotnNew());
                     return true;
                 }
+                else if (idFrame == R.id.collections) {
+                    loadFragment(new Fragment_Collections());
+                    return true;
+                }
                 return true;
             }
         });
