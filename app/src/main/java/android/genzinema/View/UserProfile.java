@@ -2,6 +2,7 @@ package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.View;
@@ -40,7 +41,8 @@ public class UserProfile extends AppCompatActivity {
         lineLay_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(UserProfile.this, "HEHE", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(UserProfile.this, UserProfile_Edit.class);
+                startActivity(intent);
             }
         });
     }
