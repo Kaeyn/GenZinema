@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
@@ -76,6 +77,19 @@ public class BottomNav extends AppCompatActivity {
             menuBuilder.setOptionalIconsVisible(true);
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.searchIcon){
+            Intent intent = new Intent(BottomNav.this, SearchPage.class);
+            startActivity(intent);
+        } else if (id == R.id.userProfile) {
+            Intent intent = new Intent(BottomNav.this, UserProfile.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void loadFragment(Fragment fragment){

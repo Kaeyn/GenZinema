@@ -42,9 +42,6 @@ public class CustomAdapterEp extends ArrayAdapter {
         TextView tvName = (TextView) convertView.findViewById(R.id.tvNameEp);
         tvName.setText(ep.getNameEp());
 
-        TextView tvTime = (TextView) convertView.findViewById(R.id.tvTimeEp);
-        tvTime.setText(ep.getTimeEp());
-
         TextView tvDetail = (TextView) convertView.findViewById(R.id.tvDetailEp);
         tvDetail.setText(ep.getDetailEp());
 

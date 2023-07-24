@@ -48,6 +48,14 @@ public class Movie {
         IdType = idType;
     }
 
+    public Integer getIdThumbnails() {
+        return IdThumbnails;
+    }
+
+    public void setIdThumbnails(Integer idThumbnails) {
+        IdThumbnails = idThumbnails;
+    }
+
     public String getUrlTrailer() {
         return UrlTrailer;
     }

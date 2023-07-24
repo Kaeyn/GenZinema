@@ -1,13 +1,18 @@
 package android.genzinema.View;
 
+import android.annotation.SuppressLint;
 import android.genzinema.Controller.Hot_New_Pager_Adapter;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
@@ -60,6 +65,7 @@ public class Fragment_HotnNew extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -70,6 +76,7 @@ public class Fragment_HotnNew extends Fragment {
 
         TabLayout subcategoryLayout = view.findViewById(R.id.hotNewTabLayout);
         ViewPager2 subcategoryViewPager = view.findViewById(R.id.hotNewViewPager);
+        subcategoryViewPager.setUserInputEnabled(false);
 
         Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity());
         subcategoryViewPager.setAdapter(hot_new_pager_adapter);
