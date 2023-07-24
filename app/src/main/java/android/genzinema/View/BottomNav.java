@@ -25,6 +25,8 @@ public class BottomNav extends AppCompatActivity {
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
 
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,10 @@ public class BottomNav extends AppCompatActivity {
                     return true;
                 } else if (idFrame == R.id.hotnnew) {
                     loadFragment(new Fragment_HotnNew());
+                    return true;
+                }
+                else if (idFrame == R.id.collections) {
+                    loadFragment(new Fragment_Collections());
                     return true;
                 }
                 return true;

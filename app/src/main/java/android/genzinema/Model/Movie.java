@@ -1,5 +1,7 @@
 package android.genzinema.Model;
 
+import java.util.ArrayList;
+
 public class Movie {
     Integer IdMV, IdGenre,IdType,IdThumbnails;
     String UrlTrailer, NameMovie,Actors,Authors,YearProduce,Detail;
@@ -24,6 +26,17 @@ public class Movie {
         return IdMV;
     }
 
+    public Movie(Integer idMV, Integer idThumbnails) {
+        IdMV = idMV;
+        IdThumbnails = idThumbnails;
+    }
+
+    public Movie(Integer idMV, Integer idThumbnails, String nameMovie) {
+        IdMV = idMV;
+        IdThumbnails = idThumbnails;
+        NameMovie = nameMovie;
+    }
+
     public void setIdMV(Integer idMV) {
         IdMV = idMV;
     }
@@ -42,14 +55,6 @@ public class Movie {
 
     public void setIdType(Integer idType) {
         IdType = idType;
-    }
-
-    public Integer getIdThumbnails() {
-        return IdThumbnails;
-    }
-
-    public void setIdThumbnails(Integer idThumbnails) {
-        IdThumbnails = idThumbnails;
     }
 
     public String getUrlTrailer() {
@@ -100,4 +105,29 @@ public class Movie {
         Detail = detail;
     }
 
+    public Integer getIdThumbnails() {
+        return IdThumbnails;
+    }
+
+    public void setIdThumbnails(Integer idThumbnails) {
+        IdThumbnails = idThumbnails;
+    }
+
+    public static ArrayList<Movie> initData(int[] lstIdImg, int[] lstImgFilm){
+        ArrayList<Movie> movieArrayList = new ArrayList<>();
+        for (int i = 0; i < lstIdImg.length; i++) {
+            Movie movie = new Movie(lstIdImg[i], lstImgFilm[i]);
+            movieArrayList.add(movie);
+        }
+        return movieArrayList;
+    }
+
+    public static ArrayList<Movie> initDataCollection(int[] lstIdImg, int[] lstImgFilm, String[] lstNameFilm){
+        ArrayList<Movie> movieArrayList = new ArrayList<>();
+        for (int i = 0; i < lstIdImg.length; i++) {
+            Movie movie = new Movie(lstIdImg[i], lstImgFilm[i], lstNameFilm[i]);
+            movieArrayList.add(movie);
+        }
+        return movieArrayList;
+    }
 }
