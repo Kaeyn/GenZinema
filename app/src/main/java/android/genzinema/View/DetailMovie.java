@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 public class DetailMovie extends Fragment {
     ProgressBar pb;
     Button btnEp,btnSimilar;
-//    MyFragmentAdapterDetailMovie adapter;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -68,12 +67,12 @@ public class DetailMovie extends Fragment {
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
-        btnEp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FragmentEps());
-            }
-        });
+//        btnEp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadFragment(new FragmentEps());
+//            }
+//        });
         btnSimilar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

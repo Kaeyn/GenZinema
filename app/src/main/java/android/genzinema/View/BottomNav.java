@@ -1,5 +1,6 @@
 package android.genzinema.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -12,9 +13,11 @@ import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class BottomNav extends AppCompatActivity {
     ActionBar actionBar;
@@ -45,6 +48,20 @@ public class BottomNav extends AppCompatActivity {
         loadFragment(new Fragment_Home());
 
 
+        bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int idFrame = item.getItemId();
+                if(idFrame == R.id.home){
+                    loadFragment(new Fragment_Home());
+                    return true;
+                } else if (idFrame == R.id.hotnnew) {
+                    loadFragment(new Fragment_HotnNew());
+                    return true;
+                }
+                return true;
+            }
+        });
     }
 
     @SuppressLint("RestrictedApi")
