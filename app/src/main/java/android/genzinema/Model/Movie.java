@@ -54,14 +54,6 @@ public class Movie {
         IdType = idType;
     }
 
-    public Integer getIdThumbnails() {
-        return IdThumbnails;
-    }
-
-    public void setIdThumbnails(Integer idThumbnails) {
-        IdThumbnails = idThumbnails;
-    }
-
     public String getUrlTrailer() {
         return UrlTrailer;
     }
@@ -110,6 +102,13 @@ public class Movie {
         Detail = detail;
     }
 
+    public Integer getIdThumbnails() {
+        return IdThumbnails;
+    }
+
+    public void setIdThumbnails(Integer idThumbnails) {
+        IdThumbnails = idThumbnails;
+    }
 
     public static ArrayList<Movie> initData(int[] lstIdImg, int[] lstImgFilm){
         ArrayList<Movie> movieArrayList = new ArrayList<>();
