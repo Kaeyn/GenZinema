@@ -1,6 +1,7 @@
 package android.genzinema.Controller;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.genzinema.Model.Movie;
@@ -49,22 +50,38 @@ public class MovieHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY("+IDSTYLEMOVIE_COL+") REFERENCES "+StyleHandler.TABLE_NAME+"("+StyleHandler.IDSTYLE_COL+")," +
                 "PRIMARY KEY( "+IDMOVIE_COL+" ));";
         db.execSQL(sql);
-        db.close();
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','JohnWaj','1','1','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW','Jon','Tony','2121','Phim rat hay.','johnweak')";
         db.execSQL(sql);
-        db.close();
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Wajigi','4','1','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r','Min','JonhnWajiz','2921','Phim danh cho anh JohnWaji.','johnwick')";
         db.execSQL(sql);
-        db.close();
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('3','Joji','2','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','edit_icon')";
         db.execSQL(sql);
         db.close();
     }
-    public void initData(){
+    public Movie GetMovieByID(int ID){
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
+        cursor.moveToFirst();
+        Movie movie = new Movie();
+        movie.setIdMV(cursor.getInt(0));
+        movie.setNameMovie(cursor.getString(1));
+        movie.setIdGenre(cursor.getInt(2));
+        movie.setIdType(cursor.getInt(3));
+        movie.setUrlTrailer(cursor.getString(4));
+        movie.setActors(cursor.getString(5));
+        movie.setAuthors(cursor.getString(6));
+        movie.setYearProduce(cursor.getString(7));
+        movie.setDetail(cursor.getString(8));
+        movie.setIdThumbnails(cursor.getInt(9));
+        cursor.close(); // Close the cursor after use
+        db.close();
+        return movie;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+
 }
