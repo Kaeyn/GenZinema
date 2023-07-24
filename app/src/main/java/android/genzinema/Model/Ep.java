@@ -6,6 +6,10 @@ public class Ep {
     Integer idImgEp;
     String NameEp, DetailEp, UrlEp;
 
+    public Ep(){
+
+    }
+
     public Ep(Integer idImgEp, String nameEp, String timeEp, String detailEp, String UrlEp) {
         this.idImgEp = idImgEp;
         NameEp = nameEp;

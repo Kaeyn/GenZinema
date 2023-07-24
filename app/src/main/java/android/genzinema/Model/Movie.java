@@ -1,12 +1,15 @@
 package android.genzinema.Model;
 
 public class Movie {
-    Integer IdMV,IdStyle,IdType,IdThumbnails;
+    Integer IdMV, IdGenre,IdType,IdThumbnails;
     String UrlTrailer, NameMovie,Actors,Authors,YearProduce,Detail;
 
-    public Movie(Integer idMV, Integer idStyle, Integer idType, Integer idThumbnails,String urlTrailer, String nameMovie, String actors, String authors, String yearProduce, String detail) {
+    public Movie() {
+    }
+
+    public Movie(Integer idMV, Integer idGenre, Integer idType, Integer idThumbnails, String urlTrailer, String nameMovie, String actors, String authors, String yearProduce, String detail) {
         IdMV = idMV;
-        IdStyle = idStyle;
+        IdGenre = idGenre;
         IdType = idType;
         IdThumbnails = idThumbnails;
         UrlTrailer = urlTrailer;
@@ -25,12 +28,12 @@ public class Movie {
         IdMV = idMV;
     }
 
-    public Integer getIdStyle() {
-        return IdStyle;
+    public Integer getIdGenre() {
+        return IdGenre;
     }
 
-    public void setIdStyle(Integer idStyle) {
-        IdStyle = idStyle;
+    public void setIdGenre(Integer idGenre) {
+        IdGenre = idGenre;
     }
 
     public Integer getIdType() {

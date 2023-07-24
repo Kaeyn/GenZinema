@@ -1,10 +1,16 @@
 package android.genzinema.View;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterEp;
+import android.genzinema.Controller.EpHandler;
+import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Ep;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,13 +29,15 @@ import java.util.ArrayList;
 public class FragmentEps extends Fragment {
     TextView tvNameMV;
     ListView lvEp;
+    SQLiteDatabase db;
+    EpHandler epHandler;
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
-    int[]lstIdImg = new int[]{R.drawable.setting_icon, R.drawable.favorite_icon, R.drawable.return_icon,R.drawable.tab_indicator};
-    String[] lstName = new String[]{"1.Tập 1","2.Tập 2","3.Tập 3","4.Tập 4"};
-    String[] lstDetail = new String[]{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"};
+//    int[]lstIdImg = new int[]{R.drawable.setting_icon, R.drawable.favorite_icon, R.drawable.return_icon,R.drawable.tab_indicator};
+//    String[] lstName = new String[]{"1.Tập 1","2.Tập 2","3.Tập 3","4.Tập 4"};
+//    String[] lstDetail = new String[]{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+//            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+//            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+//            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"};
 
 
 
@@ -88,8 +96,26 @@ public class FragmentEps extends Fragment {
         lvEp = view.findViewById(R.id.lvEp);
     }
     void addEvents(){
-        arrayListEp= Ep.initData(lstIdImg, lstName,lstDetail);
+        epHandler = new EpHandler(getContext(),EpHandler.DB_NAME,null,1);
+        epHandler.onCreate(db);
+        arrayListEp = epHandler.loadData();
         adapter=new CustomAdapterEp(getContext(),R.layout.layout_custom_item_ep_dm,arrayListEp);
         lvEp.setAdapter(adapter);
     }
+//    FragmentManager fm = getParentFragmentManager();
+//        fm.setFragmentResultListener("keyMain", this, new FragmentResultListener() {
+//        @Override
+//        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+//            int idMV = result.getInt("idMV");
+//            movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+//            Movie movie = movieHandler.GetMovieByID(idMV);
+//            tvTenMV.setText(movie.getNameMovie());
+//            tvNamMV.setText(movie.getYearProduce());
+//            tvActorMV.setText("Diễn viên: "+movie.getActors());
+//            tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
+//            tvDetailMV.setText(movie.getDetail());
+//
+//
+//        }
+//    });
 }

@@ -1,9 +1,13 @@
 package android.genzinema.View;
 
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -12,6 +16,7 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,8 +24,10 @@ import android.widget.ProgressBar;
  * create an instance of this fragment.
  */
 public class DetailMovie extends Fragment {
+    TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar;
+    MovieHandler movieHandler;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -61,18 +68,40 @@ public class DetailMovie extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener("keyMain", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                int idMV = result.getInt("idMV");
+                movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+                Movie movie = movieHandler.GetMovieByID(idMV);
+                tvTenMV.setText(movie.getNameMovie());
+                tvNamMV.setText(movie.getYearProduce());
+                tvActorMV.setText("Diễn viên: "+movie.getActors());
+                tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
+                tvDetailMV.setText(movie.getDetail());
+
+
+            }
+        });
     }
 
     private void addControl(View view){
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
-//        btnEp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                loadFragment(new FragmentEps());
-//            }
-//        });
+        tvActorMV = view.findViewById(R.id.tvActorMV);
+        tvDetailMV = view.findViewById(R.id.tvDetailMV);
+        tvAuthorMV = view.findViewById(R.id.tvAuthorMV);
+        tvNamMV = view.findViewById(R.id.tvNamMV);
+        tvTenMV = view.findViewById(R.id.tvTenMV);
+
+        btnEp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FragmentEps());
+            }
+        });
         btnSimilar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +119,7 @@ public class DetailMovie extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
         pb.setProgress(20);
+
 
         return view;
     }

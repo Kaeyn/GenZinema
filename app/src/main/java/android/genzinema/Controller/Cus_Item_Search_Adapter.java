@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,18 @@ public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Searc
         holder.imageButton.setImageResource(R.drawable.play_icon);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private OnItemClickListener clickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.clickListener = listener;
+    }
+    public Movie GetItem(int position){
+        return arrayListMovie.get(position);
+    }
     @Override
     public int getItemCount() {
         return arrayListMovie.size();
@@ -52,6 +65,20 @@ public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Searc
             imageView = itemView.findViewById(R.id.imageItem_Search);
             textView = itemView.findViewById(R.id.textItem_Search);
             imageButton = itemView.findViewById(R.id.btnToMovie_Search);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (clickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            clickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
         }
+
     }
 }

@@ -1,19 +1,24 @@
 package android.genzinema.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class SearchPage extends AppCompatActivity {
+public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Adapter.OnItemClickListener {
     RecyclerView recyclerView;
 
     ArrayList<Movie> arrayList = new ArrayList<>();
@@ -35,10 +40,46 @@ public class SearchPage extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new Cus_Item_Search_Adapter(arrayList);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapter.GetItem(position);
+                    Intent intent = new Intent(SearchPage.this, HomePage.class);
+//                    intent.putExtra("idMV",movie.getIdMV());
+                    intent.putExtra("idMV",3);
+
+                    startActivity(intent);
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+
     }
+
 
     private void addControls(){
         recyclerView =findViewById(R.id.searchRecycleView);
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
 
     }
 }
