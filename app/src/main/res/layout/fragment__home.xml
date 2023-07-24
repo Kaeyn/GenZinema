@@ -9,7 +9,9 @@
     android:id="@+id/framelayout_content">
 
     <!-- TODO: Update blank fragment layout -->
-
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,8 +62,8 @@
             android:layout_width="match_parent"
             android:layout_height="470dp"
             android:layout_marginHorizontal="40dp"
+            android:background="@drawable/johnweak"
             android:layout_marginTop="20dp"
-            android:background="@drawable/johnwick"
             android:orientation="vertical">
 
 
@@ -113,8 +115,8 @@
             android:layout_width="match_parent"
             android:layout_height="470dp"
             android:layout_marginHorizontal="40dp"
+            android:background="@drawable/johnweak"
             android:layout_marginTop="80dp"
-            android:background="@drawable/johnwick"
             android:orientation="vertical">
 
 
@@ -162,6 +164,8 @@
 
         </LinearLayout>
     </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+
 
 
 </FrameLayout>
