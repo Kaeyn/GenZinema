@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.google.android.material.tabs.TabLayout;
@@ -25,6 +26,8 @@ public class DetailMovie extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     MyFragmentAdapterDetailMovie adapter;
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
