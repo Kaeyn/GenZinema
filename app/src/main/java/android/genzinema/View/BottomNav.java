@@ -8,13 +8,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.genzinema.View.DetailMovie;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,7 +42,7 @@ public class BottomNav extends AppCompatActivity {
     }
 
     public void addEvents(){
-        loadFragment(new Fragment_Content());
+        loadFragment(new Fragment_Home());
 
 
     }
