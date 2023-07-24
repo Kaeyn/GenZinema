@@ -13,6 +13,9 @@
         android:theme="@style/Theme.GenZinema"
         tools:targetApi="31" >
         <activity
+            android:name=".View.BottomNav"
+            android:exported="false" />
+        <activity
             android:name=".View.HomePage"
             android:exported="true" >
             <intent-filter>
