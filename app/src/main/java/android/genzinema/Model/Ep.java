@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Ep {
     Integer idImgEp;
-    String NameEp, TimeEp, DetailEp;
+    String NameEp, DetailEp, UrlEp;
 
-    public Ep(Integer idImgEp, String nameEp, String timeEp, String detailEp) {
+    public Ep(Integer idImgEp, String nameEp, String timeEp, String detailEp, String UrlEp) {
         this.idImgEp = idImgEp;
         NameEp = nameEp;
-        TimeEp = timeEp;
         DetailEp = detailEp;
+        UrlEp = UrlEp;
     }
 
     public Integer getIdImgEp() {
@@ -29,14 +29,6 @@ public class Ep {
         NameEp = nameEp;
     }
 
-    public String getTimeEp() {
-        return TimeEp;
-    }
-
-    public void setTimeEp(String timeEp) {
-        TimeEp = timeEp;
-    }
-
     public String getDetailEp() {
         return DetailEp;
     }
@@ -45,12 +37,26 @@ public class Ep {
         DetailEp = detailEp;
     }
 
-    public static ArrayList<Ep> initData(int [] lstImg, String[]lstName, String[]lstTime, String[]lstDetail)
+    public String getUrlEp() {
+        return UrlEp;
+    }
+
+    public void setUrlEp(String urlEp) {
+        UrlEp = urlEp;
+    }
+
+    public Ep(Integer idImgEp, String nameEp, String detailEp) {
+        this.idImgEp = idImgEp;
+        NameEp = nameEp;
+        DetailEp = detailEp;
+    }
+
+    public static ArrayList<Ep> initData(int [] lstImg, String[]lstName, String[]lstDetail)
     {
         ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
         for(int i=0; i<lstImg.length;i++)
         {
-            Ep ep = new Ep(lstImg[i],lstName[i],lstTime[i],lstDetail[i]);
+            Ep ep = new Ep(lstImg[i],lstName[i],lstDetail[i]);
             arrayListEp.add(ep);
         }
         return arrayListEp;

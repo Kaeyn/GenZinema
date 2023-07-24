@@ -26,11 +26,11 @@ public class FragmentEps extends Fragment {
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
     int[]lstIdImg = new int[]{R.drawable.setting_icon, R.drawable.favorite_icon, R.drawable.return_icon,R.drawable.tab_indicator};
     String[] lstName = new String[]{"1.Tập 1","2.Tập 2","3.Tập 3","4.Tập 4"};
-    String[] lstTime = new String[]{"23m","23m","23m","24m"};
     String[] lstDetail = new String[]{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
             "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
             "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"};
+
 
 
     CustomAdapterEp adapter;
@@ -88,7 +88,7 @@ public class FragmentEps extends Fragment {
         lvEp = view.findViewById(R.id.lvEp);
     }
     void addEvents(){
-        arrayListEp= Ep.initData(lstIdImg, lstName, lstTime,lstDetail);
+        arrayListEp= Ep.initData(lstIdImg, lstName,lstDetail);
         adapter=new CustomAdapterEp(getContext(),R.layout.layout_custom_item_ep_dm,arrayListEp);
         lvEp.setAdapter(adapter);
     }
