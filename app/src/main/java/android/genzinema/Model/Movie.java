@@ -1,5 +1,7 @@
 package android.genzinema.Model;
 
+import java.util.ArrayList;
+
 public class Movie {
     Integer IdMV,IdStyle,IdType,IdThumbnails;
     String UrlTrailer, NameMovie,Actors,Authors,YearProduce,Detail;
@@ -19,6 +21,11 @@ public class Movie {
 
     public Integer getIdMV() {
         return IdMV;
+    }
+
+    public Movie(Integer idMV, Integer idThumbnails) {
+        IdMV = idMV;
+        IdThumbnails = idThumbnails;
     }
 
     public void setIdMV(Integer idMV) {
@@ -97,4 +104,20 @@ public class Movie {
         Detail = detail;
     }
 
+    public Integer getIdThumbnails() {
+        return IdThumbnails;
+    }
+
+    public void setIdThumbnails(Integer idThumbnails) {
+        IdThumbnails = idThumbnails;
+    }
+
+    public static ArrayList<Movie> initData(int[] lstIdImg, int[] lstImgFilm){
+        ArrayList<Movie> movieArrayList = new ArrayList<>();
+        for (int i = 0; i < lstIdImg.length; i++) {
+            Movie movie = new Movie(lstIdImg[i], lstImgFilm[i]);
+            movieArrayList.add(movie);
+        }
+        return movieArrayList;
+    }
 }
