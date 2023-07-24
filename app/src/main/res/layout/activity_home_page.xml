@@ -12,14 +12,36 @@
         android:layout_height="match_parent"
         tools:ignore="MissingConstraints">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bttnav"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            tools:ignore="MissingConstraints"
-            app:menu="@menu/bottom_navigation"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bttnav"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    app:menu="@menu/bottom_navigation"
+                    tools:ignore="MissingConstraints" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
     </FrameLayout>
 
 

@@ -1,4 +1,4 @@
-package android.genzinema.Model;
+package android.genzinema.View;
 
 import android.os.Bundle;
 
@@ -11,10 +11,10 @@ import android.genzinema.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DetailMovie#newInstance} factory method to
+ * Use the {@link FragmentSimilarStyle#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailMovie extends Fragment {
+public class FragmentSimilarStyle extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +25,7 @@ public class DetailMovie extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DetailMovie() {
+    public FragmentSimilarStyle() {
         // Required empty public constructor
     }
 
@@ -35,11 +35,11 @@ public class DetailMovie extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DetailMovie.
+     * @return A new instance of fragment FragmentSimilarStyle.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailMovie newInstance(String param1, String param2) {
-        DetailMovie fragment = new DetailMovie();
+    public static FragmentSimilarStyle newInstance(String param1, String param2) {
+        FragmentSimilarStyle fragment = new FragmentSimilarStyle();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,6 +60,6 @@ public class DetailMovie extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_movie, container, false);
+        return inflater.inflate(R.layout.fragment_similar_style, container, false);
     }
 }
