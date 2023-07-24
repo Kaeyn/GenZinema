@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.Fragment_Home"
-    android:background="@color/black"
+    android:background="@color/white"
     android:id="@+id/framelayout_content">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,41 +13,155 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp">
 
-            <Button
-                android:id="@+id/btnMovie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Movie"
-                app:cornerRadius="100dp"
-                app:strokeColor="#FFFFFF"
-                android:layout_marginRight="15dp"
-                app:strokeWidth="1dp" />
-
-            <Button
-                android:id="@+id/btnfilm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cornerRadius="100dp"
-                app:strokeColor="#FFFFFF"
-                app:strokeWidth="1dp"
-                android:layout_marginRight="15dp"
-                android:text="Phim" />
-
-            <Spinner
-                android:id="@+id/spinner_type_film"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:spinnerMode="dropdown" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnMovie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="Movie"
+                    app:cornerRadius="100dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="1dp" />
+
+                <Button
+                    android:id="@+id/btnfilm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="Phim"
+                    app:cornerRadius="100dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="1dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_type_film"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="470dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/johnwick"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="John Wick"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/btnPhat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="Phát"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/btnDanhSach"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="Danh sách"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="470dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/johnwick"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView121"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="John Wick"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/btnPhat1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="Phát"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/btnDanhSach1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    android:text="Danh sách"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
+
 
 </FrameLayout>
