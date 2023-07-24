@@ -16,7 +16,7 @@
             android:name=".View.HomePage"
             android:exported="false" />
         <activity
-            android:name=".View.BottomNav"
+            android:name=".View.UserProfile"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,21 +3,28 @@ package android.genzinema.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.genzinema.View.DetailMovie;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNav extends AppCompatActivity {
     ActionBar actionBar;
-    FrameLayout frameFragment;
+    FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +35,18 @@ public class BottomNav extends AppCompatActivity {
         addControls();
 
         addEvents();
+
     }
 
     public void addControls(){
         frameFragment = (FrameLayout) findViewById(R.id.frameFragment);
         bttNav = (BottomNavigationView) findViewById(R.id.bttnav);
+        childFrameLayout = (FrameLayout) findViewById(R.id.framelayout_content);
     }
 
     public void addEvents(){
+        loadFragment(new Fragment_Content());
+
 
     }
 
@@ -47,11 +58,14 @@ public class BottomNav extends AppCompatActivity {
         if (menu instanceof MenuBuilder) {
             MenuBuilder menuBuilder = (MenuBuilder) menu;
             menuBuilder.setOptionalIconsVisible(true);
-
         }
-
         return super.onCreateOptionsMenu(menu);
+    }
 
-
+    public void loadFragment(Fragment fragment){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameFragment, fragment);
+        ft.commit();
     }
 }
