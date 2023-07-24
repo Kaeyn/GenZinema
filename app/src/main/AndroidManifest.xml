@@ -23,6 +23,9 @@
             android:exported="false" />
         <activity
             android:name=".View.UserProfile"
+            android:exported="false" />
+        <activity
+            android:name=".View.BottomNav"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

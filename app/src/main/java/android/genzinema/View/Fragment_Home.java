@@ -10,14 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Content#newInstance} factory method to
+ * Use the {@link Fragment_Home#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Content extends Fragment {
+public class Fragment_Home extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,10 +32,15 @@ public class Fragment_Content extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    Button button;
+    Button btnMovie;
+
+    Spinner spinner_type_film;
+    ArrayList<String> type_of_filmArrayList = new ArrayList<>();
+
+    String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
 
 
-    public Fragment_Content() {
+    public Fragment_Home() {
         // Required empty public constructor
     }
 
@@ -44,8 +53,8 @@ public class Fragment_Content extends Fragment {
      * @return A new instance of fragment Fragment_Content.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_Content newInstance(String param1, String param2) {
-        Fragment_Content fragment = new Fragment_Content();
+    public static Fragment_Home newInstance(String param1, String param2) {
+        Fragment_Home fragment = new Fragment_Home();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,18 +76,31 @@ public class Fragment_Content extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment__content, container, false);
-        button = view.findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new DetailMovie());
-            }
-        });
+        View rootView = inflater.inflate(R.layout.fragment__home, container, false);
+        btnMovie = rootView.findViewById(R.id.btnMovie);
+
+        // Initialize your ArrayList and populate it with data
+        type_of_filmArrayList = new ArrayList<>();
+        // Add your data to the ArrayList
+        type_of_filmArrayList.add("Thể loại"); // Add the prompt as the first item
+        type_of_filmArrayList.add("Action");
+        type_of_filmArrayList.add("Drama");
+        // ... Add more items as needed
+
+        // Find the Spinner in your fragment's layout
+        Spinner spinner = rootView.findViewById(R.id.spinner_type_film);
+
+        // Create the ArrayAdapter using your type_of_filmArrayList and a default spinner layout
+        ArrayAdapter<String> adapterTypeFilmSpinner = new ArrayAdapter<>(getActivity(), R.layout.custom_spinner_item, type_of_filmArrayList);
+
+        // Specify the layout to use when the list of choices appears
+        adapterTypeFilmSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapterTypeFilmSpinner);
 
 
-        return view;
+        return rootView;
 
 
     }

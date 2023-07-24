@@ -30,11 +30,11 @@ public class CustomAdapterDM extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return super.getView(position, convertView, parent);
-        Ep ep = arrayListEp.get(position);
+//        Ep ep = arrayListEp.get(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(layoutItem,null);
-        }
+//        if(convertView == null){
+//            convertView = LayoutInflater.from(context).inflate(layoutItem,null);
+//        }
 //        ImageView imgEp = (ImageView)convertView.findViewById(R.id.imagev);
 //        imgEp.setImageResource(ep.getIdImgEp());
 //
