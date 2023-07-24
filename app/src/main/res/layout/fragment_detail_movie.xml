@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".Model.DetailMovie">
+    tools:context=".View.DetailMovie">
 
 
     <ScrollView
@@ -59,35 +59,44 @@
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                
+                android:backgroundTint="@color/white"
+                android:textColor="@color/black"
+                android:layout_margin="5dp"
                 android:text="Phát" />
 
 
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/pbDetailMV"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/textView5"
+            <EditText
+                android:id="@+id/editTextTextMultiLine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:textColor="@color/white"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                android:maxLines="4"
+                android:ems="10"
+                android:gravity="start|top"
+                android:textSize="20dp"
+                android:inputType="textMultiLine" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:textColor="#CDCDCD"
+                android:text="Diễn viên: Song Joong Ki, Lee Huyn Min, Son Tung" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:textColor="#CDCDCD"
+                android:text="Tác giả: Song Joong Ki, Lee Huyn Min, Son Tung" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,16 +107,35 @@
                     android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:drawableTop="@drawable/baseline_add_24"
+                    android:text="Danh sách" />
 
                 <Button
                     android:id="@+id/button4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:drawableTop="@drawable/baseline_favorite_24"
+                    android:text="Xếp hạng" />
             </LinearLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/tablayoutDM"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabIndicatorGravity="stretch"
+                app:tabSelectedTextColor="@color/white"
+                app:tabIndicatorAnimationMode="elastic"
+                app:tabIndicator="@drawable/tab_indicator"/>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/viewPageDM"/>
 
         </LinearLayout>
     </ScrollView>
