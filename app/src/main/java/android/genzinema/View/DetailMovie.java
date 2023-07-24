@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 public class DetailMovie extends Fragment {
     ProgressBar pb;
     Button btnEp,btnSimilar;
-    MyFragmentAdapterDetailMovie adapter;
+//    MyFragmentAdapterDetailMovie adapter;
 
 
     // TODO: Rename parameter arguments, choose names that match

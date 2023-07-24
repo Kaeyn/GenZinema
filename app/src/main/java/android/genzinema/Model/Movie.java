@@ -4,10 +4,11 @@ public class Movie {
     Integer IdMV,IdStyle,IdType,IdThumbnails;
     String UrlTrailer, NameMovie,Actors,Authors,YearProduce,Detail;
 
-    public Movie(Integer idMV, Integer idStyle, Integer idType, String urlTrailer, String nameMovie, String actors, String authors, String yearProduce, String detail) {
+    public Movie(Integer idMV, Integer idStyle, Integer idType, Integer idThumbnails, String urlTrailer, String nameMovie, String actors, String authors, String yearProduce, String detail) {
         IdMV = idMV;
         IdStyle = idStyle;
         IdType = idType;
+        IdThumbnails = idThumbnails;
         UrlTrailer = urlTrailer;
         NameMovie = nameMovie;
         Actors = actors;
@@ -38,6 +39,14 @@ public class Movie {
 
     public void setIdType(Integer idType) {
         IdType = idType;
+    }
+
+    public Integer getIdThumbnails() {
+        return IdThumbnails;
+    }
+
+    public void setIdThumbnails(Integer idThumbnails) {
+        IdThumbnails = idThumbnails;
     }
 
     public String getUrlTrailer() {
@@ -87,5 +96,4 @@ public class Movie {
     public void setDetail(String detail) {
         Detail = detail;
     }
-
 }

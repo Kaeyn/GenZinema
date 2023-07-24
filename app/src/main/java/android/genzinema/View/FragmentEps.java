@@ -24,7 +24,7 @@ public class FragmentEps extends Fragment {
     TextView tvNameMV;
     ListView lvEp;
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
-    int[]lstIdImg = new int[]{R.drawable.test, R.drawable.baseline_favorite_24, R.drawable.baseline_add_24,R.drawable.tab_indicator};
+    int[]lstIdImg = new int[]{R.drawable.setting_icon, R.drawable.favorite_icon, R.drawable.return_icon,R.drawable.tab_indicator};
     String[] lstName = new String[]{"1.Tập 1","2.Tập 2","3.Tập 3","4.Tập 4"};
     String[] lstTime = new String[]{"23m","23m","23m","24m"};
     String[] lstDetail = new String[]{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
