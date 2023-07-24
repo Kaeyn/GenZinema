@@ -97,11 +97,4 @@ public class Movie {
         Detail = detail;
     }
 
-    public Integer getIdThumbnails() {
-        return IdThumbnails;
-    }
-
-    public void setIdThumbnails(Integer idThumbnails) {
-        IdThumbnails = idThumbnails;
-    }
 }

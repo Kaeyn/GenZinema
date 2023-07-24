@@ -32,6 +32,11 @@ public class StyleHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
         // data
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','Movie')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Series')";
+        db.execSQL(sql);
+        db.close();
     }
 
 
