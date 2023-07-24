@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/black"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/baseline_add_24"
+                    android:drawableTop="@drawable/add_icon"
                     android:text="Danh sách" />
 
                 <Button
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/black"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/baseline_favorite_24"
+                    android:drawableTop="@drawable/favorite_icon"
                     android:text="Xếp hạng" />
             </LinearLayout>
 
