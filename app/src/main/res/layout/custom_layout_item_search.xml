@@ -7,28 +7,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageItem_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/textItem_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:text="TextView" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/btnToMovie_Search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/bottom_nav_favorite" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
