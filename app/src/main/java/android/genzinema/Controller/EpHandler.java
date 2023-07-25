@@ -59,7 +59,7 @@ public class EpHandler extends SQLiteOpenHelper {
     }
 
 
-    public static ArrayList<Ep>loadData(ID){
+    public static ArrayList<Ep>loadData(){
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+ TABLE_NAME, null);
         cursor.moveToFirst();
