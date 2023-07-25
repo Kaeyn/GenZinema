@@ -15,7 +15,7 @@ public class MovieHandler extends SQLiteOpenHelper {
     private Context context;
     static ArrayList<Movie> arrayListMovie = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Movies";
     static final String IDMOVIE_COL = "movie_id";
     static final String IDSTYLEMOVIE_COL = "style_id";
