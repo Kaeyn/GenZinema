@@ -2,6 +2,7 @@ package android.genzinema.View;
 
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +33,8 @@ public class DetailMovie extends Fragment {
     ProgressBar pb;
     Button btnEp,btnSimilar;
     MovieHandler movieHandler;
+
+    VideoView videoView;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -73,6 +80,12 @@ public class DetailMovie extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 int idMV = result.getInt("idMV");
+                int idGenre = result.getInt("idGenreMV");
+                int idStyle = result.getInt("idStyleMV");
+                Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
+
                 movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);
                 tvTenMV.setText(movie.getNameMovie());
@@ -81,36 +94,60 @@ public class DetailMovie extends Fragment {
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
 
+                Bundle results = new Bundle();
+                results.putInt("idMV", idMV);
+                results.putInt("idGenreMV", idGenre);
+                results.putInt("idStyleMV", idStyle);
 
+                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+
+                if(idStyle==1){
+                    btnEp.setText("Bộ sưu tập");
+                    btnEp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            loadFragment(new FragmentCollect());
+                        }
+
+                    });
+                } else {
+                    btnEp.setText("Các tập");
+
+                    btnEp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            loadFragment(new FragmentEps());
+                        }
+
+                    });
+                }
+
+                btnSimilar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadFragment(new FragmentSimilarStyle());
+                    }
+                });
             }
         });
+
     }
 
     private void addControl(View view){
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
+        videoView = view.findViewById(R.id.videoView);
         tvActorMV = view.findViewById(R.id.tvActorMV);
         tvDetailMV = view.findViewById(R.id.tvDetailMV);
         tvAuthorMV = view.findViewById(R.id.tvAuthorMV);
         tvNamMV = view.findViewById(R.id.tvNamMV);
         tvTenMV = view.findViewById(R.id.tvTenMV);
 
-        btnEp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FragmentEps());
-            }
-        });
-        btnSimilar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FragmentSimilarStyle());
-            }
-        });
+
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,8 +155,17 @@ public class DetailMovie extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
-        pb.setProgress(20);
 
+        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
+        String videoUrl = "https://drive.google.com/uc?export=download&id=" + videoId;
+        Uri videoUri = Uri.parse(videoUrl);
+        videoView.setVideoURI(videoUri);
+        MediaController mediaController = new MediaController(getContext());
+
+        videoView.setMediaController(mediaController);
+
+        mediaController.setAnchorView(videoView);
+        videoView.start();
 
         return view;
     }

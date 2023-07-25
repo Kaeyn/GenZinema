@@ -5,14 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.genzinema.Model.Ep;
-import android.genzinema.Model.Genres;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
 public class EpHandler extends SQLiteOpenHelper {
-
+    private static Context context;
     static ArrayList<Ep> arrayListEp = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
     public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
@@ -28,6 +28,7 @@ public class EpHandler extends SQLiteOpenHelper {
 
     public EpHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, null, version);
+        this.context = context;
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -36,44 +37,82 @@ public class EpHandler extends SQLiteOpenHelper {
                 IDEP_COL+" INTEGER NOT NULL, " +
                 THUMBNNAIL_COL+" TEXT NOT NULL, " +
                 NAMEEP_COL +" TEXT NOT NULL, " +
-                IDMOVIE_COL+" INTEGER NOT NULL UNIQUE, " +
+                IDMOVIE_COL+" INTEGER NOT NULL, " +
                 DETAILEP_COL +" TEXT NOT NULL, " +
                 URLEP_COL +" TEXT NOT NULL, " +
                 "FOREIGN KEY("+IDMOVIE_COL+") REFERENCES "+MovieHandler.TABLE_NAME+"("+MovieHandler.IDMOVIE_COL+")," +
                 "PRIMARY KEY( "+IDEP_COL+" ));";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','johnweak.jpg','Tâp 1', '3', 'Oh yeahhhhhhhhhhhhh.','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'johnweak','Tâp 1', 3, 'Oh yeahhhhhhhhhhhhh.','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','johnwick.jpg','Tâp 2', '3', 'Oh nooooooooooo.','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'johnwick','Tâp 2', 3, 'Oh nooooooooooo.','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('3','johnweak','Tâp 3', '3', 'It movie 2.','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'johnweak','Tâp 3', 3, 'It movie 2.','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('4','johnwick','Tâp 4', '3', 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'johnwick','Tâp 4', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'ttcs','Tâp 5', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
         db.close();
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 
 
-    public static ArrayList<Ep>loadData(){
+    public static void loadData(){
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+ TABLE_NAME, null);
         cursor.moveToFirst();
         do{
             Ep ep = new Ep();
-            ep.setIdImgEp(cursor.getInt(1));
+            ep.setIdEp(cursor.getInt(0));
+            ep.setIdImgEp(context.getResources().getIdentifier(cursor.getString(1),"drawable","android.genzinema"));
             ep.setNameEp(cursor.getString(2));
+            ep.setIdMV(cursor.getInt(3));
             ep.setDetailEp(cursor.getString(4));
+            ep.setUrlEp(cursor.getString(5));
 
             arrayListEp.add(ep);
 
         }while (cursor.moveToNext());
         cursor.close(); // Close the cursor after use
         db.close();
-        return arrayListEp;
     }
+    public ArrayList<Ep> GetAllEpByMovieID(Integer movieID) {
+        loadData();
+        ArrayList<Ep> arrayList = new ArrayList<>();
+        for (Ep ep : arrayListEp) {
+            Integer idMV = ep.getIdMV();
+            if (idMV != null && idMV.intValue() == movieID) {
+                arrayList.add(ep);
+            }
+        }
+        return arrayList;
+    }
+
+    public Ep GetMovieByID(int ID){
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
+        cursor.moveToFirst();
+        Ep ep = new Ep();
+        ep.setIdEp(cursor.getInt(0));
+        ep.setIdImgEp(cursor.getInt(1));
+        ep.setNameEp(cursor.getString(2));
+        ep.setIdMV(cursor.getInt(3));
+        ep.setDetailEp(cursor.getString(4));
+        ep.setUrlEp(cursor.getString(5));
+        cursor.close();
+        db.close();
+        return ep;
+    }
+    public void droptbEp(SQLiteDatabase db){
+        db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        String sql = "Drop table " + TABLE_NAME;
+        db.execSQL(sql);
+        db.close();
+    }
+
+
 }

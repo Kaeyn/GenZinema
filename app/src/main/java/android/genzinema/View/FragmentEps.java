@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,8 @@ public class FragmentEps extends Fragment {
     SQLiteDatabase db;
     EpHandler epHandler;
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
+//    int movieID ;
+    CustomAdapterEp adapter;
 //    int[]lstIdImg = new int[]{R.drawable.setting_icon, R.drawable.favorite_icon, R.drawable.return_icon,R.drawable.tab_indicator};
 //    String[] lstName = new String[]{"1.Tập 1","2.Tập 2","3.Tập 3","4.Tập 4"};
 //    String[] lstDetail = new String[]{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -41,7 +45,6 @@ public class FragmentEps extends Fragment {
 
 
 
-    CustomAdapterEp adapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -80,6 +83,44 @@ public class FragmentEps extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
+//        epHandler.droptbEp(db);
+        epHandler.onCreate(db);
+        Toast.makeText(getContext(),"bb",Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener("keyEpsMV", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                epHandler.onCreate(db);
+//                epHandler.droptbEp(db);
+//                movieID = result.getInt("idMV");
+//                Toast.makeText(getActivity(),"idMV ep "+movieID,Toast.LENGTH_SHORT).show();
+//                epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
+//                Ep ep = epHandler.GetMovieByID(idMV);
+//                for (Ep eps: ep.getIdMV(idMV)) {
+//                    arrayListEp.add(ep);
+//
+//                }
+//                arrayListEp.add(ep);
+//                arrayListEp = epHandler.GetAllEpByMovieID(movieID);
+//                if (adapter == null) {
+//                    adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
+//                    lvEp.setAdapter(adapter);
+//                }
+//                adapter.notifyDataSetChanged();
+//                adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
+//                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
+//                lvEp.setAdapter(adapter);
+
+
+//                Toast.makeText(getContext(),String.valueOf(result.getInt("idMV")),Toast.LENGTH_SHORT).show();
+                epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
+                arrayListEp = epHandler.GetAllEpByMovieID(result.getInt("idMV"));
+                adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
+                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
+                lvEp.setAdapter(adapter);
+            }
+        });
     }
 
     @Override
@@ -96,26 +137,7 @@ public class FragmentEps extends Fragment {
         lvEp = view.findViewById(R.id.lvEp);
     }
     void addEvents(){
-        epHandler = new EpHandler(getContext(),EpHandler.DB_NAME,null,1);
-        epHandler.onCreate(db);
-        arrayListEp = epHandler.loadData();
-        adapter=new CustomAdapterEp(getContext(),R.layout.layout_custom_item_ep_dm,arrayListEp);
-        lvEp.setAdapter(adapter);
+
     }
-//    FragmentManager fm = getParentFragmentManager();
-//        fm.setFragmentResultListener("keyMain", this, new FragmentResultListener() {
-//        @Override
-//        public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-//            int idMV = result.getInt("idMV");
-//            movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
-//            Movie movie = movieHandler.GetMovieByID(idMV);
-//            tvTenMV.setText(movie.getNameMovie());
-//            tvNamMV.setText(movie.getYearProduce());
-//            tvActorMV.setText("Diễn viên: "+movie.getActors());
-//            tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
-//            tvDetailMV.setText(movie.getDetail());
-//
-//
-//        }
-//    });
+
 }

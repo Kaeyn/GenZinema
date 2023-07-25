@@ -6,10 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.genzinema.Controller.EpHandler;
+import android.genzinema.Controller.GenresHandler;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.StyleHandler;
+import android.genzinema.Model.Ep;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
@@ -20,10 +28,18 @@ import android.widget.FrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+
 public class MainHome extends AppCompatActivity {
     ActionBar actionBar;
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
+    GenresHandler genresHandler;
+    StyleHandler styleHandler;
+    MovieHandler movieHandler;
+    EpHandler epHandler;
+    SQLiteDatabase db;
+    ArrayList<Movie> arrayListMV = new ArrayList<>();
 
 
 
@@ -33,12 +49,22 @@ public class MainHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
 
+        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
+        movieHandler.onCreate(db);
+        Intent intent = getIntent();
+        if(intent.hasExtra("idMV")) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
+            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
+            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
+
+            FragmentManager fm = getSupportFragmentManager();
+            fm.setFragmentResult("keyMain", bundle);
+            loadFragment(new Fragment_Home());
+        }
         actionBar = getSupportActionBar();
-
         addControls();
-
         addEvents();
-
     }
 
     public void addControls(){
@@ -49,6 +75,15 @@ public class MainHome extends AppCompatActivity {
 
     public void addEvents(){
         loadFragment(new Fragment_Home());
+        movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        genresHandler = new GenresHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        styleHandler = new StyleHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        genresHandler.onCreate(db);
+        styleHandler.onCreate(db);
+        movieHandler.onCreate(db);
+
+
 
 
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -90,12 +125,32 @@ public class MainHome extends AppCompatActivity {
             Intent intent = new Intent(MainHome.this, SearchPage.class);
             startActivity(intent);
         } else if (id == R.id.userProfile) {
-            Intent intent = new Intent(MainHome.this, UserProfile.class);
+            Intent  intent = getIntent();
+
+            String email = intent.getStringExtra("Email");
+//            MoveToUserProfile(user);
+            intent = new Intent(MainHome.this, UserProfile.class);
+            intent.putExtra("Email",email);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
-
+//    User GetUserByIntent(Intent intent){
+//        User user = new User();
+//        user.setEmail();
+//        user.setDisplayName(intent.getStringExtra("DisplayName"));
+//        user.setPhone(intent.getStringExtra("Phone"));
+//        user.setPassword(intent.getStringExtra("Password"));
+//        return user;
+//    }
+//    void MoveToUserProfile(User user){
+//
+//        intent.putExtra("Email",user.getEmail());
+//        intent.putExtra("DisplayName",user.getDisplayName());
+//        intent.putExtra("Phone",user.getPhone());
+//        intent.putExtra("Password",user.getPassword());
+//        startActivity(intent);
+//    }
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

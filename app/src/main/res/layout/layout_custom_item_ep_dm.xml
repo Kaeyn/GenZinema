@@ -42,15 +42,6 @@
                     android:textColor="@color/white"
                     android:text="TextView" />
 
-                <TextView
-                    android:id="@+id/tvTimeEp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="7pt"
-                    android:textColor="#AFA9A9"
-                    android:text="TextView" />
             </LinearLayout>
 
         </LinearLayout>
