@@ -27,9 +27,6 @@ public class MainHome extends AppCompatActivity {
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
 
-
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

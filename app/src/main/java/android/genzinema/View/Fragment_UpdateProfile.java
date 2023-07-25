@@ -97,9 +97,9 @@ public class Fragment_UpdateProfile extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userName == ""|| phone == "") {
+                if (userName.equals("")|| phone.equals("")) {
                     Toast.makeText(getContext(), "Nhap dung hoac mat acc", Toast.LENGTH_SHORT).show();
-                } else if (userName != userHandler.getUserByEmail(email).getDisplayName() || phone != userHandler.getUserByEmail(email).getPhone()) {
+                } else if (!userName.equals(userHandler.getUserByEmail(email).getDisplayName()) || !phone.equals(userHandler.getUserByEmail(email).getPhone())) {
                     userHandler.UpdateUserProfile(edtEmail.getText().toString(),edtUsername.getText().toString(),edtSDT.getText().toString());
                     Intent intent = new Intent(getContext(), UserProfile.class);
                     intent.putExtra("Email",edtEmail.getText().toString());

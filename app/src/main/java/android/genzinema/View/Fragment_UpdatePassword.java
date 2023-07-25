@@ -93,9 +93,9 @@ public class Fragment_UpdatePassword extends Fragment {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (oldPass == ""|| newPass == "" || confirmPass == "") {
+                if (oldPass.equals("")|| newPass.equals("") || confirmPass.equals("")) {
                     Toast.makeText(getContext(), "Nhap dung hoac mat acc", Toast.LENGTH_SHORT).show();
-                } else if (oldPass == userHandler.getUserByEmail(email).getPassword() && newPass != oldPass && newPass == confirmPass) {
+                } else if (!oldPass.equals(userHandler.getUserByEmail(email).getPassword()) && !newPass.equals(oldPass) && !newPass.equals(confirmPass)) {
                     userHandler.UpdateUserPass(edtOldPass.getText().toString(), edtNewPass.getText().toString());
                     Intent intent = new Intent(getContext(), UserProfile.class);
                     intent.putExtra("Email", email);

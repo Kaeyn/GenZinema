@@ -67,8 +67,6 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
 
             }
         });
-
-
     }
 
 
@@ -79,7 +77,6 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this, "Item clicked at position: " + position, Toast.LENGTH_SHORT).show();
 
     }
 }
