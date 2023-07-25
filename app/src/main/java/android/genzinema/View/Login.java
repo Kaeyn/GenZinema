@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
@@ -21,14 +22,31 @@ public class Login extends AppCompatActivity {
     UserHandler userHandler;
     SQLiteDatabase db;
     ArrayList<User> arrayListUser = new ArrayList<User>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         addControl();
-        userHandler = new UserHandler(this,UserHandler.DB_NAME,null,1);
-        userHandler.onCreate(db);
+        File internalStorageDir = getFilesDir();
+
+        // Append the folder name "database" to the internal storage directory path
+        String folderPath = internalStorageDir.getAbsolutePath() + "/database";
+
+        // Create the folder
+        File databaseFolder = new File(folderPath);
+        if (databaseFolder.exists()) {
+            userHandler = new UserHandler(this,UserHandler.DB_NAME,null,1);
+            userHandler.onCreate(db);
+        } else {
+            if (databaseFolder.mkdirs()) {
+                userHandler = new UserHandler(this,UserHandler.DB_NAME,null,1);
+                userHandler.onCreate(db);
+            } else {
+                // Failed to create the folder
+            }
+        }
+
+
         arrayListUser = userHandler.GetAllData();
         addEvent();
     }

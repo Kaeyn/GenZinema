@@ -14,7 +14,7 @@ public class GenresHandler extends SQLiteOpenHelper {
 
         static ArrayList<Genres> arrayListGenres = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Genres_Movie";
     static final String IDGENRE_COL = "genre_id";
     static final String NAMEGENRE_COL = "genre_name";
