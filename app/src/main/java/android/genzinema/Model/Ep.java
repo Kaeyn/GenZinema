@@ -3,18 +3,15 @@ package android.genzinema.Model;
 import java.util.ArrayList;
 
 public class Ep {
-    Integer idImgEp;
+    Integer idEp,idImgEp,idMV;
     String NameEp, DetailEp, UrlEp;
 
-    public Ep(){
-
+    public Integer getIdEp() {
+        return idEp;
     }
 
-    public Ep(Integer idImgEp, String nameEp, String timeEp, String detailEp, String UrlEp) {
-        this.idImgEp = idImgEp;
-        NameEp = nameEp;
-        DetailEp = detailEp;
-        UrlEp = UrlEp;
+    public void setIdEp(Integer idEp) {
+        this.idEp = idEp;
     }
 
     public Integer getIdImgEp() {
@@ -23,6 +20,14 @@ public class Ep {
 
     public void setIdImgEp(Integer idImgEp) {
         this.idImgEp = idImgEp;
+    }
+
+    public Integer getIdMV() {
+        return idMV;
+    }
+
+    public void setIdMV(Integer idMV) {
+        this.idMV = idMV;
     }
 
     public String getNameEp() {
@@ -49,20 +54,17 @@ public class Ep {
         UrlEp = urlEp;
     }
 
-    public Ep(Integer idImgEp, String nameEp, String detailEp) {
-        this.idImgEp = idImgEp;
-        NameEp = nameEp;
-        DetailEp = detailEp;
+    public Ep(){
+
     }
 
-    public static ArrayList<Ep> initData(int [] lstImg, String[]lstName, String[]lstDetail)
-    {
-        ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
-        for(int i=0; i<lstImg.length;i++)
-        {
-            Ep ep = new Ep(lstImg[i],lstName[i],lstDetail[i]);
-            arrayListEp.add(ep);
-        }
-        return arrayListEp;
+    public Ep(Integer idEp, Integer idImgEp, Integer idMV, String nameEp, String detailEp, String urlEp) {
+        this.idEp = idEp;
+        this.idImgEp = idImgEp;
+        this.idMV = idMV;
+        NameEp = nameEp;
+        DetailEp = detailEp;
+        UrlEp = urlEp;
     }
+
 }

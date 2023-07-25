@@ -26,6 +26,14 @@ public class CustomAdapterEp extends ArrayAdapter {
         this.arrayListEp = arrayListEp;
         this.layoutItem = resource;
     }
+    @Override
+    public int getCount() {
+        return arrayListEp.size();
+    }
+
+    public Ep getItem(int position) {
+        return arrayListEp.get(position);
+    }
 
     @NonNull
     @Override

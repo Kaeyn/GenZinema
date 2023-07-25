@@ -6,10 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.genzinema.Controller.EpHandler;
+import android.genzinema.Controller.GenresHandler;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.StyleHandler;
+import android.genzinema.Model.Ep;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
@@ -20,11 +28,18 @@ import android.widget.FrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.util.ArrayList;
+
 public class MainHome extends AppCompatActivity {
     ActionBar actionBar;
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
-
+    GenresHandler genresHandler;
+    StyleHandler styleHandler;
+    MovieHandler movieHandler;
+    EpHandler epHandler;
+    SQLiteDatabase db;
+    ArrayList<Movie> arrayListMV = new ArrayList<>();
 
 
     @SuppressLint("MissingInflatedId")
@@ -32,6 +47,20 @@ public class MainHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
+
+        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
+        movieHandler.onCreate(db);
+        Intent intent = getIntent();
+        if(intent.hasExtra("idMV")) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
+            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
+            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
+
+            FragmentManager fm = getSupportFragmentManager();
+            fm.setFragmentResult("keyMain", bundle);
+            loadFragment(new DetailMovie());
+        }
 
         actionBar = getSupportActionBar();
 
@@ -49,6 +78,15 @@ public class MainHome extends AppCompatActivity {
 
     public void addEvents(){
         loadFragment(new Fragment_Home());
+        movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        genresHandler = new GenresHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        styleHandler = new StyleHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        genresHandler.onCreate(db);
+        styleHandler.onCreate(db);
+        movieHandler.onCreate(db);
+
+
 
 
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

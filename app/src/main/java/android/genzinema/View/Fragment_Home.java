@@ -1,7 +1,10 @@
 package android.genzinema.View;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
+import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
@@ -43,6 +46,9 @@ public class Fragment_Home extends Fragment {
     Button btnMovie;
 
     Spinner spinner_type_film;
+
+    MovieHandler movieHandler;;
+    SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
 
     String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
@@ -85,7 +91,7 @@ public class Fragment_Home extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        loadFragment(new DetailMovie());
 
     }
 

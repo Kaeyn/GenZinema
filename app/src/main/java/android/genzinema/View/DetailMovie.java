@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +26,7 @@ import android.widget.TextView;
  * create an instance of this fragment.
  */
 public class DetailMovie extends Fragment {
+    ImageView imgDM;
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar;
@@ -73,6 +76,9 @@ public class DetailMovie extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 int idMV = result.getInt("idMV");
+                int idGenre = result.getInt("idGenreMV");
+                int idStyle = result.getInt("idStyleMV");
+                Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
                 movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);
                 tvTenMV.setText(movie.getNameMovie());
@@ -80,16 +86,21 @@ public class DetailMovie extends Fragment {
                 tvActorMV.setText("Diễn viên: "+movie.getActors());
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
+                imgDM.setImageResource(movie.getIdThumbnails());
 
-
+                Bundle results = new Bundle();
+                results.putInt("idMV", idMV);
+                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
             }
         });
+
     }
 
     private void addControl(View view){
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
+        imgDM = view.findViewById(R.id.imgDM);
         tvActorMV = view.findViewById(R.id.tvActorMV);
         tvDetailMV = view.findViewById(R.id.tvDetailMV);
         tvAuthorMV = view.findViewById(R.id.tvAuthorMV);
@@ -101,6 +112,7 @@ public class DetailMovie extends Fragment {
             public void onClick(View v) {
                 loadFragment(new FragmentEps());
             }
+
         });
         btnSimilar.setOnClickListener(new View.OnClickListener() {
             @Override
