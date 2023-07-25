@@ -110,7 +110,7 @@ public class Movie {
     }
 
     public void setIdThumbnails(Integer idThumbnails) {
-        IdThumbnails = idThumbnails;
+        this.IdThumbnails = idThumbnails;
     }
 
     public static ArrayList<Movie> initData(int[] lstIdImg, int[] lstImgFilm){

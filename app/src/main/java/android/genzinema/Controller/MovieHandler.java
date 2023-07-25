@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class MovieHandler extends SQLiteOpenHelper {
+    private Context context;
     static ArrayList<Movie> arrayListMovie = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
     public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
@@ -30,6 +31,7 @@ public class MovieHandler extends SQLiteOpenHelper {
 
     public MovieHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        this.context = context;
     }
 
     @Override
@@ -50,11 +52,11 @@ public class MovieHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY("+IDSTYLEMOVIE_COL+") REFERENCES "+StyleHandler.TABLE_NAME+"("+StyleHandler.IDSTYLE_COL+")," +
                 "PRIMARY KEY( "+IDMOVIE_COL+" ));";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','JohnWaj','1','1','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW','Jon','Tony','2121','Phim rat hay.','johnweak')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'JohnWaj','1','1','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW','Jon','Tony','2121','Phim rat hay.','overlord')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Wajigi','4','1','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r','Min','JonhnWajiz','2921','Phim danh cho anh JohnWaji.','johnwick')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'Wajigi','4','1','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r','Min','JonhnWajiz','2921','Phim danh cho anh JohnWaji.','sieunhan')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('3','Joji','2','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','edit_icon')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'Joji','2','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','ttcs')";
         db.execSQL(sql);
         db.close();
     }
@@ -72,7 +74,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         movie.setAuthors(cursor.getString(6));
         movie.setYearProduce(cursor.getString(7));
         movie.setDetail(cursor.getString(8));
-        movie.setIdThumbnails(cursor.getInt(9));
+        movie.setIdThumbnails(context.getResources().getIdentifier(cursor.getString(9),"drawable","android.genzinema"));
         cursor.close(); // Close the cursor after use
         db.close();
         return movie;
@@ -81,6 +83,12 @@ public class MovieHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+    public void droptbMV(SQLiteDatabase db){
+        db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        String sql = "Drop table " + TABLE_NAME;
+        db.execSQL(sql);
+        db.close();
     }
 
 
