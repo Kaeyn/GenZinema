@@ -48,7 +48,7 @@ public class Fragment_Home extends Fragment {
     String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
 
     int[] lstId = new int[]{1,2,3,4,5};
-    int[] lstImg = new int[]{R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak};
+    int[] lstImg = new int[]{R.drawable.overlord, R.drawable.sieunhan, R.drawable.yinan, R.drawable.doraemon, R.drawable.johnweak};
 
     RecyclerView recyclerView;
     ImageView imgFilm;
