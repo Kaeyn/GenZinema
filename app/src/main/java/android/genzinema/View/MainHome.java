@@ -20,7 +20,7 @@ import android.widget.FrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class BottomNav extends AppCompatActivity {
+public class MainHome extends AppCompatActivity {
     ActionBar actionBar;
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
@@ -87,10 +87,10 @@ public class BottomNav extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.searchIcon){
-            Intent intent = new Intent(BottomNav.this, SearchPage.class);
+            Intent intent = new Intent(MainHome.this, SearchPage.class);
             startActivity(intent);
         } else if (id == R.id.userProfile) {
-            Intent intent = new Intent(BottomNav.this, UserProfile.class);
+            Intent intent = new Intent(MainHome.this, UserProfile.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
