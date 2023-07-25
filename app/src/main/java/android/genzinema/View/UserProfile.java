@@ -45,5 +45,11 @@ public class UserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        lineLay_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(UserProfile.this, "test", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
