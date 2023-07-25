@@ -97,13 +97,13 @@ public class DetailMovie extends Fragment {
                 results.putInt("idStyleMV", idStyle);
 
                 getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                getParentFragmentManager().setFragmentResult("collectsMV", results);
 
                 if(idStyle==1){
                     btnEp.setText("Bộ sưu tập");
                     btnEp.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             loadFragment(new FragmentCollect());
                         }
 

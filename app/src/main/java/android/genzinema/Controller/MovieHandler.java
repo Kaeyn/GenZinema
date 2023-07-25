@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.genzinema.Model.Ep;
 import android.genzinema.Model.Movie;
 import android.genzinema.Model.Style;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -30,7 +32,7 @@ public class MovieHandler extends SQLiteOpenHelper {
 
 
     public MovieHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+        super(context, TABLE_NAME, null, version);
         this.context = context;
     }
 
@@ -57,6 +59,8 @@ public class MovieHandler extends SQLiteOpenHelper {
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'Wajigi','4','1','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r','Min','JonhnWajiz','2921','Phim danh cho anh JohnWaji.','sieunhan')";
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'Joji','2','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','ttcs')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'Joji','1','1','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','ttcs')";
         db.execSQL(sql);
         db.close();
     }
@@ -89,6 +93,44 @@ public class MovieHandler extends SQLiteOpenHelper {
         String sql = "Drop table " + TABLE_NAME;
         db.execSQL(sql);
         db.close();
+    }
+
+    public void loadData(){
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME, null);
+        cursor.moveToFirst();
+        do {
+            Movie movie = new Movie();
+            movie.setIdMV(cursor.getInt(0));
+            movie.setNameMovie(cursor.getString(1));
+            movie.setIdGenre(cursor.getInt(2));
+            movie.setIdType(cursor.getInt(3));
+            movie.setUrlTrailer(cursor.getString(4));
+            movie.setActors(cursor.getString(5));
+            movie.setAuthors(cursor.getString(6));
+            movie.setYearProduce(cursor.getString(7));
+            movie.setDetail(cursor.getString(8));
+            movie.setIdThumbnails(context.getResources().getIdentifier(cursor.getString(9), "drawable", "android.genzinema"));
+            arrayListMovie.add(movie);
+        }while (cursor.moveToNext());
+        cursor.close(); // Close the cursor after use
+        db.close();
+    }
+    public ArrayList<Movie> GetCollectMVBy(Integer IDGenre, Integer IDStyle) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<>();
+        for (Movie movie : arrayListMovie) {
+            Integer idgenre = movie.getIdGenre();
+            Integer idstyle = movie.getIdType();
+            if (idgenre.intValue() == IDGenre && idstyle.intValue() == IDStyle  ) {
+                arrayList.add(movie);
+            }
+        }
+        Log.d("",""+arrayListMovie.size());
+
+        Log.d("",""+arrayList.size());
+
+        return arrayList;
     }
 
 
