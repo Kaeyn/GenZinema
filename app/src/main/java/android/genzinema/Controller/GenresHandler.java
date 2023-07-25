@@ -27,19 +27,18 @@ public class GenresHandler extends SQLiteOpenHelper {
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " ( " +
                 IDGENRE_COL + " INTEGER NOT NULL UNIQUE, "+
-                NAMEGENRE_COL + " TEXT NOT NULL UNIQUE, " +
+                NAMEGENRE_COL + " TEXT NOT NULL, " +
                 " PRIMARY KEY( " +IDGENRE_COL+ ")) ";
         db.execSQL(sql);
-        db.close();
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','Hành động')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'Hành động')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Kinh dị')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'Kinh dị')";
         db.execSQL(sql);
-        db.close();
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('3','Tình cảm')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'Tình cảm')";
         db.execSQL(sql);
-        db.close();
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('4','Hài ướt')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'Hài ướt')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'Anime')";
         db.execSQL(sql);
         db.close();
     }

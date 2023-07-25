@@ -30,8 +30,6 @@ public class StyleHandler extends SQLiteOpenHelper {
                 NAMESTYLE_COL + " TEXT NOT NULL UNIQUE, " +
                 " PRIMARY KEY( " +IDSTYLE_COL+ ")) ";
         db.execSQL(sql);
-        db.close();
-        // data
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('1','Movie')";
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('2','Series')";

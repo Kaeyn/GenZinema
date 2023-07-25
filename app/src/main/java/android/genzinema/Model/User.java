@@ -46,10 +46,4 @@ public class User {
         this.phone = phone;
         this.displayName = displayName;
     }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return email+" "+password+" "+phone+" "+displayName;
-    }
 }
