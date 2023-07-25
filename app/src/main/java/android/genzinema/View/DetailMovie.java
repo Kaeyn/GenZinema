@@ -83,6 +83,9 @@ public class DetailMovie extends Fragment {
                 int idGenre = result.getInt("idGenreMV");
                 int idStyle = result.getInt("idStyleMV");
                 Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
+
                 movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);
                 tvTenMV.setText(movie.getNameMovie());
@@ -93,7 +96,40 @@ public class DetailMovie extends Fragment {
 
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
+                results.putInt("idGenreMV", idGenre);
+                results.putInt("idStyleMV", idStyle);
+
                 getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+
+                if(idStyle==1){
+                    btnEp.setText("Bộ sưu tập");
+                    btnEp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            loadFragment(new FragmentCollect());
+                        }
+
+                    });
+                } else {
+                    btnEp.setText("Các tập");
+
+                    btnEp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            loadFragment(new FragmentEps());
+                        }
+
+                    });
+                }
+
+                btnSimilar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadFragment(new FragmentSimilarStyle());
+                    }
+                });
             }
         });
 
@@ -110,19 +146,7 @@ public class DetailMovie extends Fragment {
         tvNamMV = view.findViewById(R.id.tvNamMV);
         tvTenMV = view.findViewById(R.id.tvTenMV);
 
-        btnEp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FragmentEps());
-            }
 
-        });
-        btnSimilar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(new FragmentSimilarStyle());
-            }
-        });
     }
 
     @Override
