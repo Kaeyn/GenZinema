@@ -2,7 +2,6 @@ package android.genzinema.View;
 
 import android.annotation.SuppressLint;
 import android.genzinema.Controller.CustomAdapterRecyCollectionFilm;
-import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 

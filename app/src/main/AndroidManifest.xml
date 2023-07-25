@@ -19,6 +19,7 @@
         <activity
             android:name=".View.UserProfile_Edit"
             android:exported="false" />
+
         <activity
             android:name=".View.UserProfile"
             android:exported="false" />
