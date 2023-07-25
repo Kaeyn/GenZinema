@@ -14,7 +14,7 @@
         android:theme="@style/Theme.GenZinema"
         tools:targetApi="31">
         <activity
-            android:name=".View.Login"
+            android:name=".View.MainHome"
             android:exported="false" />
         <activity
             android:name=".View.UserProfile_Edit"
@@ -29,7 +29,7 @@
             android:name=".View.WatchMovie"
             android:exported="false" />
         <activity
-            android:name=".View.MainHome"
+            android:name=".View.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
