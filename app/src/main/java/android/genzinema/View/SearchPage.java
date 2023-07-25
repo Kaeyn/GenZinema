@@ -48,7 +48,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapter.GetItem(position);
-                    Intent intent = new Intent(SearchPage.this, HomePage.class);
+                    Intent intent = new Intent(SearchPage.this, MainHome.class);
 //                    intent.putExtra("idMV",movie.getIdMV());
                     intent.putExtra("idMV",3);
 

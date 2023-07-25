@@ -2,12 +2,14 @@ package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -22,6 +24,7 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.util.Util;
@@ -30,52 +33,31 @@ import java.util.List;
 
 public class WatchMovie extends AppCompatActivity {
     SimpleExoPlayer exoPlayer;
-    ImageView bt_fullscreen;
-    boolean isFullScreen=false;
-    boolean isLock = false;
     Handler handler;
+    PlayerView playerView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_watch_movie);
-        handler = new Handler(Looper.getMainLooper());
-        PlayerView playerView = findViewById(R.id.player);
-        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        addControls();
+        exoPlayerCreate();
 
-        // Create a DefaultRenderersFactory to be used by the ExoPlayer
-        RenderersFactory renderersFactory = new DefaultRenderersFactory(this);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        addEvents();
 
-        // Create a DefaultTrackSelector to be used by the ExoPlayer
-        TrackSelector trackSelector = new DefaultTrackSelector(this);
+    }
+    private void addControls(){
+        playerView = findViewById(R.id.player);
+        progressBar = findViewById(R.id.progress_bar);
 
-        // Create the ExoPlayer instance
-        exoPlayer = new SimpleExoPlayer.Builder(this)
-                .setTrackSelector(trackSelector)
-                .build();
-
-        // Create a DefaultHttpDataSource.Factory to provide the media data
-        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
-
-        String userAgent = Util.getUserAgent(this, getString(R.string.app_name));
-        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
-                .setUserAgent(userAgent)
-                .setAllowCrossProtocolRedirects(true);
-
-        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
-        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + videoId;
-        Uri videoUrl = Uri.parse(videoUrlStr);
-//        Uri videoUrl = Uri.parse("https://www.rmp-streaming.com/media/big-buck-bunny-360p.mp4");
-        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
-
-//        exoPlayer.play();
-
-        playerView.setPlayer(exoPlayer);
-        playerView.setKeepScreenOn(true);
-        exoPlayer.setMediaSource(mediaSource);
-        exoPlayer.prepare();
-        exoPlayer.setPlayWhenReady(true);
-
+    }
+    private void addEvents(){
         exoPlayer.addListener(new Player.Listener() {
 
             @Override
@@ -88,6 +70,51 @@ public class WatchMovie extends AppCompatActivity {
                 }
             }
         });
+
+    }
+    private void exoPlayerCreate(){
+        handler = new Handler(Looper.getMainLooper());
+        // Create a DefaultRenderersFactory to be used by the ExoPlayer
+        RenderersFactory renderersFactory = new DefaultRenderersFactory(this);
+        // Create a DefaultTrackSelector to be used by the ExoPlayer
+        TrackSelector trackSelector = new DefaultTrackSelector(this);
+        // Create the ExoPlayer instance
+        exoPlayer = new SimpleExoPlayer.Builder(this)
+                .setTrackSelector(trackSelector)
+                .build();
+        // Create a DefaultHttpDataSource.Factory to provide the media data
+        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
+
+        String userAgent = Util.getUserAgent(this, getString(R.string.app_name));
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                .setUserAgent(userAgent)
+                .setAllowCrossProtocolRedirects(true);
+
+        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
+        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + videoId;
+        Uri videoUrl = Uri.parse(videoUrlStr);
+        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
+
+        playerView.setPlayer(exoPlayer);
+        playerView.setKeepScreenOn(true);
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        exoPlayer.setPlayWhenReady(false);
+        exoPlayer.getPlaybackState();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        exoPlayer.setPlayWhenReady(true);
+        exoPlayer.getPlaybackState();
     }
 
     @Override
