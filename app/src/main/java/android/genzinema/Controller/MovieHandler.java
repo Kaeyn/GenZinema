@@ -15,7 +15,7 @@ public class MovieHandler extends SQLiteOpenHelper {
     private Context context;
     static ArrayList<Movie> arrayListMovie = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Movies";
     static final String IDMOVIE_COL = "movie_id";
     static final String IDSTYLEMOVIE_COL = "style_id";
@@ -90,6 +90,16 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
-
-
+    public ArrayList<Movie> getMovieByGenre(int genreId)
+    {
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie)
+        {
+            if(movie.getIdGenre()== genreId)
+            {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
+    }
 }

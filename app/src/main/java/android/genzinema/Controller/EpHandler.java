@@ -15,7 +15,7 @@ public class EpHandler extends SQLiteOpenHelper {
     private static Context context;
     static ArrayList<Ep> arrayListEp = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Episode";
     static final String IDEP_COL = "ep_id";
     static final String THUMBNNAIL_COL = "ep_thumbnail";

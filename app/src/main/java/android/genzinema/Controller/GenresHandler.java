@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.genzinema.Model.Genres;
+import android.genzinema.Model.Movie;
 
 import androidx.annotation.Nullable;
 
@@ -12,9 +13,9 @@ import java.util.ArrayList;
 
 public class GenresHandler extends SQLiteOpenHelper {
 
-        static ArrayList<Genres> arrayListGenres = new ArrayList<>();
+    static ArrayList<Genres> arrayListGenres = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Genres_Movie";
     static final String IDGENRE_COL = "genre_id";
     static final String NAMEGENRE_COL = "genre_name";
