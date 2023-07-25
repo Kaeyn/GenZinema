@@ -2,6 +2,7 @@ package android.genzinema.View;
 
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,9 +17,11 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,11 +29,12 @@ import android.widget.Toast;
  * create an instance of this fragment.
  */
 public class DetailMovie extends Fragment {
-    ImageView imgDM;
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar;
     MovieHandler movieHandler;
+
+    VideoView videoView;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -86,7 +90,6 @@ public class DetailMovie extends Fragment {
                 tvActorMV.setText("Diễn viên: "+movie.getActors());
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
-                imgDM.setImageResource(movie.getIdThumbnails());
 
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
@@ -100,7 +103,7 @@ public class DetailMovie extends Fragment {
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
-        imgDM = view.findViewById(R.id.imgDM);
+        videoView = view.findViewById(R.id.videoView);
         tvActorMV = view.findViewById(R.id.tvActorMV);
         tvDetailMV = view.findViewById(R.id.tvDetailMV);
         tvAuthorMV = view.findViewById(R.id.tvAuthorMV);
@@ -122,16 +125,23 @@ public class DetailMovie extends Fragment {
         });
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
-        pb.setProgress(20);
 
+        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
+        String videoUrl = "https://drive.google.com/uc?export=download&id=" + videoId;
+        Uri videoUri = Uri.parse(videoUrl);
+        videoView.setVideoURI(videoUri);
+        MediaController mediaController = new MediaController(getContext());
+
+        videoView.setMediaController(mediaController);
+
+        mediaController.setAnchorView(videoView);
+        videoView.start();
 
         return view;
     }

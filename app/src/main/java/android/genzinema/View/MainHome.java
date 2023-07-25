@@ -60,15 +60,11 @@ public class MainHome extends AppCompatActivity {
 
             FragmentManager fm = getSupportFragmentManager();
             fm.setFragmentResult("keyMain", bundle);
-            loadFragment(new DetailMovie());
+            loadFragment(new Fragment_Home());
         }
-
         actionBar = getSupportActionBar();
-
         addControls();
-
         addEvents();
-
     }
 
     public void addControls(){
