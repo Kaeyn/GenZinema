@@ -67,60 +67,84 @@
             android:layout_width="match_parent"
             android:layout_height="470dp"
             android:layout_marginHorizontal="40dp"
-            android:background="@drawable/johnweak"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/textView15"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:gravity="center_horizontal|bottom"
-                android:text="John Wick"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+                android:layout_height="wrap_content"
+                android:elevation="8dp"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="470dp"
+                    android:background="@drawable/ttcs"
+                    android:orientation="vertical">
+
+                    <!-- Add your layout content here -->
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView15"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="400dp"-->
+<!--                        android:gravity="center_horizontal|bottom"-->
+<!--                        android:text="John Wick"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="30sp"-->
+<!--                        android:textStyle="bold" />-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
 
-                    <Button
-                        android:id="@+id/btnPhat"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="Phát"
-                        android:textColor="@color/black" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/btnDanhSach"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/white"
-                        android:text="Danh sách"
-                        android:textColor="@color/black" />
+
+                            <Button
+                                android:id="@+id/btnPhat"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/white"
+                                android:text="Phát"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textAllCaps="false"
+                                android:textColor="@color/black" />
+
+                            <Button
+                                android:id="@+id/btnDanhSach"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="1"
+                                android:background="#85000000"
+                                android:text="Danh sách"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
 
-            </LinearLayout>
+
+
 
 
         </LinearLayout>
@@ -136,7 +160,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:text="Hiện đang thịnh hành"
-                android:textSize="20sp"
+                android:textSize="24sp"
+                android:layout_marginVertical="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 />
