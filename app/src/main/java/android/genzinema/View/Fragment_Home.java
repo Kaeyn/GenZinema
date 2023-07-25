@@ -156,7 +156,7 @@ public class Fragment_Home extends Fragment {
         arrayListPhimAnime = Movie.initData(lstIdPhimAnime, lstImgPhimAnime);
 
         // init data for "phim hanh dong"
-        arrayListPhimHanhDong = Movie.initData(lstIdPhimAnime, lstImgPhimAnime);
+        arrayListPhimHanhDong = Movie.initData(lstIdPhimHanhDong, lstImgPhimHanhDong);
 
         // init data for "phim kinh di"
         arrayListPhimKinhDi = Movie.initData(lstIdPhimKinhDi, lstImgPhimKinhDi);
