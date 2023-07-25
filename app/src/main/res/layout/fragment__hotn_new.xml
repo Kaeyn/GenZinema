@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/custom_tab_text_color"
     tools:context=".View.Fragment_HotnNew">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,25 +14,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Subcategory Navigation (TabLayout) -->
-
-        <!-- Subcategory Fragment Container (ViewPager or ViewPager2) -->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/hotNewTabLayout"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="4dp"
-            android:minHeight="?attr/actionBarSize"
-            android:textColor="@color/black"
-            app:tabMode="scrollable" />
+            android:layout_height="match_parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/hotNewViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarAlwaysDrawHorizontalTrack="false"
-            android:layout_below="@id/hotNewTabLayout" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/hotNewViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:scrollbarAlwaysDrawHorizontalTrack="false" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/hotNewTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#7A303030"
+                android:hapticFeedbackEnabled="true"
+                app:tabGravity="fill"
+                app:tabIndicatorAnimationMode="linear"
+                app:tabIndicatorColor="@color/white"
+                app:tabIndicatorGravity="stretch"
+                app:tabIndicatorHeight="50dp"
+                app:tabInlineLabel="true"
+                app:tabMinWidth="150dp"
+                app:tabMode="scrollable"
+                app:tabPadding="-100dp"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="10dp"
+                app:tabSelectedTextColor="#14ACFF"
+                app:tabTextColor="@color/black"
+                />
+
+        </FrameLayout>
 
     </RelativeLayout>
 

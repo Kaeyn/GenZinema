@@ -47,12 +47,39 @@ public class Fragment_Home extends Fragment {
 
     String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
 
-    int[] lstId = new int[]{1,2,3,4,5};
-    int[] lstImg = new int[]{R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak};
+    // Data of Phim thinh hanh
+    int[] lstIdPhimThinhHanh = new int[]{1,2,3,4,5};
+    int[] lstImgPhimThinhHanh = new int[]{R.drawable.overlord, R.drawable.sieunhan, R.drawable.yinan, R.drawable.doraemon, R.drawable.johnweak};
 
-    RecyclerView recyclerView;
+
+    // Data of Phim thinh hanh
+    int[] lstIdPhimAnime = new int[]{1,2,3,4,5};
+    int[] lstImgPhimAnime = new int[]{R.drawable.sieunhan, R.drawable.yinan, R.drawable.overlord, R.drawable.doraemon, R.drawable.johnweak};
+
+
+    // Data of Phim hanh dong
+    int[] lstIdPhimHanhDong = new int[]{1,2,3,4,5};
+    int[] lstImgPhimHanhDong = new int[]{R.drawable.yinan, R.drawable.johnweak, R.drawable.yinan, R.drawable.doraemon, R.drawable.overlord};
+
+    // Data of Phim kinh di
+    int[] lstIdPhimKinhDi = new int[]{1,2,3,4,5};
+    int[] lstImgPhimKinhDi = new int[]{R.drawable.johnweak, R.drawable.yinan, R.drawable.sieunhan, R.drawable.doraemon, R.drawable.overlord};
+
+    RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
-    ArrayList<Movie> filmArrayList = new ArrayList<>();
+
+    // array list phim thinh hanh
+    ArrayList<Movie> arrayListPhimThinhHanh = new ArrayList<>();
+
+    // array list phim anime
+    ArrayList<Movie> arrayListPhimAnime = new ArrayList<>();
+
+    // array list phim hanh dong
+    ArrayList<Movie> arrayListPhimHanhDong = new ArrayList<>();
+
+    // array list phim kinh di
+    ArrayList<Movie> arrayListPhimKinhDi = new ArrayList<>();
+
     CustomAdapterRecyFilm adapterRecyFilm;
 
 
@@ -95,7 +122,10 @@ public class Fragment_Home extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
         btnMovie = rootView.findViewById(R.id.btnMovie);
-        recyclerView = rootView.findViewById(R.id.recyViewFilm);
+        recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
+        recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
+        recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
+        recyclerViewPhimKinhDi = rootView.findViewById(R.id.recyViewPhimKinhDi);
         imgFilm = rootView.findViewById(R.id.imgHomeFilm);
 
         // Initialize your ArrayList and populate it with data
@@ -118,15 +148,58 @@ public class Fragment_Home extends Fragment {
 
         // Apply the adapter to the spinner
         spinner.setAdapter(adapterTypeFilmSpinner);
-        filmArrayList = Movie.initData(lstId, lstImg);
 
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        // init data for "phim thinh hanh"
+        arrayListPhimThinhHanh = Movie.initData(lstIdPhimThinhHanh, lstImgPhimThinhHanh);
+
+        // init data for "phim anime"
+        arrayListPhimAnime = Movie.initData(lstIdPhimAnime, lstImgPhimAnime);
+
+        // init data for "phim hanh dong"
+        arrayListPhimHanhDong = Movie.initData(lstIdPhimHanhDong, lstImgPhimHanhDong);
+
+        // init data for "phim kinh di"
+        arrayListPhimKinhDi = Movie.initData(lstIdPhimKinhDi, lstImgPhimKinhDi);
+
+
+
+        // Display list film of "Hien dang thinh hanh"
+        recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(filmArrayList);
-        recyclerView.setAdapter(adapterRecyFilm);
+        recyclerViewPhimThinhHanh.setLayoutManager(layoutManager);
+        recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
+        recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
+
+
+        // Display list film of "Anime"
+        recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerAnime;
+        layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
+        recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        recyclerViewPhimAnime.setAdapter(adapterRecyFilm);
+
+
+        // Display list film of "Hanh dong"
+        recyclerViewPhimHanhDong.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerHanhDong;
+        layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
+        recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilm);
+
+        // Display list film of "Kinh di"
+        recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerKinhDi;
+        layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
+        recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
 
 
         return rootView;
