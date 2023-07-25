@@ -47,20 +47,20 @@ public class MainHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
 
-        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
-        movieHandler.onCreate(db);
-        Intent intent = getIntent();
-        if(intent.hasExtra("idMV")) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
-            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
-            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
-
-            FragmentManager fm = getSupportFragmentManager();
-            fm.setFragmentResult("keyMain", bundle);
-            loadFragment(new Fragment_Home());
-        }
-        actionBar = getSupportActionBar();
+//        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
+//        movieHandler.onCreate(db);
+//        Intent intent = getIntent();
+//        if(intent.hasExtra("idMV")) {
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
+////            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
+////            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
+//
+//            FragmentManager fm = getSupportFragmentManager();
+//            fm.setFragmentResult("keyMain", bundle);
+//            loadFragment(new Fragment_Home());
+//        }
+//        actionBar = getSupportActionBar();
         addControls();
         addEvents();
     }
