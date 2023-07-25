@@ -74,8 +74,6 @@ public class WatchMovie extends AppCompatActivity {
 //                .setSeekForwardIncrementMs(10000).build();
 //
 //        playerView.setPlayer(exoPlayer);
-
-
         // Create a DefaultRenderersFactory to be used by the ExoPlayer
         RenderersFactory renderersFactory = new DefaultRenderersFactory(this);
 
@@ -100,11 +98,14 @@ public class WatchMovie extends AppCompatActivity {
 //        Uri videoUrl = Uri.parse(videoUrlStr);
         Uri videoUrl = Uri.parse("https://www.rmp-streaming.com/media/big-buck-bunny-360p.mp4");
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
-        exoPlayer.setMediaSource(mediaSource);
-        exoPlayer.prepare();
-        exoPlayer.play();
+
+//        exoPlayer.play();
 
         playerView.setPlayer(exoPlayer);
+        playerView.setKeepScreenOn(true);
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
 
         exoPlayer.addListener(new Player.Listener() {
 
@@ -115,9 +116,7 @@ public class WatchMovie extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                 } else if (playbackState == Player.STATE_READY) {
                     progressBar.setVisibility(View.GONE);
-
                 }
-
 //                if (!exoPlayer.getPlayWhenReady()){
 //                    handler.removeCallbacks(updateProgressAction);
 //                }
