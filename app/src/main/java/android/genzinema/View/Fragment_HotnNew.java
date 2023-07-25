@@ -16,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -76,20 +78,66 @@ public class Fragment_HotnNew extends Fragment {
 
         TabLayout subcategoryLayout = view.findViewById(R.id.hotNewTabLayout);
         ViewPager2 subcategoryViewPager = view.findViewById(R.id.hotNewViewPager);
+
         subcategoryViewPager.setUserInputEnabled(false);
+        subcategoryLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
 
         Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity());
         subcategoryViewPager.setAdapter(hot_new_pager_adapter);
 
         new TabLayoutMediator(subcategoryLayout, subcategoryViewPager, (tab, position) -> {
+
+            tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator));
+
+            for(int i=0; i < subcategoryLayout.getTabCount(); i++) {
+                View tab1 = ((ViewGroup) subcategoryLayout.getChildAt(0)).getChildAt(i);
+                ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab1.getLayoutParams();
+                p.setMargins(0, 0, 40, 0);
+                tab1.requestLayout();
+            }
+
+
             if (position == 0){
                 tab.setText("Popular");
+                tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_onclick));
             } else if (position == 1) {
                 tab.setText("Top10");
+            } else if (position == 2) {
+                tab.setText("Top9");
+            } else if (position == 3) {
+                tab.setText("Top8");
             }
+
         }).attach();
 
+        subcategoryLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                subcategoryViewPager.setCurrentItem(tab.getPosition());
+                
+                tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_onclick));
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator));
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        subcategoryViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                subcategoryLayout.selectTab(subcategoryLayout.getTabAt(position));
+            }
+        });
 
         return view;
     }
+
+
 }
