@@ -118,8 +118,7 @@ public class Fragment_Home extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        loadFragment(new DetailMovie());
-
+        loadFragment(new Fragment_Home());
     }
 
     @SuppressLint("MissingInflatedId")
@@ -127,13 +126,14 @@ public class Fragment_Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
+//        movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         btnMovie = rootView.findViewById(R.id.btnMovie);
         recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
         recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
         recyclerViewPhimKinhDi = rootView.findViewById(R.id.recyViewPhimKinhDi);
         imgFilm = rootView.findViewById(R.id.imgHomeFilm);
-
+        
         // Initialize your ArrayList and populate it with data
         type_of_filmArrayList = new ArrayList<>();
         // Add your data to the ArrayList
@@ -167,8 +167,7 @@ public class Fragment_Home extends Fragment {
         // init data for "phim kinh di"
         arrayListPhimKinhDi = Movie.initData(lstIdPhimKinhDi, lstImgPhimKinhDi);
 
-
-
+//        arrayListPhimThinhHanh = movieHandler.getMovieByGenre(1);
         // Display list film of "Hien dang thinh hanh"
         recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
@@ -206,7 +205,6 @@ public class Fragment_Home extends Fragment {
         recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
-
 
         return rootView;
 
