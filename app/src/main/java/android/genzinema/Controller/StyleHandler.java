@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class StyleHandler extends SQLiteOpenHelper {
     static ArrayList<Style> arrayListStyle = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Style_Movie";
     static final String IDSTYLE_COL = "style_id";
     static final String NAMESTYLE_COL = "style_name";

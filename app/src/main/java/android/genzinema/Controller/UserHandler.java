@@ -15,7 +15,7 @@ public class UserHandler extends SQLiteOpenHelper {
 
     static ArrayList<User> arrayListUser = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
-    public static final String PATH = "/data/data/android.genzinema/database/qlmv.db";
+    public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "User";
     static final String EMAIL_COL = "email";
     static final String DISPLAYNAME_COL = "display_name";
