@@ -1,21 +1,27 @@
 package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.genzinema.Controller.UserHandler;
+import android.genzinema.Model.User;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class UserProfile_Edit extends AppCompatActivity {
 
-    Button btnUpdateImg, btnBack,btnUpdate;
+    Button btn_UpdateImg, btn_Update, btn_UpdatePassword,btn_UpdateProfile;
     ImageButton imageBtn_return;
-    EditText edtUsername, edtEmail,edtSDT;
-
+    UserHandler userHandler;
+    boolean isProfile = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,29 +31,55 @@ public class UserProfile_Edit extends AppCompatActivity {
     }
     private void addControl()
     {
-        btnUpdateImg = findViewById(R.id.btn_updateImg);
-        btnBack = findViewById(R.id.btn_back);
-        btnUpdate = findViewById(R.id.btn_update);
+        btn_UpdateImg = findViewById(R.id.btn_updateImg);
+        btn_Update = findViewById(R.id.btn_update);
+        btn_UpdatePassword = findViewById(R.id.btn_UpdatePassword);
+        btn_UpdateProfile = findViewById(R.id.btn_UpdateProfile);
         imageBtn_return = findViewById(R.id.imgBtn_return);
-        edtUsername = findViewById(R.id.edt_UserName);
-        edtEmail = findViewById(R.id.edt_Email);
-        edtSDT = findViewById(R.id.edt_SDT);
     }
     private void addEvent()
     {
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+        Bundle bundle = new Bundle();
+        bundle.putString("Email",intent.getStringExtra("Email"));
+        FragmentManager fm = getSupportFragmentManager();
+        fm.setFragmentResult("UpdateProfileKey",bundle);
+        loadFragment(new Fragment_UpdateProfile());
+        btn_UpdatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfile_Edit.this, UserProfile.class);
-                startActivity(intent);
+                if(isProfile){
+                    isProfile = false;
+                    Intent intent = getIntent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Email",intent.getStringExtra("Email"));
+                    FragmentManager fm = getSupportFragmentManager();
+                    fm.setFragmentResult("UpdatePasswordKey",bundle);
+                    loadFragment(new Fragment_UpdatePassword());
+                }
             }
         });
-        imageBtn_return.setOnClickListener(new View.OnClickListener() {
+        btn_UpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfile_Edit.this, UserProfile.class);
-                startActivity(intent);
+                if(!isProfile){
+                    isProfile = true;
+                    Intent intent = getIntent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Email",intent.getStringExtra("Email"));
+                    FragmentManager fm = getSupportFragmentManager();
+                    fm.setFragmentResult("UpdateProfileKey",bundle);
+                    loadFragment(new Fragment_UpdateProfile());
+                }
+
             }
         });
+    }
+
+    public void loadFragment(Fragment fragment){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayout, fragment);
+        ft.commit();
     }
 }

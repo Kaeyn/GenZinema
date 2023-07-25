@@ -21,12 +21,16 @@ public class Hot_New_Pager_Adapter extends FragmentStateAdapter {
             return new HotnNew_RecycleView("Popular");
         } else if (position == 1) {
             return new HotnNew_RecycleView("Top10");
+        } else if (position == 2) {
+            return new HotnNew_RecycleView("Top9");
+        } else if (position == 3) {
+            return new HotnNew_RecycleView("Top8");
         }
         return null;
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 4;
     }
 }
