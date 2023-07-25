@@ -90,6 +90,16 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
-
-
+    public ArrayList<Movie> getMovieByGenre(int genreId)
+    {
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie)
+        {
+            if(movie.getIdGenre()== genreId)
+            {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
+    }
 }

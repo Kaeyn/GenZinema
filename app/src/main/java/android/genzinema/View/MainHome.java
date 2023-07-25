@@ -41,8 +41,6 @@ public class MainHome extends AppCompatActivity {
     SQLiteDatabase db;
     ArrayList<Movie> arrayListMV = new ArrayList<>();
 
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +80,6 @@ public class MainHome extends AppCompatActivity {
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
         movieHandler.onCreate(db);
-
-
-
 
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
