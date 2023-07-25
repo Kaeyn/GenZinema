@@ -10,14 +10,18 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Debug;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -29,6 +33,14 @@ import com.google.android.material.tabs.TabLayoutMediator;
  */
 public class Fragment_HotnNew extends Fragment {
 
+    ViewPager2 subcategoryViewPager;
+    TabLayout subcategoryLayout;
+
+    boolean isTransitionComplete = true;
+
+    int selectedTabIndex = 0;
+
+    int currentScrollX = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,8 +88,8 @@ public class Fragment_HotnNew extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__hotn_new, container, false);
 
-        TabLayout subcategoryLayout = view.findViewById(R.id.hotNewTabLayout);
-        ViewPager2 subcategoryViewPager = view.findViewById(R.id.hotNewViewPager);
+        subcategoryLayout = view.findViewById(R.id.hotNewTabLayout);
+        subcategoryViewPager = view.findViewById(R.id.hotNewViewPager);
 
         subcategoryViewPager.setUserInputEnabled(false);
         subcategoryLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
@@ -85,10 +97,12 @@ public class Fragment_HotnNew extends Fragment {
         Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity());
         subcategoryViewPager.setAdapter(hot_new_pager_adapter);
 
+
+
         new TabLayoutMediator(subcategoryLayout, subcategoryViewPager, (tab, position) -> {
 
-            tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator));
 
+            tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_black));
             for(int i=0; i < subcategoryLayout.getTabCount(); i++) {
                 View tab1 = ((ViewGroup) subcategoryLayout.getChildAt(0)).getChildAt(i);
                 ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab1.getLayoutParams();
@@ -110,34 +124,51 @@ public class Fragment_HotnNew extends Fragment {
 
         }).attach();
 
+        addEvents();
+        return view;
+    }
+
+    private void addEvents(){
         subcategoryLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                subcategoryViewPager.setCurrentItem(tab.getPosition());
-                
-                tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_onclick));
-            }
+                selectedTabIndex = tab.getPosition();
+                // Set isTransitionComplete to false to indicate that a transition is in progress
+                isTransitionComplete = false;
+                // Update the ViewPager to the selected tab without smooth scrolling
+                subcategoryViewPager.setCurrentItem(selectedTabIndex, true);
+           }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator));
+                tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_black));
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                selectedTabIndex = tab.getPosition();
             }
         });
+
 
         subcategoryViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    // The ViewPager2 has finished settling (scroll complete)
+                    subcategoryLayout.getTabAt(selectedTabIndex).view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_onclick));
+                }
+            }
+
             @Override
             public void onPageSelected(int position) {
-                subcategoryLayout.selectTab(subcategoryLayout.getTabAt(position));
+                selectedTabIndex = position;
             }
         });
-
-        return view;
     }
+
+
 
 
 }
