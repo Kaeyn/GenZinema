@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.genzinema.Controller.UserHandler;
+import android.genzinema.Model.User;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
@@ -24,6 +26,7 @@ public class MainHome extends AppCompatActivity {
     ActionBar actionBar;
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
+
 
 
 
@@ -49,8 +52,6 @@ public class MainHome extends AppCompatActivity {
 
     public void addEvents(){
         loadFragment(new Fragment_Home());
-
-
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -90,12 +91,32 @@ public class MainHome extends AppCompatActivity {
             Intent intent = new Intent(MainHome.this, SearchPage.class);
             startActivity(intent);
         } else if (id == R.id.userProfile) {
-            Intent intent = new Intent(MainHome.this, UserProfile.class);
+            Intent  intent = getIntent();
+
+            String email = intent.getStringExtra("Email");
+//            MoveToUserProfile(user);
+            intent = new Intent(MainHome.this, UserProfile.class);
+            intent.putExtra("Email",email);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
-
+//    User GetUserByIntent(Intent intent){
+//        User user = new User();
+//        user.setEmail();
+//        user.setDisplayName(intent.getStringExtra("DisplayName"));
+//        user.setPhone(intent.getStringExtra("Phone"));
+//        user.setPassword(intent.getStringExtra("Password"));
+//        return user;
+//    }
+//    void MoveToUserProfile(User user){
+//
+//        intent.putExtra("Email",user.getEmail());
+//        intent.putExtra("DisplayName",user.getDisplayName());
+//        intent.putExtra("Phone",user.getPhone());
+//        intent.putExtra("Password",user.getPassword());
+//        startActivity(intent);
+//    }
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
