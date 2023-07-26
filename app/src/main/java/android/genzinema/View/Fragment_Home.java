@@ -173,10 +173,151 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
         // Specify the layout to use when the list of choices appears
 
+        View view = getLayoutInflater().inflate(R.layout.display_genres, null);
+
+        Button btnCloseGenres = view.findViewById(R.id.btnCloseGenres);
+
+        Button btnAnime = view.findViewById(R.id.btnAnime);
+        Button btnHanhDong = view.findViewById(R.id.btnHanhDong);
+        Button btnHaiHuoc = view.findViewById(R.id.btnHaiHuoc);
+        Button btnKinhDi = view.findViewById(R.id.btnKinhDi);
+        Button btnTinhCam = view.findViewById(R.id.btnTinhCam);
+        Button btnGenres = rootView.findViewById(R.id.btnGenres);
+        TextView tvTrangChu = view.findViewById(R.id.tvTrangChu);
+
+        dialog = new Dialog(getActivity(), R.style.CustomDialog);
+        dialog.setContentView(view);
+
+        btnCloseGenres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvTrangChu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnGenres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
+
+        originalBackgroundDrawable = (GradientDrawable) btnAnime.getBackground();
+
+        btnAnime.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Change the background color of btnAnime when long-pressed
+                btnAnime.setBackgroundColor(getResources().getColor(R.color.white_black, null));
+                return true; // Return true to indicate that the long click event is consumed
+            }
+        });
+
+        btnAnime.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Reset the background color to its original state when long click is released
+                    btnAnime.setBackground(originalBackgroundDrawable);
+                }
+                return false;
+            }
+        });
+
+        btnHaiHuoc.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Change the background color of btnAnime when long-pressed
+                btnHaiHuoc.setBackgroundColor(getResources().getColor(R.color.white_black, null));
+                return true; // Return true to indicate that the long click event is consumed
+            }
+        });
+
+        btnHaiHuoc.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Reset the background color to its original state when long click is released
+                    btnHaiHuoc.setBackground(originalBackgroundDrawable);
+                }
+                return false;
+            }
+        });
+
+        btnHanhDong.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Change the background color of btnAnime when long-pressed
+                btnHanhDong.setBackgroundColor(getResources().getColor(R.color.white_black, null));
+                return true; // Return true to indicate that the long click event is consumed
+            }
+        });
+
+        btnHanhDong.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Reset the background color to its original state when long click is released
+                    btnHanhDong.setBackground(originalBackgroundDrawable);
+                }
+                return false;
+            }
+        });
+
+        btnKinhDi.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Change the background color of btnAnime when long-pressed
+                btnKinhDi.setBackgroundColor(getResources().getColor(R.color.white_black, null));
+                return true; // Return true to indicate that the long click event is consumed
+            }
+        });
+
+        btnKinhDi.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Reset the background color to its original state when long click is released
+                    btnKinhDi.setBackground(originalBackgroundDrawable);
+                }
+                return false;
+            }
+        });
+
+        btnTinhCam.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Change the background color of btnAnime when long-pressed
+                btnTinhCam.setBackgroundColor(getResources().getColor(R.color.white_black, null));
+                return true; // Return true to indicate that the long click event is consumed
+            }
+        });
+
+        btnTinhCam.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // Reset the background color to its original state when long click is released
+                    btnTinhCam.setBackground(originalBackgroundDrawable);
+                }
+                return false;
+            }
+        });
+
+
+
+
+
 
 
         // Apply the adapter to the spinner
-        spinner.setAdapter(adapterTypeFilmSpinner);
 
         // init data for "phim thinh hanh"
         arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
@@ -229,8 +370,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
 
-            }
-        });
+
+
         return rootView;
 
 
