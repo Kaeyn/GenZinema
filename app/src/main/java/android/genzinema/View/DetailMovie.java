@@ -1,6 +1,6 @@
 package android.genzinema.View;
 
-import android.content.pm.ActivityInfo;
+import android.content.Intent;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.net.Uri;
@@ -18,15 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.MediaItem;
@@ -51,12 +47,14 @@ import com.google.android.exoplayer2.util.Util;
 public class DetailMovie extends Fragment {
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
-    Button btnEp,btnSimilar;
+    Button btnEp,btnSimilar, btnPlayVideo;
     ImageButton btnVolumeOn, btnVolumeMute;
     MovieHandler movieHandler;
     SimpleExoPlayer exoPlayer;
     Handler handler;
     PlayerView playerView;
+
+    private String urlMovie = "";
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -119,6 +117,7 @@ public class DetailMovie extends Fragment {
                 tvActorMV.setText("Diễn viên: "+movie.getActors());
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
+                urlMovie = movie.getUrlTrailer();
 
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
@@ -172,9 +171,19 @@ public class DetailMovie extends Fragment {
         playerView = view.findViewById(R.id.player);
         btnVolumeOn = view.findViewById(R.id.btnVolumeOn);
         btnVolumeMute = view.findViewById(R.id.btnVolumeOff);
+        btnPlayVideo = view.findViewById(R.id.btnPlayVideo_Detail);
     }
 
     private void addEvents(){
+
+        btnPlayVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), WatchMovie.class);
+                intent.putExtra("vidUrl", urlMovie);
+                startActivity(intent);
+            }
+        });
         btnVolumeOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +197,8 @@ public class DetailMovie extends Fragment {
                 exoPlayer.setVolume(1);
             }
         });
+
+
         exoPlayer.addListener(new Player.Listener() {
             @Override
             public void onVolumeChanged(float volume) {

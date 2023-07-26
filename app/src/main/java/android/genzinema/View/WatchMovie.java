@@ -2,14 +2,19 @@ package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -23,6 +28,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -58,6 +64,22 @@ public class WatchMovie extends AppCompatActivity {
 
     }
     private void addEvents(){
+
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+        playerView.setControllerShowTimeoutMs(3000);
+        playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
+            @Override
+            public void onVisibilityChange(int visibility) {
+                Log.d("state", String.valueOf(visibility));
+                if (visibility == View.VISIBLE) {
+                    playerView.startAnimation(fadeInAnimation);
+                } else {
+                    playerView.startAnimation(fadeOutAnimation);
+                }
+            }
+        });
+
         exoPlayer.addListener(new Player.Listener() {
 
             @Override
@@ -91,6 +113,8 @@ public class WatchMovie extends AppCompatActivity {
                 .setUserAgent(userAgent)
                 .setAllowCrossProtocolRedirects(true);
 
+//        Intent intent = getIntent();
+//        Uri videoUrl = Uri.parse(intent.getStringExtra("url"));
         String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
         String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + videoId;
         Uri videoUrl = Uri.parse(videoUrlStr);
