@@ -68,4 +68,7 @@ public class CustomAdapterRecyFilm extends RecyclerView.Adapter<CustomAdapterRec
     public Movie GetItem(int position){
         return movieArrayList.get(position);
     }
+
+
 }
+
