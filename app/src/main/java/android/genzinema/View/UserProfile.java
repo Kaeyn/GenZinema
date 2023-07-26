@@ -2,6 +2,8 @@ package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
@@ -16,8 +18,8 @@ import android.widget.Toast;
 
 public class UserProfile extends AppCompatActivity {
 
-    LinearLayout lineLay_edit,lineLay_notification,lineLay_list,lineLay_appInfo;
-    Button btn_logout;
+    LinearLayout lineLay_notification,lineLay_list,lineLay_appInfo;
+    Button btn_logout, btn_edit;
     TextView tv_UserName;
     ImageButton imgBtn_return;
     UserHandler userHandler;
@@ -32,7 +34,7 @@ public class UserProfile extends AppCompatActivity {
 
     private void addControl()
     {
-        lineLay_edit = findViewById(R.id.layout_edit);
+        btn_edit = findViewById(R.id.btn_edit);
         lineLay_notification = findViewById(R.id.layout_notification);
         lineLay_list = findViewById(R.id.layout_list);
         lineLay_appInfo = findViewById(R.id.layout_appInfo);
@@ -47,7 +49,7 @@ public class UserProfile extends AppCompatActivity {
         user = userHandler.getUserByEmail(intent.getStringExtra("Email"));
         tv_UserName.setText(user.getDisplayName());
 
-        lineLay_edit.setOnClickListener(new View.OnClickListener() {
+        btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, UserProfile_Edit.class);
@@ -58,8 +60,51 @@ public class UserProfile extends AppCompatActivity {
         lineLay_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(UserProfile.this, MainHome.class);
+                intent.putExtra("Email",user.getEmail());
+                startActivity(intent);
+            }
+        });
+        lineLay_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Toast.makeText(UserProfile.this, "test", Toast.LENGTH_SHORT).show();
             }
         });
+        imgBtn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(UserProfile.this, MainHome.class);
+                intent1.putExtra("Email",user.getEmail());
+                startActivity(intent1);
+
+            }
+        });
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showConfirmationDialog();
+            }
+        });
+    }
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Đăng xuất?");
+        builder.setMessage("Bạn có muốn đăng xuất không!!");
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent1 = new Intent(UserProfile.this, Login.class);
+                startActivity(intent1);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

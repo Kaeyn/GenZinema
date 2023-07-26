@@ -1,5 +1,7 @@
 package android.genzinema.View;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
@@ -73,7 +75,6 @@ public class Fragment_UpdateProfile extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 User user = userHandler.getUserByEmail(result.getString("Email"));
-                Toast.makeText(getContext(),user.toString(),Toast.LENGTH_SHORT).show();
                 edtEmail.setText(user.getEmail());
                 edtUsername.setText(user.getDisplayName());
                 edtSDT.setText(user.getPhone());
@@ -91,19 +92,19 @@ public class Fragment_UpdateProfile extends Fragment {
         edtSDT =  view.findViewById(R.id.edt_SDT);
         btnUpdate = view.findViewById(R.id.btn_update);
 
-        String userName= edtUsername.getText().toString();
-        String phone = edtSDT.getText().toString();
         userHandler = new UserHandler(getContext(),UserHandler.DB_NAME,null,1);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (userName.equals("")|| phone.equals("")) {
-                    Toast.makeText(getContext(), "Nhap dung hoac mat acc", Toast.LENGTH_SHORT).show();
-                } else if (!userName.equals(userHandler.getUserByEmail(email).getDisplayName()) || !phone.equals(userHandler.getUserByEmail(email).getPhone())) {
+                if (edtUsername.getText().toString().equals("")|| edtSDT.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Vui lòng điền đầy dủ thông tin", Toast.LENGTH_SHORT).show();
+                } else if (!edtUsername.getText().toString().equals(userHandler.getUserByEmail(email).getDisplayName())
+                        || !edtSDT.getText().toString().equals(userHandler.getUserByEmail(email).getPhone())) {
                     userHandler.UpdateUserProfile(edtEmail.getText().toString(),edtUsername.getText().toString(),edtSDT.getText().toString());
                     Intent intent = new Intent(getContext(), UserProfile.class);
                     intent.putExtra("Email",edtEmail.getText().toString());
                     startActivity(intent);
+                    Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Vui lòng cập nhật thông tin!", Toast.LENGTH_SHORT).show();
                 }
@@ -111,4 +112,5 @@ public class Fragment_UpdateProfile extends Fragment {
         });
         return view;
     }
+
 }

@@ -55,17 +55,17 @@
             android:layout_marginTop="32dp"
             android:backgroundTint="#F00000"/>
 
-        <TextView
-            android:id="@+id/forgotPasswordTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
-            android:gravity="center"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_below="@id/btn_login"
-            android:layout_marginTop="16dp"
-            android:textColor="#FFFFFF"/>
+<!--        <TextView-->
+<!--            android:id="@+id/forgotPasswordTextView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Forgot Password?"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_marginStart="40dp"-->
+<!--            android:layout_marginEnd="40dp"-->
+<!--            android:layout_below="@id/btn_login"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            android:textColor="#FFFFFF"/>-->
 
     </RelativeLayout>
 

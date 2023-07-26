@@ -86,20 +86,21 @@ public class Fragment_UpdatePassword extends Fragment {
         btnUpdate = view.findViewById(R.id.btn_update);
         userHandler = new UserHandler(getContext(),UserHandler.DB_NAME,null,1);
 
-        String oldPass = edtOldPass.getText().toString();
-        String newPass = edtNewPass.getText().toString();
-        String confirmPass = edtNewPass2.getText().toString();
-
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (oldPass.equals("")|| newPass.equals("") || confirmPass.equals("")) {
-                    Toast.makeText(getContext(), "Nhap dung hoac mat acc", Toast.LENGTH_SHORT).show();
-                } else if (!oldPass.equals(userHandler.getUserByEmail(email).getPassword()) && !newPass.equals(oldPass) && !newPass.equals(confirmPass)) {
+                if (edtOldPass.getText().toString().equals("")
+                        || edtNewPass.getText().toString().equals("")
+                        || edtNewPass2.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Nhập đúng hoặc mất acc", Toast.LENGTH_SHORT).show();
+                } else if (!edtOldPass.getText().toString().equals(userHandler.getUserByEmail(email).getPassword())
+                        && !edtNewPass.getText().toString().equals(edtOldPass.getText().toString())
+                        && !edtNewPass.getText().toString().equals(edtNewPass2.getText().toString())) {
                     userHandler.UpdateUserPass(edtOldPass.getText().toString(), edtNewPass.getText().toString());
                     Intent intent = new Intent(getContext(), UserProfile.class);
                     intent.putExtra("Email", email);
                     startActivity(intent);
+                    Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Mật khẩu xác nhận không khớp !", Toast.LENGTH_SHORT).show();
                 }
