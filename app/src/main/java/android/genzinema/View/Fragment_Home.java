@@ -61,7 +61,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     private GradientDrawable originalBackgroundDrawable;
 
     Button btnMovie, btnCloseGenres;
-    private AppBarLayout appBarLayout;
+
     private int scrollY = 0;
     private int threshold = 20;
     Dialog dialog;
@@ -114,7 +114,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     int selectedPosition = 0;
 
     TextView titleHanhDong;
-    NestedScrollView nestedScrollView;
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -394,22 +393,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
 
         // Nestscroll view
-        appBarLayout = rootView.findViewById(R.id.appBarLayout);
-        nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
 
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
-                if (scrollY - y > threshold) {
-                    // Scrolling up
-                    showAppBar();
-                } else if (y - scrollY > threshold) {
-                    // Scrolling down
-                    hideAppBar();
-                }
-                scrollY = y;
-            }
-        });
 
             @Override
             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -419,6 +403,23 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+            }
+        });
+
+        AppBarLayout appBarLayout = rootView.findViewById(R.id.appBarLayout);
+        NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
+                if (scrollY - y > threshold) {
+                    // Scrolling up
+                    ViewCompat.animate(appBarLayout).translationY(0).setDuration(200).start();
+                } else if (y - scrollY > threshold) {
+                    // Scrolling down
+                    ViewCompat.animate(appBarLayout).translationY(-appBarLayout.getHeight()).setDuration(200).start();
+                }
+                scrollY = y;
             }
         });
         recyclerViewPhimAnime.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -519,11 +520,4 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     }
 
-    private void hideAppBar() {
-        ViewCompat.animate(appBarLayout).translationY(-appBarLayout.getHeight()).setDuration(200).start();
-    }
-
-    private void showAppBar() {
-        ViewCompat.animate(appBarLayout).translationY(0).setDuration(200).start();
-    }
 }

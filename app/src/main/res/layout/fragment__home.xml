@@ -132,7 +132,7 @@
                                 android:layout_weight="1"
                                 android:backgroundTint="@color/white"
                                 android:text="Phát"
-                                android:textSize="16sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textAllCaps="false"
                                 android:textColor="@color/black" />
@@ -147,7 +147,9 @@
                                 android:layout_weight="1"
                                 android:background="#85000000"
                                 android:text="Danh sách"
-                                android:textSize="16sp"
+                                app:icon="@drawable/add_icon"
+                                app:iconGravity="start"
+                                android:textSize="14sp"
                                 android:textStyle="bold"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white" />
