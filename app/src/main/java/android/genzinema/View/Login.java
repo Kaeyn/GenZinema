@@ -11,6 +11,7 @@ import android.genzinema.R;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Login extends AppCompatActivity {
     Button btnLogin;
     UserHandler userHandler;
     SQLiteDatabase db;
+    Boolean check = false;
     ArrayList<User> arrayListUser = new ArrayList<User>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,6 @@ public class Login extends AppCompatActivity {
                 // Failed to create the folder
             }
         }
-
-
         arrayListUser = userHandler.GetAllData();
         addEvent();
     }
@@ -59,6 +59,7 @@ public class Login extends AppCompatActivity {
     }
     private void addEvent()
     {
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,14 +68,17 @@ public class Login extends AppCompatActivity {
                             edtPass.getText().toString().equals(user.getPassword())){
                                 Intent intent = new Intent(Login.this, MainHome.class);
                                 intent.putExtra("Email",user.getEmail());
-//                                intent.putExtra("DisplayName",user.getDisplayName());
-//                                intent.putExtra("Phone",user.getPhone());
-//                                intent.putExtra("Password",user.getPassword());
                                 startActivity(intent);
+                                check = true;
                                 break;
                     }
                 }
-
+                if(check == false)
+                {
+                    Toast.makeText(Login.this,"Tên đăng nhập hoặc mật khẩu không đúng!",Toast.LENGTH_SHORT).show();
+                    edtUsername.setText("");
+                    edtPass.setText("");
+                }
             }
         });
     }

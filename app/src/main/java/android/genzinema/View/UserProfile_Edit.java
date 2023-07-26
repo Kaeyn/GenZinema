@@ -20,7 +20,6 @@ public class UserProfile_Edit extends AppCompatActivity {
 
     Button btn_UpdateImg, btn_Update, btn_UpdatePassword,btn_UpdateProfile;
     ImageButton imageBtn_return;
-    UserHandler userHandler;
     boolean isProfile = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +71,14 @@ public class UserProfile_Edit extends AppCompatActivity {
                     loadFragment(new Fragment_UpdateProfile());
                 }
 
+            }
+        });
+        imageBtn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(UserProfile_Edit.this, UserProfile.class);
+                intent1.putExtra("Email",intent.getStringExtra("Email"));
+                startActivity(intent1);
             }
         });
     }
