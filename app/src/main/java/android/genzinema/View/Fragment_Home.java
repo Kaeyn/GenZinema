@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,6 +59,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private boolean isScrolling = false;
 
     private GradientDrawable originalBackgroundDrawable;
 
@@ -353,39 +356,53 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
         adapterRecyFilmKinhDi.setOnItemClickListener(this);
-        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilm.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
-
-        // Nestscroll view
 
 
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
-            }
 
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.appBarLayout);
         NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+
+
+
+//        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//
+//
+//            @Override
+//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//                if(isScrolling){
+//                    return false;
+//                }
+//
+//                return true;
+//            }
+//
+//            // Nestscroll view
+//
+//
+//            @Override
+//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//
+//                View view = rv.findChildViewUnder(e.getX(),e.getY());
+//                if(view != null){
+//                    int position = rv.getChildAdapterPosition(view);
+//                    Movie movie = adapterRecyFilm.GetItem(position);
+//                    Bundle results = new Bundle();
+//                    results.putInt("idMV", movie.getIdMV());
+//                    results.putInt("idGenreMV", movie.getIdGenre());
+//                    results.putInt("idStyleMV", movie.getIdType());
+//                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+//                    loadFragment(new FragmentDetailMovie());
+//                }
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//        });
+
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -398,13 +415,105 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                     ViewCompat.animate(appBarLayout).translationY(-appBarLayout.getHeight()).setDuration(200).start();
                 }
                 scrollY = y;
+////
+//                if (y != oldScrollY) {
+//                    isScrolling = true;
+//                } else {
+//                    isScrolling = false;
+//                }
             }
         });
+
+
+
+
+
+
+        recyclerViewPhimThinhHanh.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+
+        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerViewPhimThinhHanh, new RecyclerItemTouchListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                 Movie movie = adapterRecyFilm.GetItem(position);
+                 Bundle results = new Bundle();
+                 results.putInt("idMV", movie.getIdMV());
+                 results.putInt("idGenreMV", movie.getIdGenre());
+                 results.putInt("idStyleMV", movie.getIdType());
+                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                 loadFragment(new FragmentDetailMovie());
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(itemTouchListener);
+
+
+
+
+//        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//                 @Override
+//                 public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//                     if(itemTouchListener ==){
+//                         return false;
+//                     }
+//                     else{
+//                        return true;
+//                     }
+//                 }
+//
+//                 @Override
+//                 public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//
+//                     View view = rv.findChildViewUnder(e.getX(),e.getY());
+//                     if(view != null){
+//                         int position = rv.getChildAdapterPosition(view);
+//                         Movie movie = adapterRecyFilm.GetItem(position);
+//                         Bundle results = new Bundle();
+//                         results.putInt("idMV", movie.getIdMV());
+//                         results.putInt("idGenreMV", movie.getIdGenre());
+//                         results.putInt("idStyleMV", movie.getIdType());
+//                         getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+//                         loadFragment(new FragmentDetailMovie());
+//                     }
+//
+//                 }
+//
+//                 @Override
+//                 public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//                 }
+//            });
+
+
+//        if(!isScrolling){
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         recyclerViewPhimAnime.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                 View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
+                boolean isTouchingItem = view != null && rv.getChildAdapterPosition(view) != RecyclerView.NO_POSITION;
+
+                if(isTouchingItem){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapterRecyFilmAnime.GetItem(position);
                     Bundle results = new Bundle();

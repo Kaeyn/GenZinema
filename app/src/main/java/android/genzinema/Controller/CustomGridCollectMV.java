@@ -57,5 +57,8 @@ public class CustomGridCollectMV extends BaseAdapter {
 
         return convertView;
     }
+    public Movie GetItem(int position){
+        return arrayListMovie.get(position);
+    }
 
 }

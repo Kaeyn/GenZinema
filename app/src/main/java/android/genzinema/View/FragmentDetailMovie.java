@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
 import android.net.Uri;
@@ -24,7 +23,6 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,12 +105,16 @@ public class FragmentDetailMovie extends Fragment {
 
         String keySearchTo = "keyMain";
         String keyHometo = "keyDetailMV";
+        String keyCollectionsto = "keyDetailMVfromCollections";
+
 
         if(getContext() instanceof MainHome){
-            HandldBundle(keyHometo);
+            HandleBundle(keyHometo);
         }
-        else {
-            HandldBundle(keySearchTo);
+        else if (getContext() instanceof DetailMoviePage){
+            HandleBundle(keySearchTo);
+        }else{
+            HandleBundle(keyCollectionsto);
         }
 
     }
@@ -199,7 +201,6 @@ public class FragmentDetailMovie extends Fragment {
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout, fragment);
-        ft.addToBackStack(null);
         ft.commit();
     }
 
@@ -242,7 +243,7 @@ public class FragmentDetailMovie extends Fragment {
         exoPlayer.getPlaybackState();
     }
 
-    public void HandldBundle(String key){
+    public void HandleBundle(String key){
         FragmentManager fm = getParentFragmentManager();
         fm.setFragmentResultListener(key, this, new FragmentResultListener() {
             @Override
