@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -47,20 +48,21 @@ public class MainHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
 
-//        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
-//        movieHandler.onCreate(db);
-//        Intent intent = getIntent();
+        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
+        movieHandler.onCreate(db);
+        Intent intent = getIntent();
 //        if(intent.hasExtra("idMV")) {
+//            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
-////            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
-////            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
+//            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
+//            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
 //
 //            FragmentManager fm = getSupportFragmentManager();
 //            fm.setFragmentResult("keyMain", bundle);
-//            loadFragment(new Fragment_Home());
+//            loadFragment(new DetailMovie());
 //        }
-//        actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         addControls();
         addEvents();
     }
