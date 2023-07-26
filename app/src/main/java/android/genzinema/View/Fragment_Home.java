@@ -66,25 +66,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
 
-    String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
-
-    // Data of Phim thinh hanh
-    int[] lstIdPhimThinhHanh = new int[]{1,2,3,4,5};
-    int[] lstImgPhimThinhHanh = new int[]{R.drawable.overlord, R.drawable.sieunhan, R.drawable.yinan, R.drawable.doraemon, R.drawable.johnweak};
-
-
-    // Data of Phim thinh hanh
-    int[] lstIdPhimAnime = new int[]{1,2,3,4,5};
-    int[] lstImgPhimAnime = new int[]{R.drawable.sieunhan, R.drawable.yinan, R.drawable.overlord, R.drawable.doraemon, R.drawable.johnweak};
-
-
-    // Data of Phim hanh dong
-    int[] lstIdPhimHanhDong = new int[]{1,2,3,4,5};
-    int[] lstImgPhimHanhDong = new int[]{R.drawable.yinan, R.drawable.johnweak, R.drawable.yinan, R.drawable.doraemon, R.drawable.overlord};
-
-    // Data of Phim kinh di
-    int[] lstIdPhimKinhDi = new int[]{1,2,3,4,5};
-    int[] lstImgPhimKinhDi = new int[]{R.drawable.johnweak, R.drawable.yinan, R.drawable.sieunhan, R.drawable.doraemon, R.drawable.overlord};
 
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
@@ -106,10 +87,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     CustomAdapterRecyFilm adapterRecyFilmAnime;
     CustomAdapterRecyFilm adapterRecyFilmHanhDong;
 
-    int selectedPosition = 0;
-
-    TextView titleHanhDong;
-    NestedScrollView nestedScrollView;
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -428,6 +405,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         recyclerViewPhimHanhDong.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                 View view = rv.findChildViewUnder(e.getX(),e.getY());
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
@@ -439,12 +422,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                     getParentFragmentManager().setFragmentResult("keyDetailMV", results);
                     loadFragment(new FragmentDetailMovie());
                 }
-                return true;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
             }
 
             @Override
