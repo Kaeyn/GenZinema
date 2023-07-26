@@ -5,6 +5,7 @@ import static android.genzinema.R.style.CustomDialog;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
+import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
@@ -12,6 +13,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,7 +43,7 @@ import java.util.ArrayList;
  * Use the {@link Fragment_Home#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Home extends Fragment {
+public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -97,7 +101,14 @@ public class Fragment_Home extends Fragment {
     ArrayList<Movie> arrayListPhimKinhDi = new ArrayList<>();
 
     CustomAdapterRecyFilm adapterRecyFilm;
+    CustomAdapterRecyFilm adapterRecyFilmKinhDi;
+    CustomAdapterRecyFilm adapterRecyFilmAnime;
+    CustomAdapterRecyFilm adapterRecyFilmHanhDong;
 
+    int selectedPosition = 0;
+
+    TextView titleHanhDong;
+    NestedScrollView nestedScrollView;
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -146,7 +157,6 @@ public class Fragment_Home extends Fragment {
         recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
         recyclerViewPhimKinhDi = rootView.findViewById(R.id.recyViewPhimKinhDi);
         imgFilm = rootView.findViewById(R.id.imgHomeFilm);
-        btnMovie = (Button) rootView.findViewById(R.id.btnMovie);
 
         // Initialize your ArrayList and populate it with data
         type_of_filmArrayList = new ArrayList<>();
@@ -166,20 +176,20 @@ public class Fragment_Home extends Fragment {
 
 
         // Apply the adapter to the spinner
+        spinner.setAdapter(adapterTypeFilmSpinner);
 
         // init data for "phim thinh hanh"
-        arrayListPhimThinhHanh = Movie.initData(lstIdPhimThinhHanh, lstImgPhimThinhHanh);
+        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
 
         // init data for "phim anime"
-        arrayListPhimAnime = Movie.initData(lstIdPhimAnime, lstImgPhimAnime);
+        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
 
         // init data for "phim hanh dong"
-        arrayListPhimHanhDong = Movie.initData(lstIdPhimHanhDong, lstImgPhimHanhDong);
+        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
 
         // init data for "phim kinh di"
-        arrayListPhimKinhDi = Movie.initData(lstIdPhimKinhDi, lstImgPhimKinhDi);
+        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(4);
 
-//        arrayListPhimThinhHanh = movieHandler.getMovieByGenre(1);
         // Display list film of "Hien dang thinh hanh"
         recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
@@ -190,14 +200,15 @@ public class Fragment_Home extends Fragment {
         recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
 
 
+
         // Display list film of "Anime"
         recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManagerAnime;
         layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
         recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimAnime);
-        recyclerViewPhimAnime.setAdapter(adapterRecyFilm);
+        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
 
 
         // Display list film of "Hanh dong"
@@ -209,7 +220,6 @@ public class Fragment_Home extends Fragment {
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
         recyclerViewPhimHanhDong.setAdapter(adapterRecyFilm);
 
-
         // Display list film of "Kinh di"
         recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManagerKinhDi;
@@ -219,147 +229,8 @@ public class Fragment_Home extends Fragment {
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
 
-        View view = getLayoutInflater().inflate(R.layout.display_genres, null);
-
-        Button btnCloseGenres = view.findViewById(R.id.btnCloseGenres);
-
-        Button btnAnime = view.findViewById(R.id.btnAnime);
-        Button btnHanhDong = view.findViewById(R.id.btnHanhDong);
-        Button btnHaiHuoc = view.findViewById(R.id.btnHaiHuoc);
-        Button btnKinhDi = view.findViewById(R.id.btnKinhDi);
-        Button btnTinhCam = view.findViewById(R.id.btnTinhCam);
-        Button btnGenres = rootView.findViewById(R.id.btnGenres);
-        TextView tvTrangChu = view.findViewById(R.id.tvTrangChu);
-
-        dialog = new Dialog(getActivity(), R.style.CustomDialog);
-        dialog.setContentView(view);
-
-        btnCloseGenres.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
             }
         });
-
-        tvTrangChu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        btnGenres.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
-
-        originalBackgroundDrawable = (GradientDrawable) btnAnime.getBackground();
-
-        btnAnime.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Change the background color of btnAnime when long-pressed
-                btnAnime.setBackgroundColor(getResources().getColor(R.color.white_black, null));
-                return true; // Return true to indicate that the long click event is consumed
-            }
-        });
-
-        btnAnime.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Reset the background color to its original state when long click is released
-                    btnAnime.setBackground(originalBackgroundDrawable);
-                }
-                return false;
-            }
-        });
-
-        btnHaiHuoc.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Change the background color of btnAnime when long-pressed
-                btnHaiHuoc.setBackgroundColor(getResources().getColor(R.color.white_black, null));
-                return true; // Return true to indicate that the long click event is consumed
-            }
-        });
-
-        btnHaiHuoc.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Reset the background color to its original state when long click is released
-                    btnHaiHuoc.setBackground(originalBackgroundDrawable);
-                }
-                return false;
-            }
-        });
-
-        btnHanhDong.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Change the background color of btnAnime when long-pressed
-                btnHanhDong.setBackgroundColor(getResources().getColor(R.color.white_black, null));
-                return true; // Return true to indicate that the long click event is consumed
-            }
-        });
-
-        btnHanhDong.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Reset the background color to its original state when long click is released
-                    btnHanhDong.setBackground(originalBackgroundDrawable);
-                }
-                return false;
-            }
-        });
-
-        btnKinhDi.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Change the background color of btnAnime when long-pressed
-                btnKinhDi.setBackgroundColor(getResources().getColor(R.color.white_black, null));
-                return true; // Return true to indicate that the long click event is consumed
-            }
-        });
-
-        btnKinhDi.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Reset the background color to its original state when long click is released
-                    btnKinhDi.setBackground(originalBackgroundDrawable);
-                }
-                return false;
-            }
-        });
-
-        btnTinhCam.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Change the background color of btnAnime when long-pressed
-                btnTinhCam.setBackgroundColor(getResources().getColor(R.color.white_black, null));
-                return true; // Return true to indicate that the long click event is consumed
-            }
-        });
-
-        btnTinhCam.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    // Reset the background color to its original state when long click is released
-                    btnTinhCam.setBackground(originalBackgroundDrawable);
-                }
-                return false;
-            }
-        });
-
-
-
-
         return rootView;
 
 
@@ -372,4 +243,8 @@ public class Fragment_Home extends Fragment {
         ft.commit();
     }
 
+    @Override
+    public void onItemClick(int position) {
+
+    }
 }

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
@@ -17,8 +16,8 @@ import android.genzinema.Controller.EpHandler;
 import android.genzinema.Controller.GenresHandler;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.StyleHandler;
-import android.genzinema.Model.Ep;
 import android.genzinema.Model.Movie;
+import android.genzinema.View.HotnNew.Fragment_HotnNew;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
@@ -29,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -53,20 +53,21 @@ public class MainHome extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
 
-//        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
-//        movieHandler.onCreate(db);
-//        Intent intent = getIntent();
+        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
+        movieHandler.onCreate(db);
+        Intent intent = getIntent();
 //        if(intent.hasExtra("idMV")) {
+//            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
-////            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
-////            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
+//            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
+//            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
 //
 //            FragmentManager fm = getSupportFragmentManager();
 //            fm.setFragmentResult("keyMain", bundle);
-//            loadFragment(new Fragment_Home());
+//            loadFragment(new DetailMovie());
 //        }
-//        actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         addControls();
         addEvents();
 

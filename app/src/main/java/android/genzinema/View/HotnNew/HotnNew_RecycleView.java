@@ -1,6 +1,8 @@
-package android.genzinema.View;
+package android.genzinema.View.HotnNew;
 
-import android.genzinema.Controller.Hot_New_Pager_Adapter;
+import android.database.sqlite.SQLiteDatabase;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,11 @@ import java.util.List;
  */
 public class HotnNew_RecycleView extends Fragment {
     private String subcategoryName;
+
+    MovieHandler movieHandler;
+    SQLiteDatabase database;
+
+    CustomRecycleView adapter;
 
     public HotnNew_RecycleView(String subcategoryName){
         this.subcategoryName = subcategoryName;
@@ -65,22 +73,35 @@ public class HotnNew_RecycleView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hotn_new__recycle_view, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycleViewHotnNew);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        movieHandler = new MovieHandler(getContext(), UserHandler.DB_NAME,null,1);
+        movieHandler.onCreate(database);
+
+
         ArrayList<Movie> dataList = getSubcategoryData(subcategoryName);
 
-        CustomRecycleView adapter = new CustomRecycleView(dataList);
+        adapter = new CustomRecycleView(dataList);
         recyclerView.setAdapter(adapter);
-
         return view;
     }
 
+
     private ArrayList<Movie> getSubcategoryData(String subcategoryName) {
         ArrayList<Movie> arrayList = new ArrayList<>();
-        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        for (int i = 0; i < 5; i++) {
-            arrayList.add(movie);
-        }
 
-        return arrayList;
+        if(subcategoryName.equals("Top10")){
+            arrayList.clear();
+            arrayList = movieHandler.GetTop10Movie();
+            return arrayList;
+        } else if (subcategoryName.equals("Newest")) {
+            arrayList.clear();
+            arrayList = movieHandler.GetNewestMovie();
+            return arrayList;
+        } else {
+            arrayList.clear();
+            arrayList = movieHandler.GetGoodMovie();
+            return arrayList;
+        }
     }
     private class CustomRecycleView extends RecyclerView.Adapter<CustomRecycleView.YourViewHolder> {
 
@@ -94,6 +115,14 @@ public class HotnNew_RecycleView extends Fragment {
         @Override
         public YourViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_custom_item_hotnnew, parent, false);
+
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle results = new Bundle();
+                }
+            });
             return new YourViewHolder(view);
         }
 
@@ -107,6 +136,7 @@ public class HotnNew_RecycleView extends Fragment {
             holder.textViewDescription.setText(movie.getDetail());
             // Set other views as needed based on YourDataModel properties
         }
+
 
         @Override
         public int getItemCount() {

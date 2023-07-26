@@ -62,36 +62,14 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/layout_edit"
+        <Button
+            android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:drawableLeft="@drawable/edit_icon"
+            android:background="#39FFFFFF"
+            android:text="Quản lý hồ sơ" />
 
-            <ImageButton
-                android:id="@+id/imgBtn_edit"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:src="@drawable/edit_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Quản lý hồ sơ"
-                android:textStyle="bold"
-                android:textSize="18dp"
-                android:textColor="#FFFFFF"/>
-
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -242,19 +220,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_Logout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#00FF0000"
+            android:background="#B7000000"
             android:text="Đăng xuất"
             app:cornerRadius="0dp"
             android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="#FFFFFF"/>
+            android:textSize="18dp"
+            android:textColor="#B7FFFFFF"/>
     </LinearLayout>
 
 </LinearLayout>
