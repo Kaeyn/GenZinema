@@ -69,6 +69,7 @@ public class WatchMovie extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             }
+
         });
 
     }

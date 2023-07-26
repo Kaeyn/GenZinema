@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -38,13 +39,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:text="TextView" />
+                        android:text="TitleFilm"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
 
                     <ImageButton
                         android:id="@+id/btnPlayHotnNew"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
+                        android:background="@drawable/transparent_background"
                         app:srcCompat="@drawable/circleplay_icon" />
                 </LinearLayout>
 
@@ -52,6 +55,9 @@
                     android:id="@+id/txtDescriptionHotnNew"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:maxLines="2"
+                    android:inputType="textMultiLine"
                     android:text="TextView" />
             </LinearLayout>
         </LinearLayout>
