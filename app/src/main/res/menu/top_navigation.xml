@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/searchIcon"
-        android:icon="@drawable/top_nav_search"
+        android:icon="@drawable/white_search"
         android:title="Search"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/userProfile"
-        android:icon="@drawable/ic_launcher_background"
+        android:icon="@drawable/johnweak"
         android:title="Search"
         app:showAsAction="always"/>
 
