@@ -48,31 +48,31 @@ public class Fragment_Home extends Fragment {
 
     Button btnMovie;
 
-//    Spinner spinner_type_film;
+    Spinner spinner_type_film;
 
     MovieHandler movieHandler;;
     SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
 
-//    String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
-//
-//    // Data of Phim thinh hanh
-//    int[] lstIdPhimThinhHanh = new int[]{1,2,3,4,5};
-//    int[] lstImgPhimThinhHanh = new int[]{R.drawable.overlord, R.drawable.sieunhan, R.drawable.yinan, R.drawable.doraemon, R.drawable.johnweak};
-//
-//
-//    // Data of Phim thinh hanh
-//    int[] lstIdPhimAnime = new int[]{1,2,3,4,5};
-//    int[] lstImgPhimAnime = new int[]{R.drawable.sieunhan, R.drawable.yinan, R.drawable.overlord, R.drawable.doraemon, R.drawable.johnweak};
-//
-//
-//    // Data of Phim hanh dong
-//    int[] lstIdPhimHanhDong = new int[]{1,2,3,4,5};
-//    int[] lstImgPhimHanhDong = new int[]{R.drawable.yinan, R.drawable.johnweak, R.drawable.yinan, R.drawable.doraemon, R.drawable.overlord};
-//
-//    // Data of Phim kinh di
-//    int[] lstIdPhimKinhDi = new int[]{1,2,3,4,5};
-//    int[] lstImgPhimKinhDi = new int[]{R.drawable.johnweak, R.drawable.yinan, R.drawable.sieunhan, R.drawable.doraemon, R.drawable.overlord};
+    String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
+
+    // Data of Phim thinh hanh
+    int[] lstIdPhimThinhHanh = new int[]{1,2,3,4,5};
+    int[] lstImgPhimThinhHanh = new int[]{R.drawable.overlord, R.drawable.sieunhan, R.drawable.yinan, R.drawable.doraemon, R.drawable.johnweak};
+
+
+    // Data of Phim thinh hanh
+    int[] lstIdPhimAnime = new int[]{1,2,3,4,5};
+    int[] lstImgPhimAnime = new int[]{R.drawable.sieunhan, R.drawable.yinan, R.drawable.overlord, R.drawable.doraemon, R.drawable.johnweak};
+
+
+    // Data of Phim hanh dong
+    int[] lstIdPhimHanhDong = new int[]{1,2,3,4,5};
+    int[] lstImgPhimHanhDong = new int[]{R.drawable.yinan, R.drawable.johnweak, R.drawable.yinan, R.drawable.doraemon, R.drawable.overlord};
+
+    // Data of Phim kinh di
+    int[] lstIdPhimKinhDi = new int[]{1,2,3,4,5};
+    int[] lstImgPhimKinhDi = new int[]{R.drawable.johnweak, R.drawable.yinan, R.drawable.sieunhan, R.drawable.doraemon, R.drawable.overlord};
 
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
@@ -134,6 +134,8 @@ public class Fragment_Home extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
 
+
+
         btnMovie = rootView.findViewById(R.id.btnMovie);
         recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
@@ -184,17 +186,18 @@ public class Fragment_Home extends Fragment {
         });
 
         // init data for "phim thinh hanh"
-        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
+        arrayListPhimThinhHanh = Movie.initData(lstIdPhimThinhHanh, lstImgPhimThinhHanh);
 
         // init data for "phim anime"
-        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
+        arrayListPhimAnime = Movie.initData(lstIdPhimAnime, lstImgPhimAnime);
 
         // init data for "phim hanh dong"
-        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
+        arrayListPhimHanhDong = Movie.initData(lstIdPhimHanhDong, lstImgPhimHanhDong);
 
         // init data for "phim kinh di"
-        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(4);
+        arrayListPhimKinhDi = Movie.initData(lstIdPhimKinhDi, lstImgPhimKinhDi);
 
+//        arrayListPhimThinhHanh = movieHandler.getMovieByGenre(1);
         // Display list film of "Hien dang thinh hanh"
         recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
