@@ -37,10 +37,9 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textColor="@color/white"
-                    android:textSize="20dp"
-
-                    />
+                    android:textSize="20dp" />
             </LinearLayout>
+
         </RelativeLayout>
 
 
@@ -51,8 +50,8 @@
         android:id="@+id/sec_controlvid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
 
+        android:layout_centerInParent="true"
         android:orientation="horizontal">
 
         <ImageView
@@ -124,8 +123,7 @@
             app:buffered_color="#95989F"
             app:played_color="#FF0000"
             app:scrubber_color="#FF0000"
-            android:layout_marginBottom="5dp"
-            />
+            android:layout_marginBottom="5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
