@@ -5,6 +5,7 @@ import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -23,7 +24,6 @@ import android.genzinema.R;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,10 +47,12 @@ import com.google.android.exoplayer2.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DetailMovie#newInstance} factory method to
+ * Use the {@link FragmentDetailMovie#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailMovie extends Fragment {
+public class FragmentDetailMovie extends Fragment {
+    private boolean btnEpStateIsCollect = true;
+
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar, btnAddList;
@@ -71,7 +73,7 @@ public class DetailMovie extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DetailMovie() {
+    public FragmentDetailMovie() {
         // Required empty public constructor
     }
 
@@ -84,8 +86,8 @@ public class DetailMovie extends Fragment {
      * @return A new instance of fragment DetailMovie.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailMovie newInstance(String param1, String param2) {
-        DetailMovie fragment = new DetailMovie();
+    public static FragmentDetailMovie newInstance(String param1, String param2) {
+        FragmentDetailMovie fragment = new FragmentDetailMovie();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -100,66 +102,17 @@ public class DetailMovie extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+//        Toast.makeText(getContext(),"FragmentDetailMV ",Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(getContext(),"DetailMovie ",Toast.LENGTH_SHORT).show();
+        String keySearchTo = "keyMain";
+        String keyHometo = "keyDetailMV";
 
-        FragmentManager fm = getParentFragmentManager();
-        fm.setFragmentResultListener("keyMain", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                int idMV = result.getInt("idMV");
-                int idGenre = result.getInt("idGenreMV");
-                int idStyle = result.getInt("idStyleMV");
-                Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
-                Toast.makeText(getContext(),"DetailMovie idMV: "+idMV,Toast.LENGTH_SHORT).show();
-
-                movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
-                Movie movie = movieHandler.GetMovieByID(idMV);
-                tvTenMV.setText(movie.getNameMovie());
-                tvNamMV.setText(movie.getYearProduce());
-                tvActorMV.setText("Diễn viên: "+movie.getActors());
-                tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
-                tvDetailMV.setText(movie.getDetail());
-
-                Bundle results = new Bundle();
-                results.putInt("idMV", idMV);
-                results.putInt("idGenreMV", idGenre);
-                results.putInt("idStyleMV", idStyle);
-
-                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                getParentFragmentManager().setFragmentResult("collectsMV", results);
-
-                if(idStyle==1){
-                    btnEp.setText("Bộ sưu tập");
-                    btnEp.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            loadFragment(new FragmentCollect());
-                        }
-
-                    });
-                } else {
-                    btnEp.setText("Các tập");
-
-                    btnEp.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            loadFragment(new FragmentEps());
-                        }
-
-                    });
-                }
-                btnSimilar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        loadFragment(new FragmentSimilarStyle());
-                    }
-                });
-            }
-        });
+        if(getContext() instanceof MainHome){
+            HandldBundle(keyHometo);
+        }
+        else {
+            HandldBundle(keySearchTo);
+        }
 
     }
 
@@ -230,7 +183,6 @@ public class DetailMovie extends Fragment {
         return view;
     }
     public void loadFragment(Fragment fragment){
-//        Toast.makeText(getContext(),"loadFragment",Toast.LENGTH_SHORT).show();
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout, fragment);
@@ -275,6 +227,121 @@ public class DetailMovie extends Fragment {
         super.onPause();
         exoPlayer.setPlayWhenReady(false);
         exoPlayer.getPlaybackState();
+    }
+
+    public void HandldBundle(String key){
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener(key, this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                int idMV = result.getInt("idMV");
+                int idGenre = result.getInt("idGenreMV");
+                int idStyle = result.getInt("idStyleMV");
+//                Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"DetailMovie idMV: "+idMV,Toast.LENGTH_SHORT).show();
+                String textColorHexCodeRed = "#FF0909";
+                String textColorHexCodeWhite = "#FFFFFF";
+                int colorRed = Color.parseColor(textColorHexCodeRed);
+                int colorWhite = Color.parseColor(textColorHexCodeWhite);
+
+                movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+                Movie movie = movieHandler.GetMovieByID(idMV);
+                tvTenMV.setText(movie.getNameMovie());
+                tvNamMV.setText(movie.getYearProduce());
+                tvActorMV.setText("Diễn viên: "+movie.getActors());
+                tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
+                tvDetailMV.setText(movie.getDetail());
+
+                if(idStyle==1) {
+                    btnSimilar.setTextColor(colorWhite);
+                    btnEp.setTextColor(colorRed);
+                    if (btnEpStateIsCollect) {
+                        btnEpStateIsCollect = false;
+                        Bundle results = new Bundle();
+                        results.putInt("idMV", idMV);
+                        results.putInt("idGenreMV", idGenre);
+                        results.putInt("idStyleMV", idStyle);
+                        getParentFragmentManager().setFragmentResult("collectsMV", results);
+                        loadFragment(new FragmentCollect());
+                    }
+                } else {
+                    btnSimilar.setTextColor(colorWhite);
+                    btnEp.setTextColor(colorRed);
+                    if (btnEpStateIsCollect) {
+                        btnEpStateIsCollect = false;
+                        Bundle results = new Bundle();
+                        results.putInt("idMV", idMV);
+                        results.putInt("idGenreMV", idGenre);
+                        results.putInt("idStyleMV", idStyle);
+                        getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                        loadFragment(new FragmentEps());
+                    }
+                }
+
+
+
+
+                if(idStyle==1){
+                    btnEp.setText("Bộ sưu tập");
+                    btnEp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            btnSimilar.setTextColor(colorWhite);
+                            btnEp.setTextColor(colorRed);
+                            if(btnEpStateIsCollect){
+                                btnEpStateIsCollect = false;
+                                Bundle results = new Bundle();
+                                results.putInt("idMV", idMV);
+                                results.putInt("idGenreMV", idGenre);
+                                results.putInt("idStyleMV", idStyle);
+                                getParentFragmentManager().setFragmentResult("collectsMV", results);
+                                loadFragment(new FragmentCollect());
+                            }
+                        }
+
+                    });
+                } else {
+                    btnEp.setText("Các tập");
+
+                    btnEp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            btnEp.setTextColor(colorRed);
+                            btnSimilar.setTextColor(colorWhite);
+                            if (btnEpStateIsCollect) {
+                                btnEpStateIsCollect = false;
+                                Bundle results = new Bundle();
+                                results.putInt("idMV", idMV);
+                                results.putInt("idGenreMV", idGenre);
+                                results.putInt("idStyleMV", idStyle);
+                                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                                loadFragment(new FragmentEps());
+                            }
+                        }
+
+                    });
+                }
+                btnSimilar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnEp.setTextColor(colorWhite);
+                        btnSimilar.setTextColor(colorRed);
+                        if(!btnEpStateIsCollect) {
+                            btnEpStateIsCollect = true;
+                            Bundle results = new Bundle();
+                            results.putInt("idMV", idMV);
+                            results.putInt("idGenreMV", idGenre);
+                            getParentFragmentManager().setFragmentResult("similarMV", results);
+                            loadFragment(new FragmentSimilarStyle());
+                        }
+                    }
+                });
+
+            }
+
+        });
     }
 
 }
