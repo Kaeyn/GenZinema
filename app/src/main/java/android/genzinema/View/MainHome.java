@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.EpHandler;
@@ -22,7 +23,11 @@ import android.genzinema.R;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,7 +35,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
-public class MainHome extends AppCompatActivity {
+public class MainHome extends AppCompatActivity{
     ActionBar actionBar;
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
@@ -38,6 +43,7 @@ public class MainHome extends AppCompatActivity {
     StyleHandler styleHandler;
     MovieHandler movieHandler;
     EpHandler epHandler;
+
     SQLiteDatabase db;
     ArrayList<Movie> arrayListMV = new ArrayList<>();
 
@@ -64,6 +70,8 @@ public class MainHome extends AppCompatActivity {
         actionBar = getSupportActionBar();
         addControls();
         addEvents();
+
+
     }
 
     public void addControls(){
@@ -100,6 +108,12 @@ public class MainHome extends AppCompatActivity {
                 return true;
             }
         });
+
+
+
+
+
+
     }
 
     @SuppressLint("RestrictedApi")

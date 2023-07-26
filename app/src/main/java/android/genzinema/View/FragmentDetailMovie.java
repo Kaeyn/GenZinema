@@ -53,6 +53,7 @@ public class FragmentDetailMovie extends Fragment {
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar;
+    ImageButton btnVolumeOn, btnVolumeMute;
     MovieHandler movieHandler;
     SimpleExoPlayer exoPlayer;
     Handler handler;
@@ -121,6 +122,41 @@ public class FragmentDetailMovie extends Fragment {
         tvNamMV = view.findViewById(R.id.tvNamMV);
         tvTenMV = view.findViewById(R.id.tvTenMV);
         playerView = view.findViewById(R.id.player);
+        btnVolumeOn = view.findViewById(R.id.btnVolumeOn);
+        btnVolumeMute = view.findViewById(R.id.btnVolumeOff);
+    }
+
+    private void addEvents(){
+        btnVolumeOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exoPlayer.setVolume(0);
+            }
+        });
+
+        btnVolumeMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exoPlayer.setVolume(1);
+            }
+        });
+        exoPlayer.addListener(new Player.Listener() {
+            @Override
+            public void onVolumeChanged(float volume) {
+                Player.Listener.super.onVolumeChanged(volume);
+                if (volume == 0.0f){
+                    btnVolumeMute.setVisibility(View.VISIBLE);
+                    btnVolumeOn.setVisibility(View.GONE);
+                } else {
+                    btnVolumeMute.setVisibility(View.GONE);
+                    btnVolumeOn.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+                Player.Listener.super.onPlaybackStateChanged(playbackState);
+            }
+        });
     }
 
     @Override
@@ -130,14 +166,8 @@ public class FragmentDetailMovie extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
         exoPlayerCreate();
+        addEvents();
 
-        exoPlayer.addListener(new Player.Listener() {
-
-            @Override
-            public void onPlaybackStateChanged(int playbackState) {
-            Player.Listener.super.onPlaybackStateChanged(playbackState);
-            }
-        });
         return view;
     }
     public void loadFragment(Fragment fragment){
@@ -160,6 +190,8 @@ public class FragmentDetailMovie extends Fragment {
                 .build();
         // Create a DefaultHttpDataSource.Factory to provide the media data
         exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
+
+
 
         String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
         DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
