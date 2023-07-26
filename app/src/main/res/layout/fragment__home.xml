@@ -54,12 +54,16 @@
                         app:strokeColor="#FFFFFF"
                         app:strokeWidth="1dp" />
 
-                    <Spinner
-                        android:id="@+id/spinner_type_film"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:spinnerMode="dropdown" />
+                    <Button
+                        android:id="@+id/btnGenres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:paddingHorizontal="30dp"
+                        android:text="Thể loại"
+                        app:cornerRadius="100dp"
+                        app:strokeColor="#FFFFFF"
+                        app:strokeWidth="1dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
