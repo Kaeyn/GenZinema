@@ -1,7 +1,9 @@
 package android.genzinema.View;
 
 import android.content.pm.ActivityInfo;
+import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
 import android.net.Uri;
@@ -53,12 +55,13 @@ public class FragmentDetailMovie extends Fragment {
 
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
-    Button btnEp,btnSimilar;
+    Button btnEp,btnSimilar, btnAddList;
     ImageButton btnVolumeOn, btnVolumeMute;
     MovieHandler movieHandler;
     SimpleExoPlayer exoPlayer;
     Handler handler;
     PlayerView playerView;
+    FavoriteMovieHander favoriteMovieHander;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -125,6 +128,7 @@ public class FragmentDetailMovie extends Fragment {
         playerView = view.findViewById(R.id.player);
         btnVolumeOn = view.findViewById(R.id.btnVolumeOn);
         btnVolumeMute = view.findViewById(R.id.btnVolumeOff);
+        btnAddList = view.findViewById(R.id.btnAddDanhSach);
     }
 
     private void addEvents(){
@@ -132,6 +136,13 @@ public class FragmentDetailMovie extends Fragment {
             @Override
             public void onClick(View v) {
                 exoPlayer.setVolume(0);
+            }
+        });
+        btnAddList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+                favoriteMovieHander.loadData();
             }
         });
 
