@@ -4,4 +4,22 @@
     <style name="CustomTabAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16dp</item>
     </style>
+    <style name="Widget.Theme.GenZinema.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="Widget.Theme.GenZinema.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">#B7000000</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <!-- Add any other custom attributes for your dialog here -->
+    </style>
+
+
+
 </resources>
