@@ -96,6 +96,7 @@ public class MovieHandler extends SQLiteOpenHelper {
     }
 
     public void loadData(){
+        arrayListMovie.clear();
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME, null);
         cursor.moveToFirst();
@@ -116,7 +117,18 @@ public class MovieHandler extends SQLiteOpenHelper {
         cursor.close(); // Close the cursor after use
         db.close();
     }
-    public ArrayList<Movie> GetCollectMVBy(Integer IDGenre, Integer IDStyle) {
+    public ArrayList<Movie> getMoviesByGenre(int genreId) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie) {
+//            Log.d("me",String.valueOf(movie.getIdGenre() == genreId)+" "+movie.getIdGenre());
+            if (movie.getIdGenre() == genreId) {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
+    }
+        public ArrayList<Movie> GetCollectMVBy(Integer IDGenre, Integer IDStyle) {
         loadData();
         ArrayList<Movie> arrayList = new ArrayList<>();
         for (Movie movie : arrayListMovie) {
