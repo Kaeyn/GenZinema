@@ -18,7 +18,7 @@ public class DetailMoviePage extends AppCompatActivity {
         setContentView(R.layout.activity_detail_movie_page);
         Intent intent = getIntent();
         if(intent.hasExtra("idMV")) {
-            Toast.makeText(getApplication(),"DetailMoviePage idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplication(),"DetailMoviePage idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
             bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
@@ -26,7 +26,7 @@ public class DetailMoviePage extends AppCompatActivity {
 
             FragmentManager fm = getSupportFragmentManager();
             fm.setFragmentResult("keyMain", bundle);
-            loadFragment(new DetailMovie());
+            loadFragment(new FragmentDetailMovie());
         }
     }
     public void loadFragment(Fragment fragment){

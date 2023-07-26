@@ -63,6 +63,10 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'Joji','1','1','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','ttcs')";
         db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'Joji','1','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','sieunhan')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (6,'JohnWaj','1','1','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW','Jon','Tony','2121','Phim rat hay.','johnwick')";
+        db.execSQL(sql);
         db.close();
     }
     public Movie GetMovieByID(int ID){
@@ -119,6 +123,8 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
+
     public void loadTop10Movie(){
         arrayListMovie.clear();
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
@@ -140,6 +146,18 @@ public class MovieHandler extends SQLiteOpenHelper {
         }while (cursor.moveToNext());
         cursor.close(); // Close the cursor after use
         db.close();
+    }
+
+    public ArrayList<Movie> getMoviesByGenre(int genreId) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie) {
+//            Log.d("me",String.valueOf(movie.getIdGenre() == genreId)+" "+movie.getIdGenre());
+            if (movie.getIdGenre() == genreId) {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
     }
 
     public ArrayList<Movie> GetNewestMovie(){
@@ -176,10 +194,18 @@ public class MovieHandler extends SQLiteOpenHelper {
                 arrayList.add(movie);
             }
         }
-        Log.d("",""+arrayListMovie.size());
+        return arrayList;
+    }
 
-        Log.d("",""+arrayList.size());
-
+    public ArrayList<Movie> GetSimilarMVBy(Integer IDGenre) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<>();
+        for (Movie movie : arrayListMovie) {
+            Integer idgenre = movie.getIdGenre();
+            if (idgenre.intValue() == IDGenre) {
+                arrayList.add(movie);
+            }
+        }
         return arrayList;
     }
 
@@ -205,6 +231,28 @@ public class MovieHandler extends SQLiteOpenHelper {
         }
         return arrayList;
     }
+    public ArrayList<Movie> getMoviesByGenre(int genreId) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie) {
+//            Log.d("me",String.valueOf(movie.getIdGenre() == genreId)+" "+movie.getIdGenre());
+            if (movie.getIdGenre() == genreId) {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
+    }
 
+    public ArrayList<Movie> GetSimilarMVBy(Integer IDGenre) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<>();
+        for (Movie movie : arrayListMovie) {
+            Integer idgenre = movie.getIdGenre();
+            if (idgenre.intValue() == IDGenre) {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
+    }
 
 }
