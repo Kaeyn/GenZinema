@@ -64,6 +64,28 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
+    public void loadData(){
+        arrayListMovie.clear();
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+ TABLE_NAME, null);
+        cursor.moveToFirst();
+        do{
+            Movie movie = new Movie();
+            movie.setIdMV(cursor.getInt(0));
+            movie.setNameMovie(cursor.getString(1));
+            movie.setIdGenre(cursor.getInt(2));
+            movie.setIdType(cursor.getInt(3));
+            movie.setUrlTrailer(cursor.getString(4));
+            movie.setActors(cursor.getString(5));
+            movie.setAuthors(cursor.getString(6));
+            movie.setYearProduce(cursor.getString(7));
+            movie.setDetail(cursor.getString(8));
+            movie.setIdThumbnails(context.getResources().getIdentifier(cursor.getString(9),"drawable","android.genzinema"));
+            arrayListMovie.add(movie);
+        }while (cursor.moveToNext());
+        cursor.close(); // Close the cursor after use
+        db.close();
+    }
     public Movie GetMovieByID(int ID){
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
@@ -94,6 +116,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
+<<<<<<< Updated upstream
 
     public void loadData(){
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
@@ -129,6 +152,21 @@ public class MovieHandler extends SQLiteOpenHelper {
         Log.d("",""+arrayListMovie.size());
 
         Log.d("",""+arrayList.size());
+=======
+    public ArrayList<Movie> getMoviesByGenre(int genreId)
+    {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie)
+        {
+//            Log.d("me",String.valueOf(movie.getIdGenre() == genreId)+" "+movie.getIdGenre());
+            if(movie.getIdGenre() == genreId)
+            {
+                arrayList.add(movie);
+            }
+        }
+                    Log.d("me",String.valueOf(arrayList.size()));
+>>>>>>> Stashed changes
 
         return arrayList;
     }
