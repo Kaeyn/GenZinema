@@ -43,6 +43,29 @@ public class CustomAdapterRecyFilm extends RecyclerView.Adapter<CustomAdapterRec
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imgFilm = itemView.findViewById(R.id.imgHomeFilm);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (clickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            clickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
+    }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private CustomAdapterRecyFilm.OnItemClickListener clickListener;
+
+    public void setOnItemClickListener(CustomAdapterRecyFilm.OnItemClickListener listener) {
+        this.clickListener = listener;
+    }
+    public Movie GetItem(int position){
+        return movieArrayList.get(position);
     }
 }

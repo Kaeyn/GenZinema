@@ -3,11 +3,13 @@ package android.genzinema.View;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
@@ -35,7 +38,7 @@ import java.util.ArrayList;
  * Use the {@link Fragment_Home#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Home extends Fragment {
+public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,6 +93,9 @@ public class Fragment_Home extends Fragment {
     ArrayList<Movie> arrayListPhimKinhDi = new ArrayList<>();
 
     CustomAdapterRecyFilm adapterRecyFilm;
+    CustomAdapterRecyFilm adapterRecyFilmKinhDi;
+    CustomAdapterRecyFilm adapterRecyFilmAnime;
+    CustomAdapterRecyFilm adapterRecyFilmHanhDong;
 
     int selectedPosition = 0;
 
@@ -186,18 +192,17 @@ public class Fragment_Home extends Fragment {
         });
 
         // init data for "phim thinh hanh"
-        arrayListPhimThinhHanh = Movie.initData(lstIdPhimThinhHanh, lstImgPhimThinhHanh);
+        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
 
         // init data for "phim anime"
-        arrayListPhimAnime = Movie.initData(lstIdPhimAnime, lstImgPhimAnime);
+        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
 
         // init data for "phim hanh dong"
-        arrayListPhimHanhDong = Movie.initData(lstIdPhimHanhDong, lstImgPhimHanhDong);
+        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
 
         // init data for "phim kinh di"
-        arrayListPhimKinhDi = Movie.initData(lstIdPhimKinhDi, lstImgPhimKinhDi);
+        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(4);
 
-//        arrayListPhimThinhHanh = movieHandler.getMovieByGenre(1);
         // Display list film of "Hien dang thinh hanh"
         recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
@@ -208,14 +213,15 @@ public class Fragment_Home extends Fragment {
         recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
 
 
+
         // Display list film of "Anime"
         recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManagerAnime;
         layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
         recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimAnime);
-        recyclerViewPhimAnime.setAdapter(adapterRecyFilm);
+        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
 
 
         // Display list film of "Hanh dong"
@@ -224,8 +230,8 @@ public class Fragment_Home extends Fragment {
         layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
         recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
-        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilm);
+        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
 
         // Display list film of "Kinh di"
         recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -233,9 +239,113 @@ public class Fragment_Home extends Fragment {
         layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
         recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
-        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
+        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
+        adapterRecyFilm.setOnItemClickListener(this);
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilm.GetItem(position);
+                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
+                    intent.putExtra("idMV",movie.getIdMV());
+                    intent.putExtra("idGenreMV",movie.getIdGenre());
+                    intent.putExtra("idStyleMV",movie.getIdType());
+                    startActivity(intent);
+                }
+                return true;
+            }
 
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+        recyclerViewPhimAnime.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilmAnime.GetItem(position);
+                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
+                    intent.putExtra("idMV",movie.getIdMV());
+                    intent.putExtra("idGenreMV",movie.getIdGenre());
+                    intent.putExtra("idStyleMV",movie.getIdType());
+                    startActivity(intent);
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+        recyclerViewPhimHanhDong.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilmHanhDong.GetItem(position);
+                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
+                    intent.putExtra("idMV",movie.getIdMV());
+                    intent.putExtra("idGenreMV",movie.getIdGenre());
+                    intent.putExtra("idStyleMV",movie.getIdType());
+                    startActivity(intent);
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+        recyclerViewPhimKinhDi.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilmKinhDi.GetItem(position);
+                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
+                    intent.putExtra("idMV",movie.getIdMV());
+                    intent.putExtra("idGenreMV",movie.getIdGenre());
+                    intent.putExtra("idStyleMV",movie.getIdType());
+                    startActivity(intent);
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         return rootView;
 
 
@@ -248,4 +358,8 @@ public class Fragment_Home extends Fragment {
         ft.commit();
     }
 
+    @Override
+    public void onItemClick(int position) {
+
+    }
 }
