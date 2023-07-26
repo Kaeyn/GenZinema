@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -363,8 +364,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
         recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
-        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilm);
+        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
 
         // Display list film of "Kinh di"
         recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -372,8 +373,25 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
         recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
-        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
+        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
+        adapterRecyFilmKinhDi.setOnItemClickListener(this);
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilm.GetItem(position);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
+                }
+                return true;
+            }
 
         // Nestscroll view
         appBarLayout = rootView.findViewById(R.id.appBarLayout);
@@ -393,8 +411,97 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
+            }
 
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+        recyclerViewPhimAnime.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilmAnime.GetItem(position);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+        recyclerViewPhimHanhDong.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilmHanhDong.GetItem(position);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+        recyclerViewPhimKinhDi.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int position = rv.getChildAdapterPosition(view);
+                    Movie movie = adapterRecyFilmKinhDi.GetItem(position);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
+                }
+                return true;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         return rootView;
 
 

@@ -26,7 +26,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:padding="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -41,22 +40,24 @@
                     android:textSize="8pt"
                     android:textColor="@color/white"
                     android:text="TextView" />
+                <EditText
+                    android:id="@+id/tvDetailEp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:textColor="#AFA9A9"
+                    android:textSize="7pt"
+                    android:maxLines="2"
+                    android:enabled="false"
+                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    android:inputType="textMultiLine" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/tvDetailEp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:gravity="start|top"
-            android:textColor="#AFA9A9"
-            android:textSize="7pt"
-            android:maxLines="3"
-            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-            android:inputType="textMultiLine" />
+
     </LinearLayout>
 
 

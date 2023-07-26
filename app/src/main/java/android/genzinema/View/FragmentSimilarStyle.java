@@ -1,13 +1,24 @@
 package android.genzinema.View;
 
+import android.genzinema.Controller.CustomGridCollectMV;
+import android.genzinema.Controller.EpHandler;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.GridView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +26,11 @@ import android.genzinema.R;
  * create an instance of this fragment.
  */
 public class FragmentSimilarStyle extends Fragment {
+    GridView gridSimilar;
+    MovieHandler movieHandler;
+    ArrayList<Movie> arrayListMovie = new ArrayList<>();
+    CustomGridCollectMV adapter;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,6 +76,27 @@ public class FragmentSimilarStyle extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_similar_style, container, false);
+        View view = inflater.inflate(R.layout.fragment_similar_style, container, false);
+        addControls(view);
+        addEvents();
+        return view;
+    }
+    void addControls(View view){
+        gridSimilar = view.findViewById(R.id.gridSimilar);
+    }
+    void addEvents(){
+
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener("similarMV", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+
+                movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
+                arrayListMovie = movieHandler.GetSimilarMVBy(result.getInt("idGenreMV"));
+                adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
+//                Toast.makeText(getContext(),"array: "+arrayListMovie.size(),Toast.LENGTH_SHORT).show();
+                gridSimilar.setAdapter(adapter);
+            }
+        });
     }
 }
