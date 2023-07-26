@@ -15,12 +15,18 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <FrameLayout
+                android:id="@+id/trailer_frame"
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
-                <VideoView
-                    android:id="@+id/videoView"
+                <com.google.android.exoplayer2.ui.PlayerView
+                    android:id="@+id/player"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:use_controller="true"
+                    app:player_layout_id="@layout/exo_player_view"
+                    app:controller_layout_id="@layout/custom_trailer_controller" />
+
             </FrameLayout>
 
             <TextView
