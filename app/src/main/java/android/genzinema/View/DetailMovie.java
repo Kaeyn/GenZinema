@@ -75,6 +75,8 @@ public class DetailMovie extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Toast.makeText(getContext(),"DetailMovie ",Toast.LENGTH_SHORT).show();
+
         FragmentManager fm = getParentFragmentManager();
         fm.setFragmentResultListener("keyMain", this, new FragmentResultListener() {
             @Override
@@ -85,6 +87,7 @@ public class DetailMovie extends Fragment {
                 Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"DetailMovie idMV: "+idMV,Toast.LENGTH_SHORT).show();
 
                 movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);

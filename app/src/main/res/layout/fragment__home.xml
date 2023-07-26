@@ -10,6 +10,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 <androidx.core.widget.NestedScrollView
+    android:id="@+id/nestedScrollHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -156,6 +157,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/actionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -188,6 +190,7 @@
             android:orientation="vertical">
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -220,6 +223,7 @@
             android:orientation="vertical">
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"

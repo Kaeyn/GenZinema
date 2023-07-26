@@ -2,6 +2,9 @@ package android.genzinema.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,12 +51,10 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapter.GetItem(position);
-                    Intent intent = new Intent(SearchPage.this, MainHome.class);
+                    Intent intent = new Intent(SearchPage.this, DetailMoviePage.class);
                     intent.putExtra("idMV",movie.getIdMV());
                     intent.putExtra("idGenreMV",movie.getIdGenre());
                     intent.putExtra("idStyleMV",movie.getIdType());
-
-
 
                     startActivity(intent);
                 }
@@ -82,4 +83,5 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     public void onItemClick(int position) {
 
     }
+
 }
