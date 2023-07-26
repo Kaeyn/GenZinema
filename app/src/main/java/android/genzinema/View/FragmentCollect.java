@@ -11,11 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -100,6 +102,27 @@ public class FragmentCollect extends Fragment {
                 gridCollect.setAdapter(adapter);
             }
         });
+
+        gridCollect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Bundle results = new Bundle();
+//                Movie movie = adapter.GetItem(position);
+//                results.putInt("idMV", movie.getIdMV());
+//                results.putInt("idGenreMV", movie.getIdGenre());
+//                results.putInt("idStyleMV", movie.getIdType());
+//                getParentFragmentManager().setFragmentResult("keyMain", results);
+//                loadFragment(new FragmentDetailMovie());
+                //we lose
+
+            }
+        });
+    }
+    public void loadFragment(Fragment fragment){
+        FragmentManager fm = getParentFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameFragment, fragment);
+        ft.commit();
     }
 
 }
