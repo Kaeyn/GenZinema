@@ -1,7 +1,10 @@
 package android.genzinema.View;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
 import android.net.Uri;
@@ -21,6 +24,7 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,12 +54,13 @@ public class FragmentDetailMovie extends Fragment {
 
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
-    Button btnEp,btnSimilar, btnPlayVideo;
+    Button btnEp,btnSimilar, btnPlayVideo, btnAddList;
     ImageButton btnVolumeOn, btnVolumeMute;
     MovieHandler movieHandler;
     SimpleExoPlayer exoPlayer;
     Handler handler;
     PlayerView playerView;
+    FavoriteMovieHander favoriteMovieHander;
 
     private String urlMovie = "";
 
@@ -125,6 +130,7 @@ public class FragmentDetailMovie extends Fragment {
         btnVolumeOn = view.findViewById(R.id.btnVolumeOn);
         btnVolumeMute = view.findViewById(R.id.btnVolumeOff);
         btnPlayVideo = view.findViewById(R.id.btnPlayVideo_Detail);
+        btnAddList = view.findViewById(R.id.btnAddDanhSach);
     }
 
     private void addEvents(){
@@ -141,6 +147,13 @@ public class FragmentDetailMovie extends Fragment {
             @Override
             public void onClick(View v) {
                 exoPlayer.setVolume(0);
+            }
+        });
+        btnAddList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+                favoriteMovieHander.loadData();
             }
         });
 

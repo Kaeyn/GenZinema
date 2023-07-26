@@ -39,6 +39,7 @@ public class MovieHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        droptbMV(db);
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ( " +
                 IDMOVIE_COL+" INTEGER NOT NULL UNIQUE, " +
@@ -61,7 +62,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'Joji','2','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','ttcs')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'Joji','1','1','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','ttcs')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'Jojaemon','1','1','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','doraemon')";
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'Joji','1','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','sieunhan')";
         db.execSQL(sql);
@@ -148,17 +149,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<Movie> getMoviesByGenre(int genreId) {
-        loadData();
-        ArrayList<Movie> arrayList = new ArrayList<Movie>();
-        for (Movie movie : arrayListMovie) {
-//            Log.d("me",String.valueOf(movie.getIdGenre() == genreId)+" "+movie.getIdGenre());
-            if (movie.getIdGenre() == genreId) {
-                arrayList.add(movie);
-            }
-        }
-        return arrayList;
-    }
+
 
     public ArrayList<Movie> GetNewestMovie(){
         ArrayList<Movie> tempArrayList = new ArrayList<>();
@@ -243,16 +234,5 @@ public class MovieHandler extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public ArrayList<Movie> GetSimilarMVBy(Integer IDGenre) {
-        loadData();
-        ArrayList<Movie> arrayList = new ArrayList<>();
-        for (Movie movie : arrayListMovie) {
-            Integer idgenre = movie.getIdGenre();
-            if (idgenre.intValue() == IDGenre) {
-                arrayList.add(movie);
-            }
-        }
-        return arrayList;
-    }
 
 }
