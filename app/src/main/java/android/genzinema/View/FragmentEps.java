@@ -36,12 +36,6 @@ public class FragmentEps extends Fragment {
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
 //    int movieID ;
     CustomAdapterEp adapter;
-//    int[]lstIdImg = new int[]{R.drawable.setting_icon, R.drawable.favorite_icon, R.drawable.return_icon,R.drawable.tab_indicator};
-//    String[] lstName = new String[]{"1.Tập 1","2.Tập 2","3.Tập 3","4.Tập 4"};
-//    String[] lstDetail = new String[]{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-//            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-//            "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-//            "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"};
 
 
 
@@ -86,13 +80,11 @@ public class FragmentEps extends Fragment {
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
 //        epHandler.droptbEp(db);
         epHandler.onCreate(db);
-        Toast.makeText(getContext(),"bb",Toast.LENGTH_SHORT).show();
         FragmentManager fm = getParentFragmentManager();
         fm.setFragmentResultListener("keyEpsMV", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 epHandler.onCreate(db);
-//                epHandler.droptbEp(db);
 //                movieID = result.getInt("idMV");
 //                Toast.makeText(getActivity(),"idMV ep "+movieID,Toast.LENGTH_SHORT).show();
 //                epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);

@@ -8,6 +8,7 @@ import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,10 +21,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -88,6 +91,10 @@ public class Fragment_Home extends Fragment {
 
     CustomAdapterRecyFilm adapterRecyFilm;
 
+    int selectedPosition = 0;
+
+    TextView titleHanhDong;
+    NestedScrollView nestedScrollView;
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -135,6 +142,8 @@ public class Fragment_Home extends Fragment {
         recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
         recyclerViewPhimKinhDi = rootView.findViewById(R.id.recyViewPhimKinhDi);
         imgFilm = rootView.findViewById(R.id.imgHomeFilm);
+        nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+        titleHanhDong = rootView.findViewById(R.id.actionTitle);
 
         // Initialize your ArrayList and populate it with data
         type_of_filmArrayList = new ArrayList<>();
@@ -156,6 +165,25 @@ public class Fragment_Home extends Fragment {
 
         // Apply the adapter to the spinner
         spinner.setAdapter(adapterTypeFilmSpinner);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedPosition = position;
+                if(position == 3){
+                    int[] location = new int[2];
+                    titleHanhDong.getLocationInWindow(location);
+                    // Calculate the y-coordinate of the "title action" view relative to the NestedScrollView
+                    int titleY = location[1] - nestedScrollView.getTop() - 250;
+                    // Smooth scroll to the "title action" view
+                    nestedScrollView.smoothScrollTo(0, titleY, 1000);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // init data for "phim thinh hanh"
         arrayListPhimThinhHanh = Movie.initData(lstIdPhimThinhHanh, lstImgPhimThinhHanh);
