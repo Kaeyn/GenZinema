@@ -78,38 +78,17 @@ public class FragmentEps extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
-//        epHandler.droptbEp(db);
         epHandler.onCreate(db);
         FragmentManager fm = getParentFragmentManager();
         fm.setFragmentResultListener("keyEpsMV", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 epHandler.onCreate(db);
-//                movieID = result.getInt("idMV");
-//                Toast.makeText(getActivity(),"idMV ep "+movieID,Toast.LENGTH_SHORT).show();
-//                epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
-//                Ep ep = epHandler.GetMovieByID(idMV);
-//                for (Ep eps: ep.getIdMV(idMV)) {
-//                    arrayListEp.add(ep);
-//
-//                }
-//                arrayListEp.add(ep);
-//                arrayListEp = epHandler.GetAllEpByMovieID(movieID);
-//                if (adapter == null) {
-//                    adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
-//                    lvEp.setAdapter(adapter);
-//                }
-//                adapter.notifyDataSetChanged();
-//                adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
-//                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
-//                lvEp.setAdapter(adapter);
 
-
-//                Toast.makeText(getContext(),String.valueOf(result.getInt("idMV")),Toast.LENGTH_SHORT).show();
                 epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
                 arrayListEp = epHandler.GetAllEpByMovieID(result.getInt("idMV"));
                 adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
-                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
                 lvEp.setAdapter(adapter);
             }
         });

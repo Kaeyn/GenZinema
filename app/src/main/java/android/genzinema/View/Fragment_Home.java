@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -131,6 +132,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+//        Toast.makeText(getContext(),"FragmentHome ",Toast.LENGTH_SHORT).show();
+
     }
 
     @SuppressLint("MissingInflatedId")
@@ -249,11 +252,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapterRecyFilm.GetItem(position);
-                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
-                    intent.putExtra("idMV",movie.getIdMV());
-                    intent.putExtra("idGenreMV",movie.getIdGenre());
-                    intent.putExtra("idStyleMV",movie.getIdType());
-                    startActivity(intent);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
                 }
                 return true;
             }
@@ -275,11 +279,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapterRecyFilmAnime.GetItem(position);
-                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
-                    intent.putExtra("idMV",movie.getIdMV());
-                    intent.putExtra("idGenreMV",movie.getIdGenre());
-                    intent.putExtra("idStyleMV",movie.getIdType());
-                    startActivity(intent);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
                 }
                 return true;
             }
@@ -301,11 +306,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapterRecyFilmHanhDong.GetItem(position);
-                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
-                    intent.putExtra("idMV",movie.getIdMV());
-                    intent.putExtra("idGenreMV",movie.getIdGenre());
-                    intent.putExtra("idStyleMV",movie.getIdType());
-                    startActivity(intent);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
                 }
                 return true;
             }
@@ -327,11 +333,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if(view != null){
                     int position = rv.getChildAdapterPosition(view);
                     Movie movie = adapterRecyFilmKinhDi.GetItem(position);
-                    Intent intent = new Intent(getContext(), DetailMoviePage.class);
-                    intent.putExtra("idMV",movie.getIdMV());
-                    intent.putExtra("idGenreMV",movie.getIdGenre());
-                    intent.putExtra("idStyleMV",movie.getIdType());
-                    startActivity(intent);
+                    Bundle results = new Bundle();
+                    results.putInt("idMV", movie.getIdMV());
+                    results.putInt("idGenreMV", movie.getIdGenre());
+                    results.putInt("idStyleMV", movie.getIdType());
+                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                    loadFragment(new FragmentDetailMovie());
                 }
                 return true;
             }

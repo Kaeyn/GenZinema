@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".View.DetailMovie">
+    tools:context=".View.FragmentDetailMovie">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -75,7 +75,9 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:textSize="20dp"
-                android:inputType="textMultiLine" />
+                android:enabled="false"
+                android:inputType="textMultiLine"
+                />
 
             <TextView
                 android:id="@+id/tvActorMV"
@@ -133,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/black"
-                    android:text="Button" />
+                    android:text="Nội dung tương tự" />
             </LinearLayout>
 
             <FrameLayout
