@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,6 +59,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private boolean isScrolling = false;
 
     private GradientDrawable originalBackgroundDrawable;
 
@@ -71,25 +74,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
 
-    String[] lsNameType = new String[]{"Châu Á","Anime", "Hành động", "Viễn tưởng"};
-
-    // Data of Phim thinh hanh
-    int[] lstIdPhimThinhHanh = new int[]{1,2,3,4,5};
-    int[] lstImgPhimThinhHanh = new int[]{R.drawable.overlord, R.drawable.sieunhan, R.drawable.yinan, R.drawable.doraemon, R.drawable.johnweak};
-
-
-    // Data of Phim thinh hanh
-    int[] lstIdPhimAnime = new int[]{1,2,3,4,5};
-    int[] lstImgPhimAnime = new int[]{R.drawable.sieunhan, R.drawable.yinan, R.drawable.overlord, R.drawable.doraemon, R.drawable.johnweak};
-
-
-    // Data of Phim hanh dong
-    int[] lstIdPhimHanhDong = new int[]{1,2,3,4,5};
-    int[] lstImgPhimHanhDong = new int[]{R.drawable.yinan, R.drawable.johnweak, R.drawable.yinan, R.drawable.doraemon, R.drawable.overlord};
-
-    // Data of Phim kinh di
-    int[] lstIdPhimKinhDi = new int[]{1,2,3,4,5};
-    int[] lstImgPhimKinhDi = new int[]{R.drawable.johnweak, R.drawable.yinan, R.drawable.sieunhan, R.drawable.doraemon, R.drawable.overlord};
 
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
@@ -111,9 +95,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     CustomAdapterRecyFilm adapterRecyFilmAnime;
     CustomAdapterRecyFilm adapterRecyFilmHanhDong;
 
-    int selectedPosition = 0;
-
-    TextView titleHanhDong;
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -375,36 +356,10 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
         adapterRecyFilmKinhDi.setOnItemClickListener(this);
-        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilm.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
-
-        // Nestscroll view
 
 
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
-            }
 
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
 
         AppBarLayout appBarLayout = rootView.findViewById(R.id.appBarLayout);
         NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
@@ -422,87 +377,24 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 scrollY = y;
             }
         });
-        recyclerViewPhimAnime.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilmAnime.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
 
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
-            }
 
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
-            }
-        });
-        recyclerViewPhimHanhDong.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilmHanhDong.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
 
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
-            }
+        recyclerViewPhimThinhHanh.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimThinhHanh));
 
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        recyclerViewPhimAnime.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimAnime.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimAnime));
 
-            }
-        });
-        recyclerViewPhimKinhDi.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilmKinhDi.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
+        recyclerViewPhimHanhDong.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimHanhDong.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimHanhDong));
 
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+        recyclerViewPhimKinhDi.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimKinhDi.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimKinhDi));
 
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
         return rootView;
 
 
@@ -520,4 +412,24 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     }
 
+
+    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
+        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Movie movie = adapterRecyFilm.GetItem(position);
+                Bundle results = new Bundle();
+                results.putInt("idMV", movie.getIdMV());
+                results.putInt("idGenreMV", movie.getIdGenre());
+                results.putInt("idStyleMV", movie.getIdType());
+                getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                loadFragment(new FragmentDetailMovie());
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+        return itemTouchListener;
+    }
 }
