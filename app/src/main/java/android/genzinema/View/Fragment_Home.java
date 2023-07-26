@@ -359,8 +359,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
         recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
-        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilm);
+        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
 
         // Display list film of "Kinh di"
         recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -370,7 +370,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
         adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
-        adapterRecyFilm.setOnItemClickListener(this);
+        adapterRecyFilmKinhDi.setOnItemClickListener(this);
         recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -388,7 +388,10 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 return true;
             }
 
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
+            }
 
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {

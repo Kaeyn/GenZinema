@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
