@@ -1,5 +1,6 @@
 package android.genzinema.View;
 
+import android.content.pm.ActivityInfo;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.net.Uri;
@@ -11,10 +12,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.MediaController;
@@ -22,6 +26,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.RenderersFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.audio.AudioAttributes;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
+import com.google.android.exoplayer2.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,8 +52,9 @@ public class DetailMovie extends Fragment {
     ProgressBar pb;
     Button btnEp,btnSimilar;
     MovieHandler movieHandler;
-
-    VideoView videoView;
+    SimpleExoPlayer exoPlayer;
+    Handler handler;
+    PlayerView playerView;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -75,6 +95,9 @@ public class DetailMovie extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        Toast.makeText(getContext(),"DetailMovie ",Toast.LENGTH_SHORT).show();
+
         FragmentManager fm = getParentFragmentManager();
         fm.setFragmentResultListener("keyMain", this, new FragmentResultListener() {
             @Override
@@ -85,6 +108,7 @@ public class DetailMovie extends Fragment {
                 Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
                 Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"DetailMovie idMV: "+idMV,Toast.LENGTH_SHORT).show();
 
                 movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);
@@ -123,7 +147,6 @@ public class DetailMovie extends Fragment {
 
                     });
                 }
-
                 btnSimilar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -139,14 +162,12 @@ public class DetailMovie extends Fragment {
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
-        videoView = view.findViewById(R.id.videoView);
         tvActorMV = view.findViewById(R.id.tvActorMV);
         tvDetailMV = view.findViewById(R.id.tvDetailMV);
         tvAuthorMV = view.findViewById(R.id.tvAuthorMV);
         tvNamMV = view.findViewById(R.id.tvNamMV);
         tvTenMV = view.findViewById(R.id.tvTenMV);
-
-
+        playerView = view.findViewById(R.id.player);
     }
 
     @Override
@@ -155,18 +176,15 @@ public class DetailMovie extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
+        exoPlayerCreate();
 
-        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
-        String videoUrl = "https://drive.google.com/uc?export=download&id=" + videoId;
-        Uri videoUri = Uri.parse(videoUrl);
-        videoView.setVideoURI(videoUri);
-        MediaController mediaController = new MediaController(getContext());
+        exoPlayer.addListener(new Player.Listener() {
 
-        videoView.setMediaController(mediaController);
-
-        mediaController.setAnchorView(videoView);
-        videoView.start();
-
+            @Override
+            public void onPlaybackStateChanged(int playbackState) {
+            Player.Listener.super.onPlaybackStateChanged(playbackState);
+            }
+        });
         return view;
     }
     public void loadFragment(Fragment fragment){
@@ -177,4 +195,42 @@ public class DetailMovie extends Fragment {
         ft.addToBackStack(null);
         ft.commit();
     }
+
+    private void exoPlayerCreate(){
+        handler = new Handler(Looper.getMainLooper());
+        // Create a DefaultRenderersFactory to be used by the ExoPlayer
+        RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
+        // Create a DefaultTrackSelector to be used by the ExoPlayer
+        TrackSelector trackSelector = new DefaultTrackSelector(getContext());
+        // Create the ExoPlayer instance
+        exoPlayer = new SimpleExoPlayer.Builder(getContext())
+                .setTrackSelector(trackSelector)
+                .build();
+        // Create a DefaultHttpDataSource.Factory to provide the media data
+        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
+
+        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                .setUserAgent(userAgent)
+                .setAllowCrossProtocolRedirects(true);
+
+        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
+        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + videoId;
+        Uri videoUrl = Uri.parse(videoUrlStr);
+
+        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
+
+        playerView.setPlayer(exoPlayer);
+        playerView.setKeepScreenOn(true);
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        exoPlayer.setPlayWhenReady(false);
+        exoPlayer.getPlaybackState();
+    }
+
 }
