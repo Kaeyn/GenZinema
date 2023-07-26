@@ -14,6 +14,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -36,6 +37,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.AppBarLayout;
+
 import java.util.ArrayList;
 
 /**
@@ -57,7 +60,9 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     private GradientDrawable originalBackgroundDrawable;
 
     Button btnMovie, btnCloseGenres;
-
+    private AppBarLayout appBarLayout;
+    private int scrollY = 0;
+    private int threshold = 20;
     Dialog dialog;
     LinearLayout liLayout;
 
@@ -370,6 +375,24 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilm);
 
+        // Nestscroll view
+        appBarLayout = rootView.findViewById(R.id.appBarLayout);
+        nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
+                if (scrollY - y > threshold) {
+                    // Scrolling up
+                    showAppBar();
+                } else if (y - scrollY > threshold) {
+                    // Scrolling down
+                    hideAppBar();
+                }
+                scrollY = y;
+            }
+        });
+
 
 
         return rootView;
@@ -387,5 +410,13 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     @Override
     public void onItemClick(int position) {
 
+    }
+
+    private void hideAppBar() {
+        ViewCompat.animate(appBarLayout).translationY(-appBarLayout.getHeight()).setDuration(200).start();
+    }
+
+    private void showAppBar() {
+        ViewCompat.animate(appBarLayout).translationY(0).setDuration(200).start();
     }
 }
