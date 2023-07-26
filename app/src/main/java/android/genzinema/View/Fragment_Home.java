@@ -364,46 +364,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         AppBarLayout appBarLayout = rootView.findViewById(R.id.appBarLayout);
         NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
 
-
-
-//        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//
-//
-//            @Override
-//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//                if(isScrolling){
-//                    return false;
-//                }
-//
-//                return true;
-//            }
-//
-//            // Nestscroll view
-//
-//
-//            @Override
-//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//
-//                View view = rv.findChildViewUnder(e.getX(),e.getY());
-//                if(view != null){
-//                    int position = rv.getChildAdapterPosition(view);
-//                    Movie movie = adapterRecyFilm.GetItem(position);
-//                    Bundle results = new Bundle();
-//                    results.putInt("idMV", movie.getIdMV());
-//                    results.putInt("idGenreMV", movie.getIdGenre());
-//                    results.putInt("idStyleMV", movie.getIdType());
-//                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-//                    loadFragment(new FragmentDetailMovie());
-//                }
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//            }
-//        });
-
-
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
@@ -415,12 +375,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                     ViewCompat.animate(appBarLayout).translationY(-appBarLayout.getHeight()).setDuration(200).start();
                 }
                 scrollY = y;
-////
-//                if (y != oldScrollY) {
-//                    isScrolling = true;
-//                } else {
-//                    isScrolling = false;
-//                }
             }
         });
 
@@ -430,166 +384,17 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
 
         recyclerViewPhimThinhHanh.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimThinhHanh));
 
-        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerViewPhimThinhHanh, new RecyclerItemTouchListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                 Movie movie = adapterRecyFilm.GetItem(position);
-                 Bundle results = new Bundle();
-                 results.putInt("idMV", movie.getIdMV());
-                 results.putInt("idGenreMV", movie.getIdGenre());
-                 results.putInt("idStyleMV", movie.getIdType());
-                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                 loadFragment(new FragmentDetailMovie());
-            }
+        recyclerViewPhimAnime.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimAnime.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimAnime));
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
-        });
+        recyclerViewPhimHanhDong.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimHanhDong.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimHanhDong));
 
-        recyclerViewPhimThinhHanh.addOnItemTouchListener(itemTouchListener);
+        recyclerViewPhimKinhDi.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimKinhDi.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimKinhDi));
 
-
-
-
-//        recyclerViewPhimThinhHanh.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//                 @Override
-//                 public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//                     if(itemTouchListener ==){
-//                         return false;
-//                     }
-//                     else{
-//                        return true;
-//                     }
-//                 }
-//
-//                 @Override
-//                 public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-//
-//                     View view = rv.findChildViewUnder(e.getX(),e.getY());
-//                     if(view != null){
-//                         int position = rv.getChildAdapterPosition(view);
-//                         Movie movie = adapterRecyFilm.GetItem(position);
-//                         Bundle results = new Bundle();
-//                         results.putInt("idMV", movie.getIdMV());
-//                         results.putInt("idGenreMV", movie.getIdGenre());
-//                         results.putInt("idStyleMV", movie.getIdType());
-//                         getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-//                         loadFragment(new FragmentDetailMovie());
-//                     }
-//
-//                 }
-//
-//                 @Override
-//                 public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//                 }
-//            });
-
-
-//        if(!isScrolling){
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        recyclerViewPhimAnime.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                boolean isTouchingItem = view != null && rv.getChildAdapterPosition(view) != RecyclerView.NO_POSITION;
-
-                if(isTouchingItem){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilmAnime.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-        recyclerViewPhimHanhDong.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-                return true;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilmHanhDong.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-        recyclerViewPhimKinhDi.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapterRecyFilmKinhDi.GetItem(position);
-                    Bundle results = new Bundle();
-                    results.putInt("idMV", movie.getIdMV());
-                    results.putInt("idGenreMV", movie.getIdGenre());
-                    results.putInt("idStyleMV", movie.getIdType());
-                    getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                    loadFragment(new FragmentDetailMovie());
-                }
-                return true;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
         return rootView;
 
 
@@ -607,4 +412,24 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     }
 
+
+    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
+        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Movie movie = adapterRecyFilm.GetItem(position);
+                Bundle results = new Bundle();
+                results.putInt("idMV", movie.getIdMV());
+                results.putInt("idGenreMV", movie.getIdGenre());
+                results.putInt("idStyleMV", movie.getIdType());
+                getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                loadFragment(new FragmentDetailMovie());
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+        return itemTouchListener;
+    }
 }
