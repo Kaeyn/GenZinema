@@ -33,8 +33,11 @@ public class FragmentEps extends Fragment {
     ListView lvEp;
     SQLiteDatabase db;
     EpHandler epHandler;
+    MovieHandler movieHandler;
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
-//    int movieID ;
+    ArrayList<Movie> arrayListMV = new ArrayList<Movie>();
+
+    //    int movieID ;
     CustomAdapterEp adapter;
 
 
@@ -89,6 +92,9 @@ public class FragmentEps extends Fragment {
                 arrayListEp = epHandler.GetAllEpByMovieID(result.getInt("idMV"));
                 adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
 //                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
+                movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+                Movie movie = movieHandler.GetMovieByID(result.getInt("idMV"));
+                tvNameMV.setText(movie.getNameMovie());
                 lvEp.setAdapter(adapter);
             }
         });
