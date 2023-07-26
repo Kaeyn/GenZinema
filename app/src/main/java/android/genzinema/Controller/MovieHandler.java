@@ -12,6 +12,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MovieHandler extends SQLiteOpenHelper {
     private Context context;
@@ -96,6 +97,7 @@ public class MovieHandler extends SQLiteOpenHelper {
     }
 
     public void loadData(){
+        arrayListMovie.clear();
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME, null);
         cursor.moveToFirst();
@@ -116,6 +118,54 @@ public class MovieHandler extends SQLiteOpenHelper {
         cursor.close(); // Close the cursor after use
         db.close();
     }
+
+    public void loadTop10Movie(){
+        arrayListMovie.clear();
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME + " LIMIT 10", null);
+        cursor.moveToFirst();
+        do {
+            Movie movie = new Movie();
+            movie.setIdMV(cursor.getInt(0));
+            movie.setNameMovie(cursor.getString(1));
+            movie.setIdGenre(cursor.getInt(2));
+            movie.setIdType(cursor.getInt(3));
+            movie.setUrlTrailer(cursor.getString(4));
+            movie.setActors(cursor.getString(5));
+            movie.setAuthors(cursor.getString(6));
+            movie.setYearProduce(cursor.getString(7));
+            movie.setDetail(cursor.getString(8));
+            movie.setIdThumbnails(context.getResources().getIdentifier(cursor.getString(9), "drawable", "android.genzinema"));
+            arrayListMovie.add(movie);
+        }while (cursor.moveToNext());
+        cursor.close(); // Close the cursor after use
+        db.close();
+    }
+
+    public ArrayList<Movie> GetNewestMovie(){
+        ArrayList<Movie> tempArrayList = new ArrayList<>();
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME + " ORDER BY "+IDMOVIE_COL+" DESC LIMIT 2", null);
+        cursor.moveToFirst();
+        do {
+            Movie movie = new Movie();
+            movie.setIdMV(cursor.getInt(0));
+            movie.setNameMovie(cursor.getString(1));
+            movie.setIdGenre(cursor.getInt(2));
+            movie.setIdType(cursor.getInt(3));
+            movie.setUrlTrailer(cursor.getString(4));
+            movie.setActors(cursor.getString(5));
+            movie.setAuthors(cursor.getString(6));
+            movie.setYearProduce(cursor.getString(7));
+            movie.setDetail(cursor.getString(8));
+            movie.setIdThumbnails(context.getResources().getIdentifier(cursor.getString(9), "drawable", "android.genzinema"));
+            tempArrayList.add(movie);
+        }while (cursor.moveToNext());
+        cursor.close(); // Close the cursor after use
+        db.close();
+        return tempArrayList;
+    }
+
     public ArrayList<Movie> GetCollectMVBy(Integer IDGenre, Integer IDStyle) {
         loadData();
         ArrayList<Movie> arrayList = new ArrayList<>();
@@ -130,6 +180,29 @@ public class MovieHandler extends SQLiteOpenHelper {
 
         Log.d("",""+arrayList.size());
 
+        return arrayList;
+    }
+
+    public ArrayList<Movie> GetTop10Movie() {
+        loadTop10Movie();
+        ArrayList<Movie> arrayList = new ArrayList<>();
+        for (Movie movie : arrayListMovie) {
+            arrayList.add(movie);
+        }
+        return arrayList;
+    }
+
+
+    public ArrayList<Movie> GetGoodMovie() {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<>();
+        Random random = new Random();
+        int randomMovie = random.nextInt(arrayListMovie.size() - 1) + 1;
+        for (Movie movie : arrayListMovie) {
+            if (movie.getIdMV() == randomMovie){
+                arrayList.add(movie);
+            }
+        }
         return arrayList;
     }
 

@@ -1,30 +1,24 @@
-package android.genzinema.View;
+package android.genzinema.View.HotnNew;
 
-import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.Hot_New_Pager_Adapter;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.UserHandler;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.os.Debug;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,8 +30,9 @@ public class Fragment_HotnNew extends Fragment {
     ViewPager2 subcategoryViewPager;
     TabLayout subcategoryLayout;
 
-    boolean isTransitionComplete = true;
+    Hot_New_Pager_Adapter hot_new_pager_adapter;
 
+    boolean isTransitionComplete = true;
     int selectedTabIndex = 0;
 
     int currentScrollX = 0;
@@ -88,8 +83,10 @@ public class Fragment_HotnNew extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__hotn_new, container, false);
 
-        subcategoryLayout = view.findViewById(R.id.hotNewTabLayout);
-        subcategoryViewPager = view.findViewById(R.id.hotNewViewPager);
+        addControls(view);
+
+
+
 
         subcategoryViewPager.setUserInputEnabled(false);
         subcategoryLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
@@ -97,10 +94,7 @@ public class Fragment_HotnNew extends Fragment {
         Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity());
         subcategoryViewPager.setAdapter(hot_new_pager_adapter);
 
-
-
         new TabLayoutMediator(subcategoryLayout, subcategoryViewPager, (tab, position) -> {
-
 
             tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_black));
             for(int i=0; i < subcategoryLayout.getTabCount(); i++) {
@@ -110,22 +104,26 @@ public class Fragment_HotnNew extends Fragment {
                 tab1.requestLayout();
             }
 
-
             if (position == 0){
-                tab.setText("Popular");
+                tab.setText("Top 10 Phim Hot");
                 tab.view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_onclick));
             } else if (position == 1) {
-                tab.setText("Top10");
+                tab.setText("Phim mới nhất");
             } else if (position == 2) {
-                tab.setText("Top9");
-            } else if (position == 3) {
-                tab.setText("Top8");
+                tab.setText("Phim hay");
             }
 
         }).attach();
 
         addEvents();
         return view;
+    }
+
+
+    private void addControls(View view){
+        subcategoryLayout = view.findViewById(R.id.hotNewTabLayout);
+        subcategoryViewPager = view.findViewById(R.id.hotNewViewPager);
+
     }
 
     private void addEvents(){
@@ -147,6 +145,7 @@ public class Fragment_HotnNew extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 selectedTabIndex = tab.getPosition();
+                subcategoryViewPager.setCurrentItem(selectedTabIndex, false);
             }
         });
 
@@ -158,6 +157,7 @@ public class Fragment_HotnNew extends Fragment {
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
                     // The ViewPager2 has finished settling (scroll complete)
                     subcategoryLayout.getTabAt(selectedTabIndex).view.setBackground(getResources().getDrawable(R.drawable.tab_indicator_onclick));
+
                 }
             }
 

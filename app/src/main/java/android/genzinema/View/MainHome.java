@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
@@ -16,8 +15,8 @@ import android.genzinema.Controller.EpHandler;
 import android.genzinema.Controller.GenresHandler;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.StyleHandler;
-import android.genzinema.Model.Ep;
 import android.genzinema.Model.Movie;
+import android.genzinema.View.HotnNew.Fragment_HotnNew;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.Menu;
