@@ -71,8 +71,6 @@ public class MainHome extends AppCompatActivity{
         actionBar = getSupportActionBar();
         addControls();
         addEvents();
-
-
     }
 
     public void addControls(){
@@ -91,6 +89,7 @@ public class MainHome extends AppCompatActivity{
         styleHandler.onCreate(db);
 //        movieHandler.onCreate(db);
 
+        movieHandler.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -109,12 +108,6 @@ public class MainHome extends AppCompatActivity{
                 return true;
             }
         });
-
-
-
-
-
-
     }
 
     @SuppressLint("RestrictedApi")

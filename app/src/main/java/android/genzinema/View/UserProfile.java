@@ -18,8 +18,7 @@ import android.widget.Toast;
 
 public class UserProfile extends AppCompatActivity {
 
-    LinearLayout lineLay_notification,lineLay_list,lineLay_appInfo;
-    Button btn_logout, btn_edit;
+    Button btn_logout, btn_edit, btn_notification, btn_myList,btn_appInfo;
     TextView tv_UserName;
     ImageButton imgBtn_return;
     UserHandler userHandler;
@@ -35,9 +34,9 @@ public class UserProfile extends AppCompatActivity {
     private void addControl()
     {
         btn_edit = findViewById(R.id.btn_edit);
-        lineLay_notification = findViewById(R.id.layout_notification);
-        lineLay_list = findViewById(R.id.layout_list);
-        lineLay_appInfo = findViewById(R.id.layout_appInfo);
+        btn_notification = findViewById(R.id.btn_notification);
+        btn_myList = findViewById(R.id.btn_myList);
+        btn_appInfo = findViewById(R.id.btn_appInfo);
         btn_logout = findViewById(R.id.btn_Logout);
         imgBtn_return = findViewById(R.id.imgBtn_return);
         tv_UserName = findViewById(R.id.tv_UserName);
@@ -57,18 +56,20 @@ public class UserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        lineLay_list.setOnClickListener(new View.OnClickListener() {
+        btn_myList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfile.this, MainHome.class);
+                Intent intent = new Intent(UserProfile.this, Activity_Collections.class);
                 intent.putExtra("Email",user.getEmail());
                 startActivity(intent);
             }
         });
-        lineLay_list.setOnClickListener(new View.OnClickListener() {
+        btn_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(UserProfile.this, "test", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(UserProfile.this, MainHome.class);
+                intent1.putExtra("Email",user.getEmail());
+                startActivity(intent1);
             }
         });
         imgBtn_return.setOnClickListener(new View.OnClickListener() {

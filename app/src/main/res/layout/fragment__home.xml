@@ -73,6 +73,8 @@
     android:id="@+id/nestedScrollHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/transparent_background"
+    android:transitionName="toDetailByHome"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,6 +96,7 @@
                 app:cardCornerRadius="10dp">
 
                 <LinearLayout
+                    android:id="@+id/homeRecommendBackground"
                     android:layout_width="match_parent"
                     android:layout_height="470dp"
                     android:background="@drawable/ttcs"
@@ -132,10 +135,10 @@
                                 android:layout_weight="1"
                                 android:backgroundTint="@color/white"
                                 android:text="Phát"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
                                 android:textAllCaps="false"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                             <Button
                                 android:id="@+id/btnDanhSach"
@@ -147,12 +150,12 @@
                                 android:layout_weight="1"
                                 android:background="#85000000"
                                 android:text="Danh sách"
-                                app:icon="@drawable/add_icon"
-                                app:iconGravity="start"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white" />
+                                app:icon="@drawable/add_icon"
+                                app:iconGravity="start" />
                         </LinearLayout>
 
 
@@ -175,7 +178,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/actionTitle"
+                android:id="@+id/tiltleThinhHanh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -208,7 +211,7 @@
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/tiltleAnime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -242,7 +245,7 @@
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/tiltleHanhDong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -276,6 +279,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tiltleKinhDi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
