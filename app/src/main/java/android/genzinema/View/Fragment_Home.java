@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
-
+String email;
     AppBarLayout appBarLayout;
     NestedScrollView nestedScrollView;
     Button btnMovie, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
@@ -472,9 +473,17 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Movie movie = customAdapterRecyFilm.GetItem(position);
+                FragmentManager fm = getParentFragmentManager();
+                fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        email = result.getString("email");
+                    }
+                });
+                Movie movie = adapterRecyFilm.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
+                results.putString("email", email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
