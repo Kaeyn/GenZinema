@@ -17,13 +17,14 @@ import android.os.Bundle;
 import android.genzinema.R;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Adapter.OnItemClickListener {
     RecyclerView recyclerView;
-
+    SearchView searchView;
     ArrayList<Movie> arrayList = new ArrayList<>();
     Cus_Item_Search_Adapter adapter;
 
@@ -71,12 +72,24 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
 
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
     }
 
 
     private void addControls(){
         recyclerView =findViewById(R.id.searchRecycleView);
-
+        searchView = findViewById(R.id.searchViewText);
     }
 
     @Override
