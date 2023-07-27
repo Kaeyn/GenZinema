@@ -81,65 +81,49 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         });
 
         searchView.setSubmitButtonEnabled(true);
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(searchView.getQuery().length() == 0){
-                    adapter = new Cus_Item_Search_Adapter(arrayList);
-                    recyclerView.setAdapter(adapter);
-                }
-                else{
-                    ArrayList<Movie> tempArrayList = movieHandler.searchData(searchView.getQuery().toString());
-                    if (tempArrayList != null){
-                        adapter = new Cus_Item_Search_Adapter(tempArrayList);
-                        recyclerView.setAdapter(adapter);
-                    }
-                    else{
-                        adapter = new Cus_Item_Search_Adapter(arrayList);
-                        recyclerView.setAdapter(adapter);
-                    }
-                }
-            }
-        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(searchView.getQuery().length() == 0){
+                if(query == ""){
                     adapter = new Cus_Item_Search_Adapter(arrayList);
                     recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
                 else{
-                    ArrayList<Movie> tempArrayList = movieHandler.searchData(searchView.getQuery().toString());
-                    if (tempArrayList != null){
-                        adapter = new Cus_Item_Search_Adapter(tempArrayList);
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(query);
+                    if (tempArrayList == null){
+                        ArrayList<Movie> emptyArrayList = new ArrayList<>();
+                        adapter = new Cus_Item_Search_Adapter(emptyArrayList);
                         recyclerView.setAdapter(adapter);
                     }
                     else{
                         adapter = new Cus_Item_Search_Adapter(arrayList);
                         recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
                     }
                 }
-                return false;
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(searchView.getQuery().length() == 0){
+                if(newText == ""){
                     adapter = new Cus_Item_Search_Adapter(arrayList);
                     recyclerView.setAdapter(adapter);
-                    Log.d("go", " go");
                 }
                 else{
-                    ArrayList<Movie> tempArrayList = movieHandler.searchData(searchView.getQuery().toString());
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(newText);
                     if (tempArrayList == null){
-
+                        ArrayList<Movie> emptyArrayList = new ArrayList<>();
+                        adapter = new Cus_Item_Search_Adapter(emptyArrayList);
+                        recyclerView.setAdapter(adapter);
                     }
                     else{
                         adapter = new Cus_Item_Search_Adapter(tempArrayList);
                         recyclerView.setAdapter(adapter);
                     }
                 }
-                return false;
+                return true;
             }
         });
     }
