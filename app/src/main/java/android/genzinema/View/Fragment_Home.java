@@ -1,20 +1,15 @@
 package android.genzinema.View;
 
-import static android.genzinema.R.style.CustomDialog;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -25,20 +20,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -75,10 +65,11 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     Dialog dialog;
     LinearLayout recommendedBackground;
 
+    View tiltleKinhDi, tiltleAnime, tiltleHanhDong;
+
     MovieHandler movieHandler;;
     SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
-
 
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
@@ -140,6 +131,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
+
 
         addRootViewControls(rootView);
         addViewControls(view);
@@ -212,6 +204,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
         recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
 
+
         // Display list film of "Kinh di"
         recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManagerKinhDi;
@@ -244,8 +237,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         btnKinhDi = view.findViewById(R.id.btnKinhDi);
         btnTinhCam = view.findViewById(R.id.btnTinhCam);
         tvTrangChu = view.findViewById(R.id.tvTrangChu);
-
-
     }
 
     private void addRootViewControls(View rootView){
@@ -261,6 +252,9 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         recommendedBackground = rootView.findViewById(R.id.homeRecommendBackground);
         btnPhat = rootView.findViewById(R.id.btnPhat);
         btnDanhSach = rootView.findViewById(R.id.btnDanhSach);
+        tiltleKinhDi = rootView.findViewById(R.id.tiltleKinhDi);
+        tiltleAnime = rootView.findViewById(R.id.tiltleAnime);
+        tiltleHanhDong = rootView.findViewById(R.id.tiltleHanhDong);
     }
 
     private void addEvents(){
@@ -274,7 +268,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         btnDanhSach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
 
@@ -318,6 +312,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Reset the background color to its original state when long click is released
                     btnAnime.setBackground(originalBackgroundDrawable);
+                    dialog.dismiss();
+                    scrollToItemId(tiltleAnime);
                 }
                 return false;
             }
@@ -358,6 +354,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Reset the background color to its original state when long click is released
                     btnHanhDong.setBackground(originalBackgroundDrawable);
+                    dialog.dismiss();
+                    scrollToItemId(tiltleHanhDong);
                 }
                 return false;
             }
@@ -378,6 +376,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Reset the background color to its original state when long click is released
                     btnKinhDi.setBackground(originalBackgroundDrawable);
+                    dialog.dismiss();
+                    scrollToItemId(tiltleKinhDi);
                 }
                 return false;
             }
@@ -449,5 +449,14 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
         return itemTouchListener;
+    }
+
+    private void scrollToItemId(View view) {
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+        // Calculate the y-coordinate of the "title action" view relative to the NestedScrollView
+        int titleY = location[1] - nestedScrollView.getTop() - 250;
+        // Smooth scroll to the "title action" view
+        nestedScrollView.smoothScrollTo(0, titleY, 1000);
     }
 }
