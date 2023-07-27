@@ -149,6 +149,7 @@ public class FragmentDetailMovie extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), WatchMovie.class);
                 intent.putExtra("vidUrl", UrlMovie);
+                Log.d("vidUrlafterclick", ""+UrlMovie);
                 startActivity(intent);
             }
         });
@@ -205,7 +206,6 @@ public class FragmentDetailMovie extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
-        exoPlayerCreate();
 
         if(getContext() instanceof MainHome){
             HandleBundle(keyHometo);
@@ -230,7 +230,7 @@ public class FragmentDetailMovie extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                exoPlayerCreate();
+//                exoPlayerCreate();
                 playerView.setControllerShowTimeoutMs(3000);
                 playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
                     @Override
@@ -245,7 +245,7 @@ public class FragmentDetailMovie extends Fragment {
                 });
                 addEvents();
             }
-        }, 500);
+        }, 200);
 
 
 
@@ -272,32 +272,8 @@ public class FragmentDetailMovie extends Fragment {
     }
 
 
-    private void exoPlayerCreate(){
-        handler = new Handler(Looper.getMainLooper());
-        RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
-        TrackSelector trackSelector = new DefaultTrackSelector(getContext());
-        exoPlayer = new SimpleExoPlayer.Builder(getContext())
-                .setTrackSelector(trackSelector)
-                .build();
-        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
 
-    }
-    private void playTrailer(String urlTrailer){
-        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + UrlTrailer;
-        Uri videoUrl = Uri.parse(videoUrlStr);
 
-        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
-        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
-                .setUserAgent(userAgent)
-                .setAllowCrossProtocolRedirects(true);
-        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
-
-        playerView.setPlayer(exoPlayer);
-        playerView.setKeepScreenOn(true);
-        exoPlayer.setMediaSource(mediaSource);
-        exoPlayer.prepare();
-        exoPlayer.setPlayWhenReady(true);
-    }
     @Override
     public void onPause() {
         super.onPause();
@@ -327,8 +303,9 @@ public class FragmentDetailMovie extends Fragment {
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
                 UrlTrailer = movie.getUrlTrailer();
+//                Toast.makeText(getContext(),"URL: "+movie.getUrlTrailer(),Toast.LENGTH_SHORT).show();
+
                 UrlMovie = movie.getUrlVideo();
-                Toast.makeText(getContext(),"URL: "+movie.getUrlTrailer(),Toast.LENGTH_SHORT).show();
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
                 results.putInt("idGenreMV", idGenre);
@@ -408,46 +385,46 @@ public class FragmentDetailMovie extends Fragment {
                         }
                     }
                 });
-                playTrailer(UrlTrailer);
+                exoPlayerCreate();
             }
 
         });
 
     }
-//    private void exoPlayerCreate(){
-//        handler = new Handler(Looper.getMainLooper());
-//        // Create a DefaultRenderersFactory to be used by the ExoPlayer
-//        RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
-//        // Create a DefaultTrackSelector to be used by the ExoPlayer
-//        TrackSelector trackSelector = new DefaultTrackSelector(getContext());
-//        // Create the ExoPlayer instance
-//        exoPlayer = new SimpleExoPlayer.Builder(getContext())
-//                .setTrackSelector(trackSelector)
-//                .build();
-//        // Create a DefaultHttpDataSource.Factory to provide the media data
-//        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
-//
-//
-//
-//        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
-//        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
-//                .setUserAgent(userAgent)
-//                .setAllowCrossProtocolRedirects(true);
-//
-//        Log.d("testURL", ""+UrlTrailer);
-//        String videoUrlStr = "https://drive.google.com/file/d/" + UrlTrailer;
-//        Uri videoUrl = Uri.parse(videoUrlStr);
-////        Toast.makeText(getContext(),"URLFull: "+videoUrlStr,Toast.LENGTH_SHORT).show();
-//
-//
-//        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
-//
-//        playerView.setPlayer(exoPlayer);
-//        playerView.setKeepScreenOn(true);
-//        exoPlayer.setMediaSource(mediaSource);
-//        exoPlayer.prepare();
-//        exoPlayer.setPlayWhenReady(true);
-//    }
+    private void exoPlayerCreate(){
+        handler = new Handler(Looper.getMainLooper());
+        // Create a DefaultRenderersFactory to be used by the ExoPlayer
+        RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
+        // Create a DefaultTrackSelector to be used by the ExoPlayer
+        TrackSelector trackSelector = new DefaultTrackSelector(getContext());
+        // Create the ExoPlayer instance
+        exoPlayer = new SimpleExoPlayer.Builder(getContext())
+                .setTrackSelector(trackSelector)
+                .build();
+        // Create a DefaultHttpDataSource.Factory to provide the media data
+        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
+
+
+
+        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                .setUserAgent(userAgent)
+                .setAllowCrossProtocolRedirects(true);
+
+        String videoUrlStr = "https://drive.google.com/uc?id=" + UrlTrailer;
+        Log.d("URLFULL", ""+videoUrlStr);
+        Uri videoUrl = Uri.parse(videoUrlStr);
+//        Toast.makeText(getContext(),"URLFull: "+videoUrlStr,Toast.LENGTH_SHORT).show();
+
+
+        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
+
+        playerView.setPlayer(exoPlayer);
+        playerView.setKeepScreenOn(true);
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
+    }
 
     @Override
     public void onDestroyView() {

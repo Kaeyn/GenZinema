@@ -54,6 +54,7 @@ public class WatchMovie extends AppCompatActivity {
         addControls();
         Intent intent = getIntent();
         String vidUrl = intent.getStringExtra("vidUrl");
+        Log.d("vidUrlafterclickinwatch", ""+vidUrl);
         exoPlayerCreate(vidUrl);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -115,8 +116,10 @@ public class WatchMovie extends AppCompatActivity {
                 .setUserAgent(userAgent)
                 .setAllowCrossProtocolRedirects(true);
 
-        String videoUrlStr = "https://drive.google.com/file/d/" + vidUrl;
+        String videoUrlStr = "https://drive.google.com/uc?id=" + vidUrl;
         Uri videoUrl = Uri.parse(videoUrlStr);
+        Log.d("vidUrlFULLafterclickinwatch", ""+videoUrl);
+
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
 
         playerView.setPlayer(exoPlayer);
