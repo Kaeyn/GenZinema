@@ -53,7 +53,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     AppBarLayout appBarLayout;
     NestedScrollView nestedScrollView;
-    Button btnMovie, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam;
+    Button btnMovie, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
 
     TextView tvTrangChu;
 
@@ -73,7 +73,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     private int scrollY = 0;
     private int threshold = 20;
     Dialog dialog;
-    LinearLayout liLayout;
+    LinearLayout recommendedBackground;
 
     MovieHandler movieHandler;;
     SQLiteDatabase db;
@@ -258,9 +258,26 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         btnGenres = rootView.findViewById(R.id.btnGenres);
         appBarLayout = rootView.findViewById(R.id.appBarLayout);
         nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+        recommendedBackground = rootView.findViewById(R.id.homeRecommendBackground);
+        btnPhat = rootView.findViewById(R.id.btnPhat);
+        btnDanhSach = rootView.findViewById(R.id.btnDanhSach);
     }
 
     private void addEvents(){
+        btnPhat.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
+        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
+
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

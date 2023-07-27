@@ -16,11 +16,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imgItemHotnNew"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                tools:srcCompat="@tools:sample/avatars" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="8dp"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:id="@+id/imgItemHotnNew"
+                    android:layout_width="160dp"
+                    android:layout_height="220dp"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
+                <!-- Add other views or content inside the CardView if needed -->
+
+            </androidx.cardview.widget.CardView>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,6 +54,7 @@
                         android:layout_gravity="center"
                         android:text="TitleFilm"
                         android:textSize="20dp"
+                        android:textColor="@color/white"
                         android:textStyle="bold"/>
 
                     <ImageButton
@@ -48,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/transparent_background"
-                        app:srcCompat="@drawable/circleplay_icon" />
+                        app:srcCompat="@drawable/baseline_play_circle_24" />
                 </LinearLayout>
 
                 <TextView
@@ -58,6 +72,7 @@
                     android:textSize="15dp"
                     android:maxLines="2"
                     android:inputType="textMultiLine"
+                    android:textColor="@color/white"
                     android:text="TextView" />
             </LinearLayout>
         </LinearLayout>
