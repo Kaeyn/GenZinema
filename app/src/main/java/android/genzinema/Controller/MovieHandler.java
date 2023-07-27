@@ -32,6 +32,8 @@ public class MovieHandler extends SQLiteOpenHelper {
     static final String THUMBNAILMOVIE_COL = "thumbnail";
 
 
+
+
     public MovieHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, TABLE_NAME, null, version);
         this.context = context;
@@ -39,7 +41,7 @@ public class MovieHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        droptbMV(db);
+//        droptbMV();
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ( " +
                 IDMOVIE_COL+" INTEGER NOT NULL UNIQUE, " +
@@ -67,6 +69,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'Joji','1','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','sieunhan')";
         db.execSQL(sql);
 
+
         db.close();
     }
     public Movie GetMovieByID(int ID){
@@ -93,8 +96,8 @@ public class MovieHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void droptbMV(SQLiteDatabase db){
-        db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+    public void droptbMV(){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         String sql = "Drop table " + TABLE_NAME;
         db.execSQL(sql);
         db.close();

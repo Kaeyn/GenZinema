@@ -39,6 +39,7 @@ public class FragmentEps extends Fragment {
 
     //    int movieID ;
     CustomAdapterEp adapter;
+    private int idMV;
 
 
 
@@ -53,6 +54,10 @@ public class FragmentEps extends Fragment {
 
     public FragmentEps() {
         // Required empty public constructor
+    }
+
+    public FragmentEps(int idMV) {
+        this.idMV = idMV;
     }
 
     /**
@@ -80,24 +85,7 @@ public class FragmentEps extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
-        epHandler.onCreate(db);
-        FragmentManager fm = getParentFragmentManager();
-        fm.setFragmentResultListener("keyEpsMV", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                epHandler.onCreate(db);
 
-                epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
-                arrayListEp = epHandler.GetAllEpByMovieID(result.getInt("idMV"));
-                adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
-//                Toast.makeText(getActivity(),"idMV ep "+arrayListEp.size(),Toast.LENGTH_SHORT).show();
-                movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
-                Movie movie = movieHandler.GetMovieByID(result.getInt("idMV"));
-                tvNameMV.setText(movie.getNameMovie());
-                lvEp.setAdapter(adapter);
-            }
-        });
     }
 
     @Override
@@ -106,6 +94,16 @@ public class FragmentEps extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_frgament_eps, container, false);
         addControls(view);
+        epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
+        epHandler.onCreate(db);
+
+        epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
+        arrayListEp = epHandler.GetAllEpByMovieID(idMV);
+        adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
+        movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+        Movie movie = movieHandler.GetMovieByID(idMV);
+        tvNameMV.setText(movie.getNameMovie());
+        lvEp.setAdapter(adapter);
         addEvents();
         return view;
     }

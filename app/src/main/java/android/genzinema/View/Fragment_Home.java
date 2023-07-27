@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -31,6 +32,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -41,7 +44,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
-
+String email;
     AppBarLayout appBarLayout;
     NestedScrollView nestedScrollView;
     Button btnMovie, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
@@ -273,12 +276,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
     private void addEvents(){
-        btnPhat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,12 +287,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -428,6 +419,69 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
+
+
+
+
+
+
+        // Apply the adapter to the spinner
+
+        // init data for "phim thinh hanh"
+        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
+
+        // init data for "phim kinh di"
+        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(2);
+
+        // init data for "phim hanh dong"
+        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
+
+
+        // init data for "phim anime"
+        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
+
+        // Display list film of "Hien dang thinh hanh"
+        recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimThinhHanh.setLayoutManager(layoutManager);
+        recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
+        recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
+
+
+
+        // Display list film of "Anime"
+        recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerAnime;
+        layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
+        recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
+
+
+        // Display list film of "Hanh dong"
+        recyclerViewPhimHanhDong.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerHanhDong;
+        layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
+        recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
+
+        // Display list film of "Kinh di"
+        recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerKinhDi;
+        layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
+        recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
+        adapterRecyFilmKinhDi.setOnItemClickListener(this);
+
+
+
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
@@ -472,9 +526,17 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Movie movie = customAdapterRecyFilm.GetItem(position);
+                FragmentManager fm = getParentFragmentManager();
+                fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        email = result.getString("email");
+                    }
+                });
+                Movie movie = adapterRecyFilm.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
+                results.putString("email", email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
@@ -495,6 +557,18 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         int titleY = location[1] - nestedScrollView.getTop() - 250;
         // Smooth scroll to the "title action" view
         nestedScrollView.smoothScrollTo(0, titleY, 1000);
+    }
+
+    public void updateAppName(String newAppName) {
+        // Get the application info to access the label attribute
+        try {
+            // Update the title in the ActionBar/Toolbar
+            requireActivity().setTitle(newAppName);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
