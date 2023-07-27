@@ -56,6 +56,7 @@ public class MainHome extends AppCompatActivity{
 
         movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
         movieHandler.onCreate(db);
+
         Intent intent = getIntent();
 //        if(intent.hasExtra("idMV")) {
 //            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
@@ -87,6 +88,7 @@ public class MainHome extends AppCompatActivity{
         epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
+
         movieHandler.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

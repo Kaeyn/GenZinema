@@ -34,7 +34,7 @@ public class FragmentCollect extends Fragment {
     CustomGridCollectMV adapter;
     MovieHandler movieHandler;
 
-    private int idMV = 0;
+    private int idGenre = 0;
     private int idStyle = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,8 +49,8 @@ public class FragmentCollect extends Fragment {
         // Required empty public constructor
     }
 
-    public FragmentCollect(int idMovie, int idStyle){
-        this.idMV = idMovie;
+    public FragmentCollect(int idGenre, int idStyle){
+        this.idGenre = idGenre;
         this.idStyle = idStyle;
     }
 
@@ -91,7 +91,7 @@ public class FragmentCollect extends Fragment {
         View view = inflater.inflate(R.layout.fragment_collect, container, false);
         addControls(view);
         movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
-        arrayListMovie = movieHandler.GetCollectMVBy(idMV, idStyle);
+        arrayListMovie = movieHandler.GetCollectMVBy(idGenre, idStyle);
         adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
         gridCollect.setAdapter(adapter);
         addEvents();
@@ -101,29 +101,16 @@ public class FragmentCollect extends Fragment {
         gridCollect = view.findViewById(R.id.gridCollect);
     }
     void addEvents(){
-
-//        FragmentManager fm = getParentFragmentManager();
-//        fm.setFragmentResultListener("collectsMV", this, new FragmentResultListener() {
-//            @Override
-//            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-//
-////                Toast.makeText(getContext(),String.valueOf(result.getInt("idMV")),Toast.LENGTH_SHORT).show();
-//
-//
-//            }
-//        });
-
         gridCollect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Bundle results = new Bundle();
-//                Movie movie = adapter.GetItem(position);
-//                results.putInt("idMV", movie.getIdMV());
-//                results.putInt("idGenreMV", movie.getIdGenre());
-//                results.putInt("idStyleMV", movie.getIdType());
-//                getParentFragmentManager().setFragmentResult("keyMain", results);
-//                loadFragment(new FragmentDetailMovie());
-                //we lose
+
+                Movie movie = adapter.GetItem(position);
+                Bundle results = new Bundle();
+                results.putInt("idMV", movie.getIdMV());
+                results.putInt("idGenreMV", movie.getIdGenre());
+                results.putInt("idStyleMV", movie.getIdType());
+                getParentFragmentManager().setFragmentResult("keyDetailMV", results);
 
             }
         });
