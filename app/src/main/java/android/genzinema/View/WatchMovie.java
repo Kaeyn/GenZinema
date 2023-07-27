@@ -52,7 +52,10 @@ public class WatchMovie extends AppCompatActivity {
         }
         setContentView(R.layout.activity_watch_movie);
         addControls();
-        exoPlayerCreate();
+        Intent intent = getIntent();
+        String vidUrl = intent.getStringExtra("vidUrl");
+        Log.d("vidUrlafterclickinwatch", ""+vidUrl);
+        exoPlayerCreate(vidUrl);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         addEvents();
@@ -95,7 +98,7 @@ public class WatchMovie extends AppCompatActivity {
         });
 
     }
-    private void exoPlayerCreate(){
+    private void exoPlayerCreate(String vidUrl){
         handler = new Handler(Looper.getMainLooper());
         // Create a DefaultRenderersFactory to be used by the ExoPlayer
         RenderersFactory renderersFactory = new DefaultRenderersFactory(this);
@@ -113,11 +116,10 @@ public class WatchMovie extends AppCompatActivity {
                 .setUserAgent(userAgent)
                 .setAllowCrossProtocolRedirects(true);
 
-//        Intent intent = getIntent();
-//        Uri videoUrl = Uri.parse(intent.getStringExtra("url"));
-        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
-        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + videoId;
+        String videoUrlStr = "https://drive.google.com/uc?id=" + vidUrl;
         Uri videoUrl = Uri.parse(videoUrlStr);
+        Log.d("vidUrlFULLafterclickinwatch", ""+videoUrl);
+
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
 
         playerView.setPlayer(exoPlayer);

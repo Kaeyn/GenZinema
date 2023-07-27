@@ -582,7 +582,7 @@ String email;
                         email = result.getString("email");
                     }
                 });
-                Movie movie = adapterRecyFilm.GetItem(position);
+                Movie movie = customAdapterRecyFilm.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putString("email", email);
