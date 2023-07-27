@@ -63,7 +63,7 @@ public class FragmentDetailMovie extends Fragment {
     String keySearchTo = "keyMain";
     String keyHometo = "keyDetailMV";
     SQLiteDatabase db;
-    String email;
+    String email = "2";
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar, btnPlayVideo, btnAddList;
@@ -119,19 +119,6 @@ public class FragmentDetailMovie extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1); 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        Toast.makeText(getContext(),"FragmentDetailMV ",Toast.LENGTH_SHORT).show();
-
-        String keySearchTo = "keyMain";
-        String keyHometo = "keyDetailMV";
-
-        if(getContext() instanceof MainHome){
-            HandleBundle(keyHometo);
-        }
-        else if (getContext() instanceof DetailMoviePage){
-            HandleBundle(keySearchTo);
-        }
-
-
     }
 
     private void addControl(View view){
@@ -171,14 +158,7 @@ public class FragmentDetailMovie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
-                favoriteMovieHander.onCreate(db);
-                favoriteMovieHander.loadData();
-                if(!favoriteMovieHander.IsAdded(email,idMV)){
-                    favoriteMovieHander.AddFavoriteMV(email,idMV);
-                }else{
-                    favoriteMovieHander.DeleteFavoriteMV(email,idMV);
-                }
+                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email,idMV),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -214,48 +194,23 @@ public class FragmentDetailMovie extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
-        addControl(view);
-
-
-        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
-
-        exoPlayerCreate();
-        addEvents();
-
-        playerView.setControllerShowTimeoutMs(3000);
-        playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
-            @Override
-            public void onVisibilityChange(int visibility) {
-                Log.d("state", String.valueOf(visibility));
-                if (visibility == View.VISIBLE) {
-                    playerView.startAnimation(fadeInAnimate);
-                } else {
-                    playerView.startAnimation(fadeOutAnimation);
-                }
-            }
-        });
-        if(getContext() instanceof MainHome){
-            HandleBundle(keyHometo);
-        }
-        else if (getContext() instanceof DetailMoviePage){
-            HandleBundle(keySearchTo);
-        }
-
-
-        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
         String keySearchTo = "keyMain";
         String keyHometo = "keyDetailMV";
+        String keyHometosc = "keyDetailMVsc";
 
         if(getContext() instanceof MainHome){
-            HandleBundle(keyHometo);
+            HandleBundle(keyHometo,view);
         }
         else if (getContext() instanceof DetailMoviePage){
-            HandleBundle(keySearchTo);
+            HandleBundle(keySearchTo,view);
+        }else if (getContext() instanceof Activity_Collections){
+            HandleBundle(keyHometosc,view);
         }
+
+
+        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -280,6 +235,7 @@ public class FragmentDetailMovie extends Fragment {
 
         return view;
     }
+
 
 //    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
 //        for (int i = 0; i < viewGroup.getChildCount(); i++) {
@@ -310,13 +266,15 @@ public class FragmentDetailMovie extends Fragment {
         exoPlayer.getPlaybackState();
     }
 
-    public void HandleBundle(String key){
+    public void HandleBundle(String key, View view){
         FragmentManager fm = getParentFragmentManager();
         fm.setFragmentResultListener(key, this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                int idMV = result.getInt("idMV");
                 email = result.getString("email");
+                addControl(view);
+                idMV = result.getInt("idMV");
+                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
                 int idGenre = result.getInt("idGenreMV");
                 int idStyle = result.getInt("idStyleMV");
                 String textColorHexCodeRed = "#FF0909";
@@ -359,17 +317,6 @@ public class FragmentDetailMovie extends Fragment {
                     }
 
                 }
-
-
-
-
-
-
-
-
-
-
-
                 if(idStyle==1){
                     btnEp.setText("Phim lẻ");
                     btnEp.setOnClickListener(new View.OnClickListener() {
@@ -410,6 +357,28 @@ public class FragmentDetailMovie extends Fragment {
 
                     });
                 }
+
+
+
+                fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+                fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+
+                exoPlayerCreate();
+                addEvents();
+
+                playerView.setControllerShowTimeoutMs(3000);
+                playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
+                    @Override
+                    public void onVisibilityChange(int visibility) {
+                        Log.d("state", String.valueOf(visibility));
+                        if (visibility == View.VISIBLE) {
+                            playerView.startAnimation(fadeInAnimate);
+                        } else {
+                            playerView.startAnimation(fadeOutAnimation);
+                        }
+                    }
+                });
                 btnSimilar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -52,6 +52,7 @@ public class CustomAdapterRecyFilm extends RecyclerView.Adapter<CustomAdapterRec
                             clickListener.onItemClick(position);
                         }
                     }
+
                 }
             });
         }

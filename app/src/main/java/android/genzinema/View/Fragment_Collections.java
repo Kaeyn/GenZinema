@@ -1,11 +1,17 @@
 package android.genzinema.View;
 
 import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterRecyCollectionFilm;
+import android.genzinema.Controller.FavoriteMovieHander;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,7 +31,7 @@ import java.util.ArrayList;
  * Use the {@link Fragment_Collections#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Collections extends Fragment {
+public class Fragment_Collections extends Fragment implements CustomAdapterRecyCollectionFilm.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,20 +39,26 @@ public class Fragment_Collections extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    int[] lstId = new int[]{1,2,3,4,5};
-    int[] lstImg = new int[]{R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak, R.drawable.johnweak};
-    String[] lstName = new String[]{"R.drawable.johnweak","R.drawable.johnweak","R.drawable.johnweak", "R.drawable.johnweak", "R.drawable.johnweak"};
-
+    FavoriteMovieHander favoriteMovieHander;
+    MovieHandler movieHandler;
+    String email;
+    SQLiteDatabase db;
     RecyclerView recyclerView;
     ImageView imgColFilm;
     TextView nameColFilm;
     ArrayList<Movie> colFilmArrayList = new ArrayList<>();
     CustomAdapterRecyCollectionFilm adapterRecyColFilm;
+    ArrayList<Integer> arrayList = new ArrayList<>();
+
     private String mParam1;
     private String mParam2;
 
     public Fragment_Collections() {
         // Required empty public constructor
+    }
+    public Fragment_Collections(String email) {
+        // Required empty public constructor
+        this.email = email;
     }
 
     /**
@@ -84,8 +96,14 @@ public class Fragment_Collections extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycleViewCollection);
         imgColFilm = rootView.findViewById(R.id.imgColFilm);
         nameColFilm = rootView.findViewById(R.id.nameColFilm);
+
         // Inflate the layout for this fragment
-        colFilmArrayList = Movie.initDataCollection(lstId, lstImg, lstName);
+        movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+        favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+        favoriteMovieHander.loadData();
+        movieHandler.loadData();
+        arrayList = favoriteMovieHander.getArrayListFMV(email);
+        colFilmArrayList = movieHandler.getMoviesById(arrayList);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
@@ -95,5 +113,37 @@ public class Fragment_Collections extends Fragment {
         adapterRecyColFilm = new CustomAdapterRecyCollectionFilm(colFilmArrayList);
         recyclerView.setAdapter(adapterRecyColFilm);
         return rootView;
+    }
+    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyCollectionFilm customAdapterRecyFilm){
+        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Movie movie = adapterRecyColFilm.GetItem(position);
+                Bundle results = new Bundle();
+                results.putInt("idMV", movie.getIdMV());
+                results.putString("email", email);
+                results.putInt("idGenreMV", movie.getIdGenre());
+                results.putInt("idStyleMV", movie.getIdType());
+                getParentFragmentManager().setFragmentResult("keyDetailMVsc", results);
+                loadFragment(new FragmentDetailMovie());
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+        return itemTouchListener;
+    }
+    public void loadFragment(Fragment fragment){
+        FragmentManager fm = getParentFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameFragment, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

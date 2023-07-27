@@ -82,9 +82,8 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (10,'Hậu duệ mặt trời3','3','2','1-rsqefaW117LwMVB3mG5mmIMVsS3wZTe','Soong Joong Ki, Song Hye Kyo, Jin Goo, Kim Ji Won','JohnATDR','2018','Hậu duệ mặt trời (Hangul: 태양의 후예; RR: Taeyangui Huye) là một bộ phim truyền hình Hàn Quốc năm 2016 có sự tham gia của Song Joong-ki, Song Hye-kyo, Jin Goo và Kim Ji-won.Phim được phát sóng trên kênh KBS2 từ ngày 24 tháng 2 đến ngày 14 tháng 4 năm 2016 cho 16 tập','ttcs','1-rsqefaW117LwMVB3mG5mmIMVsS3wZTe')";
         db.execSQL(sql);
-
-
         db.close();
+        loadData();
     }
 
     public Movie GetMovieByID(int ID){
@@ -219,6 +218,23 @@ public class MovieHandler extends SQLiteOpenHelper {
             }
         }
         return arrayList;
+    }
+    public ArrayList<Movie> getMoviesById(ArrayList<Integer> lst)
+    {
+        ArrayList<Movie> moviesArray = new ArrayList<>();
+        for(Integer id : lst )
+        {
+            for(Movie movie : arrayListMovie)
+            {
+
+                if(id.equals(movie.getIdMV()))
+                {
+                    moviesArray.add(movie);
+                    break;
+                }
+            }
+        }
+        return moviesArray;
     }
 
     public ArrayList<Movie> GetTop10Movie() {

@@ -58,6 +58,7 @@ public class MainHome extends AppCompatActivity{
         movieHandler.onCreate(db);
 
         Intent intent = getIntent();
+        email = intent.getStringExtra("Email");
 //        if(intent.hasExtra("idMV")) {
 //            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
 //            Bundle bundle = new Bundle();
@@ -95,9 +96,6 @@ public class MainHome extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int idFrame = item.getItemId();
                 if(idFrame == R.id.home){
-                    Bundle results = new Bundle();
-                    results.putString("email", email);
-                    getSupportFragmentManager().setFragmentResult("emailMainToFHome", results);
                     loadFragment(new Fragment_Home());
                     return true;
                 } else if (idFrame == R.id.hotnnew) {
@@ -105,7 +103,7 @@ public class MainHome extends AppCompatActivity{
                     return true;
                 }
                 else if (idFrame == R.id.collections) {
-                    loadFragment(new Fragment_Collections());
+                    loadFragment(new Fragment_Collections(email));
                     return true;
                 }
                 return true;
@@ -132,17 +130,17 @@ public class MainHome extends AppCompatActivity{
             Intent intent = new Intent(MainHome.this, SearchPage.class);
             startActivity(intent);
         } else if (id == R.id.userProfile) {
-            Intent  intent = getIntent();
 
-            email = intent.getStringExtra("Email");
-//            MoveToUserProfile(user);
-            intent = new Intent(MainHome.this, UserProfile.class);
+            Intent intent = new Intent(MainHome.this, UserProfile.class);
             intent.putExtra("Email",email);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
     public void loadFragment(Fragment fragment){
+        Bundle results = new Bundle();
+        results.putString("email", email);
+        getSupportFragmentManager().setFragmentResult("emailMainToFHome", results);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameFragment, fragment);

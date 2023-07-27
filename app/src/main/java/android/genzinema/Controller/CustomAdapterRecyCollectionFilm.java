@@ -21,7 +21,18 @@ public class CustomAdapterRecyCollectionFilm extends RecyclerView.Adapter<Custom
     public CustomAdapterRecyCollectionFilm(ArrayList<Movie> filmArrayList) {
         this.movieArrayList = filmArrayList;
     }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
 
+    private Cus_Item_Search_Adapter.OnItemClickListener clickListener;
+
+    public void setOnItemClickListener(Cus_Item_Search_Adapter.OnItemClickListener listener) {
+        this.clickListener = listener;
+    }
+    public Movie GetItem(int position){
+        return movieArrayList.get(position);
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,7 +62,17 @@ public class CustomAdapterRecyCollectionFilm extends RecyclerView.Adapter<Custom
             super(itemView);
             imgColFilm = itemView.findViewById(R.id.imgColFilm);
             nameColFilm = itemView.findViewById(R.id.nameColFilm);
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (clickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            clickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }
