@@ -88,7 +88,6 @@ public class MainHome extends AppCompatActivity{
         epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
-//        movieHandler.onCreate(db);
 
         movieHandler.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
