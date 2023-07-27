@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class MainHome extends AppCompatActivity{
     ActionBar actionBar;
+    String email;
     FrameLayout frameFragment, childFrameLayout;
     BottomNavigationView bttNav;
     GenresHandler genresHandler;
@@ -55,6 +56,7 @@ public class MainHome extends AppCompatActivity{
 
         movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
         movieHandler.onCreate(db);
+
         Intent intent = getIntent();
 //        if(intent.hasExtra("idMV")) {
 //            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
@@ -86,12 +88,17 @@ public class MainHome extends AppCompatActivity{
         epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
+//        movieHandler.onCreate(db);
+
         movieHandler.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int idFrame = item.getItemId();
                 if(idFrame == R.id.home){
+                    Bundle results = new Bundle();
+                    results.putString("email", email);
+                    getSupportFragmentManager().setFragmentResult("emailMainToFHome", results);
                     loadFragment(new Fragment_Home());
                     return true;
                 } else if (idFrame == R.id.hotnnew) {
@@ -128,7 +135,7 @@ public class MainHome extends AppCompatActivity{
         } else if (id == R.id.userProfile) {
             Intent  intent = getIntent();
 
-            String email = intent.getStringExtra("Email");
+            email = intent.getStringExtra("Email");
 //            MoveToUserProfile(user);
             intent = new Intent(MainHome.this, UserProfile.class);
             intent.putExtra("Email",email);
@@ -136,22 +143,6 @@ public class MainHome extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-//    User GetUserByIntent(Intent intent){
-//        User user = new User();
-//        user.setEmail();
-//        user.setDisplayName(intent.getStringExtra("DisplayName"));
-//        user.setPhone(intent.getStringExtra("Phone"));
-//        user.setPassword(intent.getStringExtra("Password"));
-//        return user;
-//    }
-//    void MoveToUserProfile(User user){
-//
-//        intent.putExtra("Email",user.getEmail());
-//        intent.putExtra("DisplayName",user.getDisplayName());
-//        intent.putExtra("Phone",user.getPhone());
-//        intent.putExtra("Password",user.getPassword());
-//        startActivity(intent);
-//    }
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
