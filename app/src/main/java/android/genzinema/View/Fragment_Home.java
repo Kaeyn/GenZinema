@@ -32,6 +32,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -274,12 +276,6 @@ String email;
     }
 
     private void addEvents(){
-        btnPhat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,12 +287,6 @@ String email;
             }
         });
 
-        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -428,6 +418,69 @@ String email;
                 return false;
             }
         });
+
+
+
+
+
+
+
+        // Apply the adapter to the spinner
+
+        // init data for "phim thinh hanh"
+        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
+
+        // init data for "phim kinh di"
+        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(2);
+
+        // init data for "phim hanh dong"
+        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
+
+
+        // init data for "phim anime"
+        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
+
+        // Display list film of "Hien dang thinh hanh"
+        recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimThinhHanh.setLayoutManager(layoutManager);
+        recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
+        recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
+
+
+
+        // Display list film of "Anime"
+        recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerAnime;
+        layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
+        recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
+
+
+        // Display list film of "Hanh dong"
+        recyclerViewPhimHanhDong.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerHanhDong;
+        layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
+        recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
+
+        // Display list film of "Kinh di"
+        recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerKinhDi;
+        layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
+        recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
+        adapterRecyFilmKinhDi.setOnItemClickListener(this);
+
+
 
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
