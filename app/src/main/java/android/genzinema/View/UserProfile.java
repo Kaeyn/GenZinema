@@ -59,7 +59,7 @@ public class UserProfile extends AppCompatActivity {
         btn_myList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfile.this, MainHome.class);
+                Intent intent = new Intent(UserProfile.this, Activity_Collections.class);
                 intent.putExtra("Email",user.getEmail());
                 startActivity(intent);
             }

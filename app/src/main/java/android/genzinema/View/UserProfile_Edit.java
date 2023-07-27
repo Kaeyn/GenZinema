@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 public class UserProfile_Edit extends AppCompatActivity {
 
-    Button btn_UpdateImg, btn_Update, btn_UpdatePassword,btn_UpdateProfile;
+    Button btn_Update, btn_UpdatePassword,btn_UpdateProfile;
     ImageButton imageBtn_return;
     boolean isProfile = true;
     @Override
@@ -30,7 +30,7 @@ public class UserProfile_Edit extends AppCompatActivity {
     }
     private void addControl()
     {
-        btn_UpdateImg = findViewById(R.id.btn_updateImg);
+
         btn_Update = findViewById(R.id.btn_update);
         btn_UpdatePassword = findViewById(R.id.btn_UpdatePassword);
         btn_UpdateProfile = findViewById(R.id.btn_UpdateProfile);
