@@ -58,7 +58,7 @@ public class FragmentDetailMovie extends Fragment {
 
     private boolean btnEpStateIsCollect = true;
     int idMV;
-    String UrlTrailer;
+    String UrlTrailer="e";
     SQLiteDatabase db;
     String email;
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
@@ -75,7 +75,7 @@ public class FragmentDetailMovie extends Fragment {
 
     Animation fadeInAnimate,fadeOutAnimation;
 
-    private String urlMovie = "";
+    private String UrlMovie = "";
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -118,21 +118,13 @@ public class FragmentDetailMovie extends Fragment {
         }
 //        Toast.makeText(getContext(),"FragmentDetailMV ",Toast.LENGTH_SHORT).show();
 
-        String keySearchTo = "keyMain";
-        String keyHometo = "keyDetailMV";
 
-        if(getContext() instanceof MainHome){
-            HandleBundle(keyHometo);
-        }
-        else if (getContext() instanceof DetailMoviePage){
-            HandleBundle(keySearchTo);
-        }
 
 
     }
 
     private void addControl(View view){
-        scrollView = view.findViewById(R.id.scrollViewDetailMovie);
+//        scrollView = view.findViewById(R.id.scrollViewDetailMovie);
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
@@ -154,7 +146,7 @@ public class FragmentDetailMovie extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), WatchMovie.class);
-                intent.putExtra("vidUrl", urlMovie);
+                intent.putExtra("vidUrl", UrlMovie);
                 startActivity(intent);
             }
         });
@@ -215,38 +207,52 @@ public class FragmentDetailMovie extends Fragment {
 
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+        String keySearchTo = "keyMain";
+        String keyHometo = "keyDetailMV";
 
-        exoPlayerCreate();
-        addEvents();
-
-        playerView.setControllerShowTimeoutMs(3000);
-        playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
+        if(getContext() instanceof MainHome){
+            HandleBundle(keyHometo);
+        }
+        else if (getContext() instanceof DetailMoviePage){
+            HandleBundle(keySearchTo);
+        }
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onVisibilityChange(int visibility) {
-                Log.d("state", String.valueOf(visibility));
-                if (visibility == View.VISIBLE) {
-                    playerView.startAnimation(fadeInAnimate);
-                } else {
-                    playerView.startAnimation(fadeOutAnimation);
-                }
+            public void run() {
+                exoPlayerCreate();
+                playerView.setControllerShowTimeoutMs(3000);
+                playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
+                    @Override
+                    public void onVisibilityChange(int visibility) {
+                        Log.d("state", String.valueOf(visibility));
+                        if (visibility == View.VISIBLE) {
+                            playerView.startAnimation(fadeInAnimate);
+                        } else {
+                            playerView.startAnimation(fadeOutAnimation);
+                        }
+                    }
+                });
+                addEvents();
             }
-        });
+        }, 500);
+
+
 
         return view;
     }
 
-    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            View childView = viewGroup.getChildAt(i);
-            childView.startAnimation(animation);
-
-            // If the child is another ViewGroup (e.g., LinearLayout), apply the animation to its children recursively
-            if (childView instanceof ViewGroup) {
-                applyFadeInAnimationToChildren((ViewGroup) childView, animation);
-            }
-        }
-    }
+//    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
+//        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+//            View childView = viewGroup.getChildAt(i);
+//            childView.startAnimation(animation);
+//
+//            // If the child is another ViewGroup (e.g., LinearLayout), apply the animation to its children recursively
+//            if (childView instanceof ViewGroup) {
+//                applyFadeInAnimationToChildren((ViewGroup) childView, animation);
+//            }
+//        }
+//    }
 
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
@@ -256,38 +262,7 @@ public class FragmentDetailMovie extends Fragment {
     }
 
 
-    private void exoPlayerCreate(){
-        handler = new Handler(Looper.getMainLooper());
-        // Create a DefaultRenderersFactory to be used by the ExoPlayer
-        RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
-        // Create a DefaultTrackSelector to be used by the ExoPlayer
-        TrackSelector trackSelector = new DefaultTrackSelector(getContext());
-        // Create the ExoPlayer instance
-        exoPlayer = new SimpleExoPlayer.Builder(getContext())
-                .setTrackSelector(trackSelector)
-                .build();
-        // Create a DefaultHttpDataSource.Factory to provide the media data
-        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
 
-
-
-        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
-        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
-                .setUserAgent(userAgent)
-                .setAllowCrossProtocolRedirects(true);
-
-        String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
-        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + UrlTrailer;
-        Uri videoUrl = Uri.parse(videoUrlStr);
-
-        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
-
-        playerView.setPlayer(exoPlayer);
-        playerView.setKeepScreenOn(true);
-        exoPlayer.setMediaSource(mediaSource);
-        exoPlayer.prepare();
-        exoPlayer.setPlayWhenReady(true);
-    }
     @Override
     public void onPause() {
         super.onPause();
@@ -321,6 +296,8 @@ public class FragmentDetailMovie extends Fragment {
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
                 UrlTrailer = movie.getUrlTrailer();
+                UrlMovie = movie.getUrlVideo();
+                Toast.makeText(getContext(),"URL: "+movie.getUrlTrailer(),Toast.LENGTH_SHORT).show();
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
                 results.putInt("idGenreMV", idGenre);
@@ -346,18 +323,8 @@ public class FragmentDetailMovie extends Fragment {
 
                 }
 
-
-
-
-
-
-
-
-
-
-
                 if(idStyle==1){
-                    btnEp.setText("Bộ sưu tập");
+                    btnEp.setText("Phim lẻ");
                     btnEp.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -415,6 +382,41 @@ public class FragmentDetailMovie extends Fragment {
             }
 
         });
+
+    }
+    private void exoPlayerCreate(){
+        handler = new Handler(Looper.getMainLooper());
+        // Create a DefaultRenderersFactory to be used by the ExoPlayer
+        RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
+        // Create a DefaultTrackSelector to be used by the ExoPlayer
+        TrackSelector trackSelector = new DefaultTrackSelector(getContext());
+        // Create the ExoPlayer instance
+        exoPlayer = new SimpleExoPlayer.Builder(getContext())
+                .setTrackSelector(trackSelector)
+                .build();
+        // Create a DefaultHttpDataSource.Factory to provide the media data
+        exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
+
+
+
+        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                .setUserAgent(userAgent)
+                .setAllowCrossProtocolRedirects(true);
+
+        Log.d("testURL", ""+UrlTrailer);
+        String videoUrlStr = "https://drive.google.com/file/d/" + UrlTrailer;
+        Uri videoUrl = Uri.parse(videoUrlStr);
+//        Toast.makeText(getContext(),"URLFull: "+videoUrlStr,Toast.LENGTH_SHORT).show();
+
+
+        MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
+
+        playerView.setPlayer(exoPlayer);
+        playerView.setKeepScreenOn(true);
+        exoPlayer.setMediaSource(mediaSource);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
     }
 
     @Override
