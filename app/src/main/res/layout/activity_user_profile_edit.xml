@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#B7000000"
-    tools:context=".View.Activity.UserProfile_Edit">
+    tools:context=".View.UserProfile_Edit">
 
     <LinearLayout
         android:layout_width="match_parent"

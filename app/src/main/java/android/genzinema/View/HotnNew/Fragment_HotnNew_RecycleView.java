@@ -1,14 +1,16 @@
 package android.genzinema.View.HotnNew;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.CustomAdapter.CustomRecycleView;
-import android.genzinema.Controller.Handler.MovieHandler;
-import android.genzinema.Controller.CustomAdapter.RecyclerItemTouchListener;
-import android.genzinema.Controller.Handler.UserHandler;
+import android.genzinema.Controller.Cus_Item_Search_Adapter;
+import android.genzinema.Controller.CustomRecycleView;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.RecyclerItemTouchListener;
+import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.Movie;
-import android.genzinema.View.Fragment.FragmentDetailMovie;
+import android.genzinema.View.FragmentDetailMovie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,8 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
