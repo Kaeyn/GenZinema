@@ -53,9 +53,12 @@ import com.google.android.exoplayer2.util.Util;
  * Use the {@link FragmentDetailMovie#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class FragmentDetailMovie extends Fragment {
+
     private boolean btnEpStateIsCollect = true;
     int idMV;
+    String UrlTrailer;
     SQLiteDatabase db;
     String email;
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
@@ -254,7 +257,6 @@ public class FragmentDetailMovie extends Fragment {
 
 
     private void exoPlayerCreate(){
-
         handler = new Handler(Looper.getMainLooper());
         // Create a DefaultRenderersFactory to be used by the ExoPlayer
         RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
@@ -275,7 +277,7 @@ public class FragmentDetailMovie extends Fragment {
                 .setAllowCrossProtocolRedirects(true);
 
         String videoId = "1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW";
-        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + videoId;
+        String videoUrlStr = "https://drive.google.com/uc?export=download&id=" + UrlTrailer;
         Uri videoUrl = Uri.parse(videoUrlStr);
 
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
@@ -298,7 +300,7 @@ public class FragmentDetailMovie extends Fragment {
         fm.setFragmentResultListener(key, this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                idMV = result.getInt("idMV");
+                int idMV = result.getInt("idMV");
                 email = result.getString("email");
                 int idGenre = result.getInt("idGenreMV");
                 int idStyle = result.getInt("idStyleMV");
@@ -318,6 +320,7 @@ public class FragmentDetailMovie extends Fragment {
                 tvActorMV.setText("Diễn viên: "+movie.getActors());
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
+                UrlTrailer = movie.getUrlTrailer();
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
                 results.putInt("idGenreMV", idGenre);
@@ -414,5 +417,13 @@ public class FragmentDetailMovie extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

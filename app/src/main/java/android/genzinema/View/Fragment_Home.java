@@ -9,6 +9,8 @@ import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -557,6 +559,18 @@ String email;
         int titleY = location[1] - nestedScrollView.getTop() - 250;
         // Smooth scroll to the "title action" view
         nestedScrollView.smoothScrollTo(0, titleY, 1000);
+    }
+
+    public void updateAppName(String newAppName) {
+        // Get the application info to access the label attribute
+        try {
+            // Update the title in the ActionBar/Toolbar
+            requireActivity().setTitle(newAppName);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
