@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.genzinema.Controller.Cus_Item_Search_Adapter;
+import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +30,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     SearchView searchView;
     ArrayList<Movie> arrayList = new ArrayList<>();
     Cus_Item_Search_Adapter adapter;
+    MovieHandler movieHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,8 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addControls();
 
-        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        arrayList.add(movie);
-
+        movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        arrayList = movieHandler.getAllMovie();
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -48,6 +50,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         adapter = new Cus_Item_Search_Adapter(arrayList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -76,16 +79,51 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
 
             }
         });
+
+        searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                if(query == ""){
+                    adapter = new Cus_Item_Search_Adapter(arrayList);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(query);
+                    if (tempArrayList == null){
+                        ArrayList<Movie> emptyArrayList = new ArrayList<>();
+                        adapter = new Cus_Item_Search_Adapter(emptyArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else{
+                        adapter = new Cus_Item_Search_Adapter(arrayList);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                return false;
+                if(newText == ""){
+                    adapter = new Cus_Item_Search_Adapter(arrayList);
+                    recyclerView.setAdapter(adapter);
+                }
+                else{
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(newText);
+                    if (tempArrayList == null){
+                        ArrayList<Movie> emptyArrayList = new ArrayList<>();
+                        adapter = new Cus_Item_Search_Adapter(emptyArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else{
+                        adapter = new Cus_Item_Search_Adapter(tempArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+                return true;
             }
         });
     }
