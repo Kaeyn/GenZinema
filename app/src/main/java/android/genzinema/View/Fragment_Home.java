@@ -1,20 +1,14 @@
 package android.genzinema.View;
 
-import static android.genzinema.R.style.CustomDialog;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -24,22 +18,17 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -72,13 +61,14 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     private int scrollY = 0;
     private int threshold = 20;
+
+    private int recommendedMovieId = 0;
     Dialog dialog;
     LinearLayout recommendedBackground;
 
     MovieHandler movieHandler;;
     SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
-
 
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
@@ -100,6 +90,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     CustomAdapterRecyFilm adapterRecyFilmAnime;
     CustomAdapterRecyFilm adapterRecyFilmHanhDong;
 
+
+    Animation fadeInAnimation;
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -144,6 +136,15 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         addRootViewControls(rootView);
         addViewControls(view);
 
+        fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in_home);
+        applyFadeInAnimationToChildren(nestedScrollView, fadeInAnimation);
+
+
+
+        Movie recommendedMovie = movieHandler.GetRecommendedMovie();
+        recommendedMovieId = recommendedMovie.getIdMV();
+        recommendedBackground.setBackgroundResource(recommendedMovie.getIdThumbnails());
+
         // Initialize your ArrayList and populate it with data
         type_of_filmArrayList = new ArrayList<>();
         type_of_filmArrayList.add("Thể loại");
@@ -169,16 +170,16 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     private void addRecycleViewEvents() {
         recyclerViewPhimThinhHanh.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimThinhHanh.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimThinhHanh));
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimThinhHanh, adapterRecyFilm));
 
         recyclerViewPhimAnime.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimAnime.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimAnime));
+        recyclerViewPhimAnime.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimAnime, adapterRecyFilmAnime));
 
         recyclerViewPhimHanhDong.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimHanhDong.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimHanhDong));
+        recyclerViewPhimHanhDong.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimHanhDong, adapterRecyFilmHanhDong));
 
         recyclerViewPhimKinhDi.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimKinhDi.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimKinhDi));
+        recyclerViewPhimKinhDi.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimKinhDi, adapterRecyFilmKinhDi));
     }
 
     private void addRecycleViewByGenres() {
@@ -268,6 +269,16 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             @Override
             public boolean onLongClick(View v) {
                 return false;
+            }
+        });
+
+        btnPhat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("idMV", recommendedMovieId);
+                getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
+                loadFragment(new FragmentDetailMovie());
             }
         });
 
@@ -417,6 +428,19 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
     }
+
+    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View childView = viewGroup.getChildAt(i);
+            childView.startAnimation(animation);
+
+            // If the child is another ViewGroup (e.g., LinearLayout), apply the animation to its children recursively
+            if (childView instanceof ViewGroup) {
+                applyFadeInAnimationToChildren((ViewGroup) childView, animation);
+            }
+        }
+    }
+
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -431,11 +455,11 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
 
-    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
+    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyFilm customAdapterRecyFilm){
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Movie movie = adapterRecyFilm.GetItem(position);
+                Movie movie = customAdapterRecyFilm.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putInt("idGenreMV", movie.getIdGenre());
