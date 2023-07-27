@@ -41,7 +41,7 @@ public class MovieHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        droptbMV();
+        droptbMV();
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ( " +
                 IDMOVIE_COL+" INTEGER NOT NULL UNIQUE, " +

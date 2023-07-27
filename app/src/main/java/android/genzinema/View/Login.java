@@ -59,7 +59,9 @@ public class Login extends AppCompatActivity {
     }
     private void addEvent()
     {
-
+        Intent intent = new Intent(Login.this, MainHome.class);
+        intent.putExtra("Email","1");
+        startActivity(intent);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
