@@ -32,6 +32,8 @@ public class FragmentSimilarStyle extends Fragment {
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
     CustomGridCollectMV adapter;
 
+    private int idGenre = 0;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +47,11 @@ public class FragmentSimilarStyle extends Fragment {
     public FragmentSimilarStyle() {
         // Required empty public constructor
     }
+    public FragmentSimilarStyle(int idGenre){
+        this.idGenre = idGenre;
+    }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -71,6 +78,7 @@ public class FragmentSimilarStyle extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -79,6 +87,10 @@ public class FragmentSimilarStyle extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_similar_style, container, false);
         addControls(view);
+        movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
+        arrayListMovie = movieHandler.GetSimilarMVBy(idGenre);
+        adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
+        gridSimilar.setAdapter(adapter);
         addEvents();
         return view;
     }
@@ -86,20 +98,6 @@ public class FragmentSimilarStyle extends Fragment {
         gridSimilar = view.findViewById(R.id.gridSimilar);
     }
     void addEvents(){
-
-        FragmentManager fm = getParentFragmentManager();
-        fm.setFragmentResultListener("similarMV", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
-                arrayListMovie = movieHandler.GetSimilarMVBy(result.getInt("idGenreMV"));
-                adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
-//                Toast.makeText(getContext(),"array: "+arrayListMovie.size(),Toast.LENGTH_SHORT).show();
-                gridSimilar.setAdapter(adapter);
-            }
-        });
-
         gridSimilar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -32,6 +32,8 @@ public class MovieHandler extends SQLiteOpenHelper {
     static final String THUMBNAILMOVIE_COL = "thumbnail";
 
 
+
+
     public MovieHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, TABLE_NAME, null, version);
         this.context = context;
@@ -66,6 +68,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'Joji','1','2','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN','Jin','JohnATDR','221','Phim hay heo hut.','sieunhan')";
         db.execSQL(sql);
+
 
         db.close();
     }

@@ -23,9 +23,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -77,6 +79,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
 
+    FrameLayout frameLayout;
     // array list phim thinh hanh
     ArrayList<Movie> arrayListPhimThinhHanh = new ArrayList<>();
 
@@ -169,8 +172,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         addRecycleViewEvents();
 
         return rootView;
-
-
     }
 
     private void addRecycleViewEvents() {
@@ -196,6 +197,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
         recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
+
 
 
 
@@ -254,6 +256,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
     private void addRootViewControls(View rootView){
+        frameLayout = rootView.findViewById(R.id.framelayout_content);
         btnMovie = rootView.findViewById(R.id.btnMovie);
         recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
@@ -272,12 +275,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
     private void addEvents(){
-//        btnPhat.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                return false;
-//            }
-//        });
 
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,12 +286,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-//        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -530,7 +521,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     }
 
-
     private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyFilm customAdapterRecyFilm){
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
@@ -559,4 +549,5 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         // Smooth scroll to the "title action" view
         nestedScrollView.smoothScrollTo(0, titleY, 1000);
     }
+
 }

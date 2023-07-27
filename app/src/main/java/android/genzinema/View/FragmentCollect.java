@@ -33,6 +33,9 @@ public class FragmentCollect extends Fragment {
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
     CustomGridCollectMV adapter;
     MovieHandler movieHandler;
+
+    private int idGenre = 0;
+    private int idStyle = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,6 +47,11 @@ public class FragmentCollect extends Fragment {
 
     public FragmentCollect() {
         // Required empty public constructor
+    }
+
+    public FragmentCollect(int idGenre, int idStyle){
+        this.idGenre = idGenre;
+        this.idStyle = idStyle;
     }
 
     /**
@@ -70,6 +78,7 @@ public class FragmentCollect extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
 
 
@@ -81,6 +90,10 @@ public class FragmentCollect extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_collect, container, false);
         addControls(view);
+        movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
+        arrayListMovie = movieHandler.GetCollectMVBy(idGenre, idStyle);
+        adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
+        gridCollect.setAdapter(adapter);
         addEvents();
         return view;
     }
@@ -88,35 +101,16 @@ public class FragmentCollect extends Fragment {
         gridCollect = view.findViewById(R.id.gridCollect);
     }
     void addEvents(){
-
-        FragmentManager fm = getParentFragmentManager();
-        fm.setFragmentResultListener("collectsMV", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
-                movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
-                arrayListMovie = movieHandler.GetCollectMVBy(result.getInt("idGenreMV"), result.getInt("idStyleMV"));
-                adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
-//                Toast.makeText(getContext(),"array: "+arrayListMovie.size(),Toast.LENGTH_SHORT).show();
-                gridCollect.setAdapter(adapter);
-            }
-        });
-
         gridCollect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Movie movie = adapter.GetItem(position);
-//                Toast.makeText(getContext(),"idMVCollect: "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
-
-
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-//                Toast.makeText(getContext(),"idMVCollect keyDetailMV: "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
-//                loadFragment(new FragmentDetailMovie());
 
             }
         });

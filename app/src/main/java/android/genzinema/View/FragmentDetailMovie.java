@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
@@ -65,7 +67,7 @@ public class FragmentDetailMovie extends Fragment {
 
     ScrollView scrollView;
 
-    Animation slideInAnimate, fadeInAnimate;
+    Animation fadeInAnimate,fadeOutAnimation;
 
     private String urlMovie = "";
 
@@ -113,7 +115,6 @@ public class FragmentDetailMovie extends Fragment {
         String keySearchTo = "keyMain";
         String keyHometo = "keyDetailMV";
 
-            Toast.makeText(getContext(),"loadFragmentDetailMV",Toast.LENGTH_SHORT).show();
         if(getContext() instanceof MainHome){
             HandleBundle(keyHometo);
         }
@@ -199,11 +200,26 @@ public class FragmentDetailMovie extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
 
-        slideInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
-        view.setAnimation(slideInAnimate);
+
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+
         exoPlayerCreate();
         addEvents();
+
+        playerView.setControllerShowTimeoutMs(3000);
+        playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
+            @Override
+            public void onVisibilityChange(int visibility) {
+                Log.d("state", String.valueOf(visibility));
+                if (visibility == View.VISIBLE) {
+                    playerView.startAnimation(fadeInAnimate);
+                } else {
+                    playerView.startAnimation(fadeOutAnimation);
+                }
+            }
+        });
 
         return view;
     }
@@ -227,26 +243,9 @@ public class FragmentDetailMovie extends Fragment {
         ft.commit();
     }
 
-    private void addAnimateEvents(){
-        slideInAnimate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
 
     private void exoPlayerCreate(){
+
         handler = new Handler(Looper.getMainLooper());
         // Create a DefaultRenderersFactory to be used by the ExoPlayer
         RenderersFactory renderersFactory = new DefaultRenderersFactory(getContext());
@@ -309,28 +308,29 @@ public class FragmentDetailMovie extends Fragment {
                 tvActorMV.setText("Diễn viên: "+movie.getActors());
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
-                btnSimilar.setTextColor(colorWhite);
-                btnEp.setTextColor(colorRed);
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
                 results.putInt("idGenreMV", idGenre);
                 results.putInt("idStyleMV", idStyle);
-                if (idStyle == 1) {
-                    getParentFragmentManager().setFragmentResult("collectsMV", results);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadFragment(new FragmentCollect());
-                        }
-                    }, 5000); // 500 milliseconds delay
+
+                if(idStyle==1) {
+                    btnSimilar.setTextColor(colorWhite);
+                    btnEp.setTextColor(colorRed);
+                    if (btnEpStateIsCollect) {
+                        btnEpStateIsCollect = false;
+                        getParentFragmentManager().setFragmentResult("collectsMV", results);
+                        loadFragment(new FragmentCollect(idGenre, idStyle));
+                    }
+
                 } else {
-                    getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            loadFragment(new FragmentEps());
-                        }
-                    }, 5000); // 500 milliseconds delay
+                    btnSimilar.setTextColor(colorWhite);
+                    btnEp.setTextColor(colorRed);
+                    if (btnEpStateIsCollect) {
+                        btnEpStateIsCollect = false;
+                        getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                        loadFragment(new FragmentEps(idMV));
+                    }
+
                 }
 
 
@@ -352,12 +352,12 @@ public class FragmentDetailMovie extends Fragment {
                             btnEp.setTextColor(colorRed);
                             if(btnEpStateIsCollect){
                                 btnEpStateIsCollect = false;
-                                Bundle results = new Bundle();
-                                results.putInt("idMV", idMV);
-                                results.putInt("idGenreMV", idGenre);
-                                results.putInt("idStyleMV", idStyle);
-                                getParentFragmentManager().setFragmentResult("collectsMV", results);
-                                loadFragment(new FragmentCollect());
+//                                Bundle results = new Bundle();
+//                                results.putInt("idMV", idMV);
+//                                results.putInt("idGenreMV", idGenre);
+//                                results.putInt("idStyleMV", idStyle);
+//                                getParentFragmentManager().setFragmentResult("collectsMV", results);
+                                loadFragment(new FragmentCollect(idGenre,idStyle));
                             }
                         }
 
@@ -372,12 +372,12 @@ public class FragmentDetailMovie extends Fragment {
                             btnSimilar.setTextColor(colorWhite);
                             if (btnEpStateIsCollect) {
                                 btnEpStateIsCollect = false;
-                                Bundle results = new Bundle();
-                                results.putInt("idMV", idMV);
-                                results.putInt("idGenreMV", idGenre);
-                                results.putInt("idStyleMV", idStyle);
-                                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                                loadFragment(new FragmentEps());
+//                                Bundle results = new Bundle();
+//                                results.putInt("idMV", idMV);
+//                                results.putInt("idGenreMV", idGenre);
+//                                results.putInt("idStyleMV", idStyle);
+//                                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                                loadFragment(new FragmentEps(idMV));
                             }
                         }
 
@@ -390,11 +390,11 @@ public class FragmentDetailMovie extends Fragment {
                         btnSimilar.setTextColor(colorRed);
                         if(!btnEpStateIsCollect) {
                             btnEpStateIsCollect = true;
-                            Bundle results = new Bundle();
-                            results.putInt("idMV", idMV);
-                            results.putInt("idGenreMV", idGenre);
-                            getParentFragmentManager().setFragmentResult("similarMV", results);
-                            loadFragment(new FragmentSimilarStyle());
+//                            Bundle results = new Bundle();
+//                            results.putInt("idMV", idMV);
+//                            results.putInt("idGenreMV", idGenre);
+//                            getParentFragmentManager().setFragmentResult("similarMV", results);
+                            loadFragment(new FragmentSimilarStyle(idGenre));
                         }
                     }
                 });
