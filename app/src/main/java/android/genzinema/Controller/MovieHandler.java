@@ -249,5 +249,17 @@ public class MovieHandler extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    public ArrayList<Movie> getMoviesByMovie(int genreId, int idType) {
+        loadData();
+        ArrayList<Movie> arrayList = new ArrayList<Movie>();
+        for (Movie movie : arrayListMovie) {
+//            Log.d("me",String.valueOf(movie.getIdGenre() == genreId)+" "+movie.getIdGenre());
+            if (movie.getIdType() == idType && movie.getIdGenre() == genreId) {
+                arrayList.add(movie);
+            }
+        }
+        return arrayList;
+    }
+
 
 }
