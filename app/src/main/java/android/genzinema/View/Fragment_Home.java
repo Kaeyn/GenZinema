@@ -73,7 +73,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     private int scrollY = 0;
     private int threshold = 20;
     Dialog dialog;
-    LinearLayout liLayout;
+    LinearLayout recommendedBackground;
 
     MovieHandler movieHandler;;
     SQLiteDatabase db;
@@ -258,6 +258,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         btnGenres = rootView.findViewById(R.id.btnGenres);
         appBarLayout = rootView.findViewById(R.id.appBarLayout);
         nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+        recommendedBackground = rootView.findViewById(R.id.homeRecommendBackground);
     }
 
     private void addEvents(){
