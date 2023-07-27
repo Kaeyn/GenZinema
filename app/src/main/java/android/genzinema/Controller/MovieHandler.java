@@ -221,6 +221,19 @@ public class MovieHandler extends SQLiteOpenHelper {
         }
         return arrayList;
     }
+
+    public Movie GetRecommendedMovie() {
+        loadData();
+        Movie movie = new Movie();
+        Random random = new Random();
+        int randomMovie = random.nextInt(arrayListMovie.size() - 1) + 1;
+        for (Movie m : arrayListMovie) {
+            if (m.getIdMV() == randomMovie){
+                movie = m;
+            }
+        }
+        return movie;
+    }
     public ArrayList<Movie> getMoviesByGenre(int genreId) {
         loadData();
         ArrayList<Movie> arrayList = new ArrayList<Movie>();

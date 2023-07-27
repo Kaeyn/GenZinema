@@ -21,9 +21,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +62,10 @@ public class FragmentDetailMovie extends Fragment {
     Handler handler;
     PlayerView playerView;
     FavoriteMovieHander favoriteMovieHander;
+
+    ScrollView scrollView;
+
+    Animation slideInAnimate, fadeInAnimate;
 
     private String urlMovie = "";
 
@@ -120,6 +127,7 @@ public class FragmentDetailMovie extends Fragment {
     }
 
     private void addControl(View view){
+        scrollView = view.findViewById(R.id.scrollViewDetailMovie);
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
@@ -192,16 +200,52 @@ public class FragmentDetailMovie extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
+
+        slideInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_right);
+        view.setAnimation(slideInAnimate);
+        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         exoPlayerCreate();
         addEvents();
 
         return view;
     }
+
+    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View childView = viewGroup.getChildAt(i);
+            childView.startAnimation(animation);
+
+            // If the child is another ViewGroup (e.g., LinearLayout), apply the animation to its children recursively
+            if (childView instanceof ViewGroup) {
+                applyFadeInAnimationToChildren((ViewGroup) childView, animation);
+            }
+        }
+    }
+
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout, fragment);
         ft.commit();
+    }
+
+    private void addAnimateEvents(){
+        slideInAnimate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     private void exoPlayerCreate(){
