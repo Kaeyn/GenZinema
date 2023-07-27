@@ -51,6 +51,12 @@ import java.util.ArrayList;
  */
 public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
 
+    AppBarLayout appBarLayout;
+    NestedScrollView nestedScrollView;
+    Button btnMovie, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam;
+
+    TextView tvTrangChu;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,11 +65,10 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     private boolean isScrolling = false;
 
     private GradientDrawable originalBackgroundDrawable;
-
-    Button btnMovie, btnCloseGenres;
 
     private int scrollY = 0;
     private int threshold = 20;
@@ -134,45 +139,134 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
+        View view = getLayoutInflater().inflate(R.layout.display_genres, null);
+
+        addRootViewControls(rootView);
+        addViewControls(view);
+
+        // Initialize your ArrayList and populate it with data
+        type_of_filmArrayList = new ArrayList<>();
+        type_of_filmArrayList.add("Thể loại");
+        type_of_filmArrayList.add("Animme");
+        type_of_filmArrayList.add("Hành động");
+        type_of_filmArrayList.add("Kinh dị");
+
+
+        dialog = new Dialog(getActivity(), R.style.CustomDialog);
+        dialog.setContentView(view);
+
+        originalBackgroundDrawable = (GradientDrawable) btnAnime.getBackground();
+
+        addEvents();
+        loadArrayListData();
+        addRecycleViewByGenres();
+        addRecycleViewEvents();
+
+        return rootView;
+
+
+    }
+
+    private void addRecycleViewEvents() {
+        recyclerViewPhimThinhHanh.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimThinhHanh.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimThinhHanh));
+
+        recyclerViewPhimAnime.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimAnime.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimAnime));
+
+        recyclerViewPhimHanhDong.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimHanhDong.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimHanhDong));
+
+        recyclerViewPhimKinhDi.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerViewPhimKinhDi.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimKinhDi));
+    }
+
+    private void addRecycleViewByGenres() {
+        // Display list film of "Hien dang thinh hanh"
+        recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManager;
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimThinhHanh.setLayoutManager(layoutManager);
+        recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
+        recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
 
 
 
+        // Display list film of "Anime"
+        recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerAnime;
+        layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
+        recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
+
+
+        // Display list film of "Hanh dong"
+        recyclerViewPhimHanhDong.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerHanhDong;
+        layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
+        recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
+
+        // Display list film of "Kinh di"
+        recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManagerKinhDi;
+        layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
+        recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
+        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
+        adapterRecyFilmKinhDi.setOnItemClickListener(this);
+    }
+
+    private void loadArrayListData() {
+        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
+
+        // init data for "phim anime"
+        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
+
+        // init data for "phim hanh dong"
+        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
+
+        // init data for "phim kinh di"
+        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(4);
+    }
+
+    private void addViewControls(View view){
+        btnCloseGenres = view.findViewById(R.id.btnCloseGenres);
+        btnAnime = view.findViewById(R.id.btnAnime);
+        btnHanhDong = view.findViewById(R.id.btnHanhDong);
+        btnHaiHuoc = view.findViewById(R.id.btnHaiHuoc);
+        btnKinhDi = view.findViewById(R.id.btnKinhDi);
+        btnTinhCam = view.findViewById(R.id.btnTinhCam);
+        tvTrangChu = view.findViewById(R.id.tvTrangChu);
+
+
+    }
+
+    private void addRootViewControls(View rootView){
         btnMovie = rootView.findViewById(R.id.btnMovie);
         recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
         recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
         recyclerViewPhimKinhDi = rootView.findViewById(R.id.recyViewPhimKinhDi);
         imgFilm = rootView.findViewById(R.id.imgHomeFilm);
+        btnGenres = rootView.findViewById(R.id.btnGenres);
+        appBarLayout = rootView.findViewById(R.id.appBarLayout);
+        nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
+    }
 
-        // Initialize your ArrayList and populate it with data
-        type_of_filmArrayList = new ArrayList<>();
-        // Add your data to the ArrayList
-        type_of_filmArrayList.add("Thể loại");
-        type_of_filmArrayList.add("Animme");
-        type_of_filmArrayList.add("Hành động");
-        type_of_filmArrayList.add("Kinh dị");
-        // ... Add more items as needed
-
-        // Find the Spinner in your fragment's layout
-
-        // Create the ArrayAdapter using your type_of_filmArrayList and a default spinner layout
-
-        // Specify the layout to use when the list of choices appears
-
-        View view = getLayoutInflater().inflate(R.layout.display_genres, null);
-
-        Button btnCloseGenres = view.findViewById(R.id.btnCloseGenres);
-
-        Button btnAnime = view.findViewById(R.id.btnAnime);
-        Button btnHanhDong = view.findViewById(R.id.btnHanhDong);
-        Button btnHaiHuoc = view.findViewById(R.id.btnHaiHuoc);
-        Button btnKinhDi = view.findViewById(R.id.btnKinhDi);
-        Button btnTinhCam = view.findViewById(R.id.btnTinhCam);
-        Button btnGenres = rootView.findViewById(R.id.btnGenres);
-        TextView tvTrangChu = view.findViewById(R.id.tvTrangChu);
-
-        dialog = new Dialog(getActivity(), R.style.CustomDialog);
-        dialog.setContentView(view);
+    private void addEvents(){
+        tvTrangChu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         btnCloseGenres.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,12 +275,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-        tvTrangChu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+
 
         btnGenres.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +284,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-        originalBackgroundDrawable = (GradientDrawable) btnAnime.getBackground();
+
 
         btnAnime.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -297,73 +386,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-
-
-
-
-
-
-        // Apply the adapter to the spinner
-
-        // init data for "phim thinh hanh"
-        arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
-
-        // init data for "phim anime"
-        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
-
-        // init data for "phim hanh dong"
-        arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
-
-        // init data for "phim kinh di"
-        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(4);
-
-        // Display list film of "Hien dang thinh hanh"
-        recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        RecyclerView.LayoutManager layoutManager;
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewPhimThinhHanh.setLayoutManager(layoutManager);
-        recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
-        recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
-
-
-
-        // Display list film of "Anime"
-        recyclerViewPhimAnime.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        RecyclerView.LayoutManager layoutManagerAnime;
-        layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
-        recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
-        recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
-
-
-        // Display list film of "Hanh dong"
-        recyclerViewPhimHanhDong.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        RecyclerView.LayoutManager layoutManagerHanhDong;
-        layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
-        recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
-        recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
-
-        // Display list film of "Kinh di"
-        recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        RecyclerView.LayoutManager layoutManagerKinhDi;
-        layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
-        recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
-        recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
-        adapterRecyFilmKinhDi.setOnItemClickListener(this);
-
-
-
-
-
-        AppBarLayout appBarLayout = rootView.findViewById(R.id.appBarLayout);
-        NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
-
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
@@ -377,27 +399,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 scrollY = y;
             }
         });
-
-
-
-
-
-
-        recyclerViewPhimThinhHanh.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimThinhHanh.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimThinhHanh));
-
-        recyclerViewPhimAnime.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimAnime.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimAnime));
-
-        recyclerViewPhimHanhDong.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimHanhDong.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimHanhDong));
-
-        recyclerViewPhimKinhDi.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
-        recyclerViewPhimKinhDi.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerViewPhimKinhDi));
-
-        return rootView;
-
-
     }
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
