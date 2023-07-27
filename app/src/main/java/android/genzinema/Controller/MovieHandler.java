@@ -39,7 +39,7 @@ public class MovieHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        droptbMV(db);
+//        droptbMV();
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ( " +
                 IDMOVIE_COL+" INTEGER NOT NULL UNIQUE, " +
@@ -93,8 +93,8 @@ public class MovieHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-    public void droptbMV(SQLiteDatabase db){
-        db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+    public void droptbMV(){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         String sql = "Drop table " + TABLE_NAME;
         db.execSQL(sql);
         db.close();

@@ -308,14 +308,15 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         // init data for "phim thinh hanh"
         arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
 
-        // init data for "phim anime"
-        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
+        // init data for "phim kinh di"
+        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(2);
 
         // init data for "phim hanh dong"
         arrayListPhimHanhDong = movieHandler.getMoviesByGenre(3);
 
-        // init data for "phim kinh di"
-        arrayListPhimKinhDi = movieHandler.getMoviesByGenre(4);
+
+        // init data for "phim anime"
+        arrayListPhimAnime = movieHandler.getMoviesByGenre(2);
 
         // Display list film of "Hien dang thinh hanh"
         recyclerViewPhimThinhHanh.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
@@ -422,6 +423,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 results.putInt("idMV", movie.getIdMV());
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
+                Toast.makeText(getContext(),"idMV "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
                 loadFragment(new FragmentDetailMovie());
             }

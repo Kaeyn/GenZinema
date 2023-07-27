@@ -109,6 +109,7 @@ public class FragmentDetailMovie extends Fragment {
 
 
         if(getContext() instanceof MainHome){
+            Toast.makeText(getContext(),"van o MainHome",Toast.LENGTH_SHORT).show();
             HandleBundle(keyHometo);
         }
         else if (getContext() instanceof DetailMoviePage){
@@ -116,6 +117,7 @@ public class FragmentDetailMovie extends Fragment {
         }else{
             HandleBundle(keyCollectionsto);
         }
+
 
     }
 
@@ -251,7 +253,7 @@ public class FragmentDetailMovie extends Fragment {
                 int idMV = result.getInt("idMV");
                 int idGenre = result.getInt("idGenreMV");
                 int idStyle = result.getInt("idStyleMV");
-//                Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"idMVDetail "+idMV,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getContext(),"DetailMovie idMV: "+idMV,Toast.LENGTH_SHORT).show();
@@ -357,5 +359,6 @@ public class FragmentDetailMovie extends Fragment {
 
         });
     }
+
 
 }

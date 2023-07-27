@@ -94,7 +94,6 @@ public class FragmentCollect extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
 
-//                Toast.makeText(getContext(),String.valueOf(result.getInt("idMV")),Toast.LENGTH_SHORT).show();
                 movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
                 arrayListMovie = movieHandler.GetCollectMVBy(result.getInt("idGenreMV"), result.getInt("idStyleMV"));
                 adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
@@ -106,14 +105,18 @@ public class FragmentCollect extends Fragment {
         gridCollect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Bundle results = new Bundle();
-//                Movie movie = adapter.GetItem(position);
-//                results.putInt("idMV", movie.getIdMV());
-//                results.putInt("idGenreMV", movie.getIdGenre());
-//                results.putInt("idStyleMV", movie.getIdType());
-//                getParentFragmentManager().setFragmentResult("keyMain", results);
+
+                Movie movie = adapter.GetItem(position);
+                Toast.makeText(getContext(),"idMVCollect: "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
+
+
+                Bundle results = new Bundle();
+                results.putInt("idMV", movie.getIdMV());
+                results.putInt("idGenreMV", movie.getIdGenre());
+                results.putInt("idStyleMV", movie.getIdType());
+                getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+//                Toast.makeText(getContext(),"idMVCollect keyDetailMV: "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
 //                loadFragment(new FragmentDetailMovie());
-                //we lose
 
             }
         });
