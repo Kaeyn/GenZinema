@@ -84,10 +84,6 @@ public class Fragment_HotnNew extends Fragment {
         View view = inflater.inflate(R.layout.fragment__hotn_new, container, false);
 
         addControls(view);
-
-
-
-
         subcategoryViewPager.setUserInputEnabled(false);
         subcategoryLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
 

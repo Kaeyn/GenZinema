@@ -429,10 +429,9 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     public void onItemClick(int position) {
 
     }
-
-
     private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
-        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
+        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView,
+                new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Movie movie = adapterRecyFilm.GetItem(position);
