@@ -50,7 +50,9 @@ import com.google.android.exoplayer2.util.Util;
  * Use the {@link FragmentDetailMovie#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class FragmentDetailMovie extends Fragment {
+
     private boolean btnEpStateIsCollect = true;
 
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
@@ -162,8 +164,9 @@ public class FragmentDetailMovie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
-                favoriteMovieHander.loadData();
+//                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+//                favoriteMovieHander.loadData();
+
             }
         });
 
@@ -402,4 +405,13 @@ public class FragmentDetailMovie extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

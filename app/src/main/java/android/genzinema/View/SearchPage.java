@@ -15,6 +15,7 @@ import android.genzinema.Controller.Cus_Item_Search_Adapter;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -31,6 +32,8 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
+        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addControls();
 
         Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -55,9 +58,10 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
                     intent.putExtra("idMV",movie.getIdMV());
                     intent.putExtra("idGenreMV",movie.getIdGenre());
                     intent.putExtra("idStyleMV",movie.getIdType());
-
                     startActivity(intent);
+
                 }
+
                 return true;
             }
 
@@ -83,5 +87,21 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     public void onItemClick(int position) {
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); // Call the onBackPressed() method to navigate back
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }
