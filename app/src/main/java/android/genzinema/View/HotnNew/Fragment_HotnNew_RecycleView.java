@@ -1,17 +1,22 @@
 package android.genzinema.View.HotnNew;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.genzinema.Controller.Cus_Item_Search_Adapter;
+import android.genzinema.Controller.CustomRecycleView;
 import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.Movie;
+import android.genzinema.View.FragmentDetailMovie;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +29,16 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CustomRecycleView#newInstance} factory method to
+ * Use the  factory method to
  * create an instance of this fragment.
  */
-public class HotnNew_RecycleView extends Fragment {
+public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecycleView.OnItemClickListener {
     private String subcategoryName;
-
     MovieHandler movieHandler;
     SQLiteDatabase database;
-
     CustomRecycleView adapter;
 
-    public HotnNew_RecycleView(String subcategoryName){
+    public Fragment_HotnNew_RecycleView(String subcategoryName){
         this.subcategoryName = subcategoryName;
     }
     // TODO: Rename parameter arguments, choose names that match
@@ -47,13 +50,11 @@ public class HotnNew_RecycleView extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HotnNew_RecycleView() {
+    public Fragment_HotnNew_RecycleView() {
         // Required empty public constructor
     }
-
-
-    public static HotnNew_RecycleView newInstance(String subcategoryName) {
-        HotnNew_RecycleView fragment = new HotnNew_RecycleView(subcategoryName);
+    public static Fragment_HotnNew_RecycleView newInstance(String subcategoryName) {
+        Fragment_HotnNew_RecycleView fragment = new Fragment_HotnNew_RecycleView(subcategoryName);
         return fragment;
     }
 
@@ -65,7 +66,6 @@ public class HotnNew_RecycleView extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,14 +77,16 @@ public class HotnNew_RecycleView extends Fragment {
         movieHandler = new MovieHandler(getContext(), UserHandler.DB_NAME,null,1);
         movieHandler.onCreate(database);
 
-
         ArrayList<Movie> dataList = getSubcategoryData(subcategoryName);
 
         adapter = new CustomRecycleView(dataList);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
+        recyclerView.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerView));
+
         return view;
     }
-
 
     private ArrayList<Movie> getSubcategoryData(String subcategoryName) {
         ArrayList<Movie> arrayList = new ArrayList<>();
@@ -103,60 +105,36 @@ public class HotnNew_RecycleView extends Fragment {
             return arrayList;
         }
     }
-    private class CustomRecycleView extends RecyclerView.Adapter<CustomRecycleView.YourViewHolder> {
 
-        private List<Movie> dataList;
+    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
+        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView,
+                new RecyclerItemTouchListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Movie movie = adapter.GetItem(position);
+                        Bundle results = new Bundle();
+                        results.putInt("idMV", movie.getIdMV());
+                        results.putInt("idGenreMV", movie.getIdGenre());
+                        results.putInt("idStyleMV", movie.getIdType());
+                        getParentFragmentManager().setFragmentResult("keyDetailMV", results);
+                        loadFragment(new FragmentDetailMovie());
+                    }
 
-        public CustomRecycleView(List<Movie> dataList) {
-            this.dataList = dataList;
-        }
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+                    }
+                });
+        return itemTouchListener;
+    }
+    @Override
+    public void onItemClick(int position) {
 
-        @NonNull
-        @Override
-        public YourViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_custom_item_hotnnew, parent, false);
-
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle results = new Bundle();
-                }
-            });
-            return new YourViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull YourViewHolder holder, int position) {
-            Movie movie = dataList.get(position);
-            // Bind data to your views in the holder (e.g., set text, images, etc.)
-            // Example:
-            holder.imageView.setImageResource(movie.getIdThumbnails());
-            holder.textViewTitle.setText(movie.getNameMovie());
-            holder.textViewDescription.setText(movie.getDetail());
-            // Set other views as needed based on YourDataModel properties
-        }
-
-
-        @Override
-        public int getItemCount() {
-            return dataList.size();
-        }
-
-        // Define YourViewHolder class to hold references to views in your item layout
-        private class YourViewHolder extends RecyclerView.ViewHolder {
-            ImageView imageView;
-            TextView textViewTitle;
-            TextView textViewDescription;
-
-            public YourViewHolder(View itemView) {
-                super(itemView);
-                // Initialize your views here (e.g., find views by id)
-                imageView = itemView.findViewById(R.id.imgItemHotnNew);
-                textViewTitle = itemView.findViewById(R.id.txtTitleHotnNew);
-                textViewDescription = itemView.findViewById(R.id.txtDescriptionHotnNew);
-                // Initialize other views based on your item layout
-            }
-        }
+    }
+    public void loadFragment(Fragment fragment){
+        FragmentManager fm = getParentFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameFragment, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 }

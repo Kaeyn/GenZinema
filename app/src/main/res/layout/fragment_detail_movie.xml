@@ -8,8 +8,10 @@
     tools:context=".View.FragmentDetailMovie">
 
     <ScrollView
+        android:id="@+id/scrollViewDetailMovie"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/transparent_background">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
