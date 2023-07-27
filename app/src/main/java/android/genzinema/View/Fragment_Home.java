@@ -66,6 +66,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     Dialog dialog;
     LinearLayout recommendedBackground;
 
+    View tiltleKinhDi, tiltleAnime, tiltleHanhDong;
+
     MovieHandler movieHandler;;
     SQLiteDatabase db;
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
@@ -132,6 +134,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
+
 
         addRootViewControls(rootView);
         addViewControls(view);
@@ -213,6 +216,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
         recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
 
+
         // Display list film of "Kinh di"
         recyclerViewPhimKinhDi.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManagerKinhDi;
@@ -245,8 +249,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         btnKinhDi = view.findViewById(R.id.btnKinhDi);
         btnTinhCam = view.findViewById(R.id.btnTinhCam);
         tvTrangChu = view.findViewById(R.id.tvTrangChu);
-
-
     }
 
     private void addRootViewControls(View rootView){
@@ -262,10 +264,13 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         recommendedBackground = rootView.findViewById(R.id.homeRecommendBackground);
         btnPhat = rootView.findViewById(R.id.btnPhat);
         btnDanhSach = rootView.findViewById(R.id.btnDanhSach);
+        tiltleKinhDi = rootView.findViewById(R.id.tiltleKinhDi);
+        tiltleAnime = rootView.findViewById(R.id.tiltleAnime);
+        tiltleHanhDong = rootView.findViewById(R.id.tiltleHanhDong);
     }
 
     private void addEvents(){
-        btnPhat.setOnLongClickListener(new View.OnLongClickListener() {
+        btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 return false;
@@ -284,8 +289,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
         btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void onClick(View v) {
+
             }
         });
 
@@ -329,6 +334,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Reset the background color to its original state when long click is released
                     btnAnime.setBackground(originalBackgroundDrawable);
+                    dialog.dismiss();
+                    scrollToItemId(tiltleAnime);
                 }
                 return false;
             }
@@ -369,6 +376,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Reset the background color to its original state when long click is released
                     btnHanhDong.setBackground(originalBackgroundDrawable);
+                    dialog.dismiss();
+                    scrollToItemId(tiltleHanhDong);
                 }
                 return false;
             }
@@ -389,6 +398,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     // Reset the background color to its original state when long click is released
                     btnKinhDi.setBackground(originalBackgroundDrawable);
+                    dialog.dismiss();
+                    scrollToItemId(tiltleKinhDi);
                 }
                 return false;
             }
@@ -473,5 +484,14 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
         return itemTouchListener;
+    }
+
+    private void scrollToItemId(View view) {
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+        // Calculate the y-coordinate of the "title action" view relative to the NestedScrollView
+        int titleY = location[1] - nestedScrollView.getTop() - 250;
+        // Smooth scroll to the "title action" view
+        nestedScrollView.smoothScrollTo(0, titleY, 1000);
     }
 }

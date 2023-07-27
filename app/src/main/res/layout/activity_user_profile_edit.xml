@@ -54,17 +54,10 @@
 
         <ImageView
             android:id="@+id/img_User"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             app:srcCompat="@drawable/account_icon" />
 
-        <Button
-            android:id="@+id/btn_updateImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chỉnh sửa Avatar"
-            android:textColor="#03A9F4"
-            android:backgroundTint="#00FF0000"/>
     </LinearLayout>
 
 

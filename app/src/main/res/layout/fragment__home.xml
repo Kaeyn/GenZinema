@@ -178,7 +178,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/actionTitle"
+                android:id="@+id/tiltleThinhHanh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -211,7 +211,7 @@
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/tiltleAnime"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -245,7 +245,7 @@
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/tiltleHanhDong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -279,6 +279,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tiltleKinhDi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
