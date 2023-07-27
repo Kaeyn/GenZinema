@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.SearchPage">
+    tools:context=".View.Activity.SearchPage">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,7 +74,8 @@
             <SearchView
                 android:id="@+id/searchViewText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                />
         </LinearLayout>
 
         <LinearLayout

@@ -1,10 +1,6 @@
 package android.genzinema.View.HotnNew;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.Hot_New_Pager_Adapter;
-import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Controller.UserHandler;
-import android.genzinema.Model.Movie;
+import android.genzinema.Controller.CustomAdapter.Hot_New_Pager_Adapter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,8 +13,6 @@ import android.genzinema.R;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
