@@ -37,13 +37,9 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addControls();
 
-<<<<<<< HEAD:app/src/main/java/android/genzinema/View/SearchPage.java
-        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        arrayList.add(movie);
-=======
+
 //        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 //        arrayList.add(movie);
->>>>>>> parent of 0533b7d (Revert "Merge branch 'clone' of https://github.com/Kaeyn/GenZinema into clone"):app/src/main/java/android/genzinema/View/Activity/SearchPage.java
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;

@@ -268,8 +268,6 @@ public class MovieHandler extends SQLiteOpenHelper {
         return arrayList;
     }
 
-<<<<<<< HEAD:app/src/main/java/android/genzinema/Controller/MovieHandler.java
-=======
     public ArrayList<Movie> getMoviesByMovie(int genreId, int idType) {
         loadData();
         ArrayList<Movie> arrayList = new ArrayList<Movie>();
@@ -282,6 +280,5 @@ public class MovieHandler extends SQLiteOpenHelper {
         return arrayList;
     }
 
->>>>>>> parent of 0533b7d (Revert "Merge branch 'clone' of https://github.com/Kaeyn/GenZinema into clone"):app/src/main/java/android/genzinema/Controller/Handler/MovieHandler.java
 
 }

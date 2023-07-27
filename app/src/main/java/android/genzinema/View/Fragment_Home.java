@@ -297,8 +297,7 @@ String email;
             }
         });
 
-<<<<<<< HEAD:app/src/main/java/android/genzinema/View/Fragment_Home.java
-=======
+
         btnPhim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,7 +326,6 @@ String email;
             }
         });
 
->>>>>>> parent of 0533b7d (Revert "Merge branch 'clone' of https://github.com/Kaeyn/GenZinema into clone"):app/src/main/java/android/genzinema/View/Fragment/Fragment_Home.java
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override

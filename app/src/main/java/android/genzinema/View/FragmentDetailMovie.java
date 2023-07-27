@@ -58,14 +58,10 @@ public class FragmentDetailMovie extends Fragment {
 
     private boolean btnEpStateIsCollect = true;
     int idMV;
-<<<<<<< HEAD:app/src/main/java/android/genzinema/View/FragmentDetailMovie.java
     String UrlTrailer;
-=======
-    String UrlTrailer = "";
 
     String keySearchTo = "keyMain";
     String keyHometo = "keyDetailMV";
->>>>>>> parent of 0533b7d (Revert "Merge branch 'clone' of https://github.com/Kaeyn/GenZinema into clone"):app/src/main/java/android/genzinema/View/Fragment/FragmentDetailMovie.java
     SQLiteDatabase db;
     String email;
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
@@ -220,11 +216,10 @@ public class FragmentDetailMovie extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
         addControl(view);
 
-<<<<<<< HEAD:app/src/main/java/android/genzinema/View/FragmentDetailMovie.java
 
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
 
         exoPlayerCreate();
         addEvents();
@@ -241,7 +236,6 @@ public class FragmentDetailMovie extends Fragment {
                 }
             }
         });
-=======
         if(getContext() instanceof MainHome){
             HandleBundle(keyHometo);
         }
@@ -283,7 +277,6 @@ public class FragmentDetailMovie extends Fragment {
         }, 200);
 
 
->>>>>>> parent of 0533b7d (Revert "Merge branch 'clone' of https://github.com/Kaeyn/GenZinema into clone"):app/src/main/java/android/genzinema/View/Fragment/FragmentDetailMovie.java
 
         return view;
     }
