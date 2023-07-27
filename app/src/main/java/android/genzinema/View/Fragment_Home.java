@@ -264,17 +264,17 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
     private void addEvents(){
-        btnPhat.setOnLongClickListener(new View.OnLongClickListener() {
+        btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void onClick(View v) {
+
             }
         });
 
-        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
+        btnDanhSach.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void onClick(View v) {
+                
             }
         });
 
