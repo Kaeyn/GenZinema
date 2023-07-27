@@ -272,13 +272,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     private void addEvents(){
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
-
-        btnPhat.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idMV", recommendedMovieId);
@@ -287,12 +280,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
