@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -169,8 +170,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         addRecycleViewEvents();
 
         return rootView;
-
-
     }
 
     private void addRecycleViewEvents() {
@@ -196,6 +195,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
         recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
+
 
 
 
@@ -468,7 +468,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
     }
 
-
     private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyFilm customAdapterRecyFilm){
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
@@ -497,4 +496,5 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         // Smooth scroll to the "title action" view
         nestedScrollView.smoothScrollTo(0, titleY, 1000);
     }
+
 }
