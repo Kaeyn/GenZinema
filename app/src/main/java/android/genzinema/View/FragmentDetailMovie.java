@@ -122,7 +122,7 @@ public class FragmentDetailMovie extends Fragment {
     }
 
     private void addControl(View view){
-//        scrollView = view.findViewById(R.id.scrollViewDetailMovie);
+        scrollView = view.findViewById(R.id.scrollViewDetailMovie);
         pb = view.findViewById(R.id.pbDetailMV);
         btnEp = view.findViewById(R.id.btnEps);
         btnSimilar = view.findViewById(R.id.btnSimilarStyle);
@@ -198,6 +198,9 @@ public class FragmentDetailMovie extends Fragment {
         String keyHometo = "keyDetailMV";
         String keyHometosc = "keyDetailMVsc";
 
+        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+
         if(getContext() instanceof MainHome){
             HandleBundle(keyHometo,view);
         }
@@ -208,9 +211,7 @@ public class FragmentDetailMovie extends Fragment {
         }
 
 
-        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -237,17 +238,17 @@ public class FragmentDetailMovie extends Fragment {
     }
 
 
-//    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
-//        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-//            View childView = viewGroup.getChildAt(i);
-//            childView.startAnimation(animation);
-//
-//            // If the child is another ViewGroup (e.g., LinearLayout), apply the animation to its children recursively
-//            if (childView instanceof ViewGroup) {
-//                applyFadeInAnimationToChildren((ViewGroup) childView, animation);
-//            }
-//        }
-//    }
+    private void applyFadeInAnimationToChildren(ViewGroup viewGroup, Animation animation) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View childView = viewGroup.getChildAt(i);
+            childView.startAnimation(animation);
+
+            // If the child is another ViewGroup (e.g., LinearLayout), apply the animation to its children recursively
+            if (childView instanceof ViewGroup) {
+                applyFadeInAnimationToChildren((ViewGroup) childView, animation);
+            }
+        }
+    }
 
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
@@ -271,8 +272,9 @@ public class FragmentDetailMovie extends Fragment {
         fm.setFragmentResultListener(key, this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                email = result.getString("email");
                 addControl(view);
+                applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+                email = result.getString("email");
                 idMV = result.getInt("idMV");
                 favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
                 int idGenre = result.getInt("idGenreMV");
