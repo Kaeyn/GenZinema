@@ -1,5 +1,6 @@
 package android.genzinema.Controller;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -71,11 +72,23 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
     }
     public boolean IsAdded(String email, Integer idMV){
         for (FavoriteMovie favoriteMovie : arrayListFMV){
-            if(favoriteMovie.getIdMovie() == idMV && favoriteMovie.getEmailUser() == email){
+            if(favoriteMovie.getIdMovie() == idMV &&
+                    favoriteMovie.getEmailUser() == email){
                 return true;
             }
         }
         return false;
+    }
+    public void AddFavoriteMV(String email, Integer idMV){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
+        String sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ("+arrayListFMV.size()+","+idMV+","+email+")";
+        db.execSQL(sql);
+        db.close();
+    }
+    public void DeleteFavoriteMV(String email, Integer idMV){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
+        db.delete(TABLE_NAME,IDMOVIE_COL+" =? AND "+EMAIL_COL+" =?",new String[]{idMV.toString(),email});
+        db.close();
     }
 
 

@@ -2,6 +2,7 @@ package android.genzinema.View;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
@@ -49,7 +50,9 @@ import com.google.android.exoplayer2.util.Util;
  */
 public class FragmentDetailMovie extends Fragment {
     private boolean btnEpStateIsCollect = true;
-
+    int idMV;
+    SQLiteDatabase db;
+    String email;
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar, btnPlayVideo, btnAddList;
@@ -155,7 +158,13 @@ public class FragmentDetailMovie extends Fragment {
             @Override
             public void onClick(View v) {
                 favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+                favoriteMovieHander.onCreate(db);
                 favoriteMovieHander.loadData();
+                if(!favoriteMovieHander.IsAdded(email,idMV)){
+                    favoriteMovieHander.AddFavoriteMV(email,idMV);
+                }else{
+                    favoriteMovieHander.DeleteFavoriteMV(email,idMV);
+                }
             }
         });
 
@@ -248,7 +257,8 @@ public class FragmentDetailMovie extends Fragment {
         fm.setFragmentResultListener(key, this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                int idMV = result.getInt("idMV");
+                idMV = result.getInt("idMV");
+                email = result.getString("email");
                 int idGenre = result.getInt("idGenreMV");
                 int idStyle = result.getInt("idStyleMV");
 //                Toast.makeText(getContext(),"idMV "+idMV,Toast.LENGTH_SHORT).show();
