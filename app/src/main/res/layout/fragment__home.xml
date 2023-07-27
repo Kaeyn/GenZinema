@@ -37,12 +37,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
                         android:text="Movie"
-                            app:cornerRadius="100dp"
+                        app:cornerRadius="100dp"
                         app:strokeColor="#FFFFFF"
                         app:strokeWidth="1dp" />
 
                     <Button
-                        android:id="@+id/btnPhim"
+                        android:id="@+id/btnfilm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
