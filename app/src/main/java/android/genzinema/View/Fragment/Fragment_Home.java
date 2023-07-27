@@ -7,10 +7,13 @@ import android.genzinema.Controller.CustomAdapter.CustomAdapterRecyFilm;
 import android.genzinema.Controller.Handler.MovieHandler;
 import android.genzinema.Controller.CustomAdapter.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -21,7 +24,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +54,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 String email;
     AppBarLayout appBarLayout;
     NestedScrollView nestedScrollView;
-    Button btnMovie, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
+    Button btnMovie, btnPhim, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
 
     TextView tvTrangChu;
 
@@ -168,8 +174,8 @@ String email;
 
         originalBackgroundDrawable = (GradientDrawable) btnAnime.getBackground();
 
-        addEvents();
         loadArrayListData();
+        addEvents();
         addRecycleViewByGenres();
         addRecycleViewEvents();
 
@@ -235,6 +241,7 @@ String email;
     }
 
     private void loadArrayListData() {
+
         arrayListPhimThinhHanh = movieHandler.getMoviesByGenre(1);
 
         // init data for "phim anime"
@@ -260,6 +267,7 @@ String email;
     private void addRootViewControls(View rootView){
         frameLayout = rootView.findViewById(R.id.framelayout_content);
         btnMovie = rootView.findViewById(R.id.btnMovie);
+        btnPhim = rootView.findViewById(R.id.btnPhim);
         recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
         recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
@@ -287,6 +295,35 @@ String email;
                 loadFragment(new FragmentDetailMovie());
             }
         });
+
+        btnPhim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayListPhimKinhDi = movieHandler.getMoviesByMovie(2,1);
+                arrayListPhimAnime = movieHandler.getMoviesByMovie(5,1);
+                arrayListPhimHanhDong = movieHandler.getMoviesByMovie(1,1);
+                addRecycleViewByGenres();
+            }
+        });
+
+        btnMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Update the button's background color
+
+                // Get the background drawable of the button
+                btnMovie.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.button_background_clicked));
+
+//                arrayListPhimThinhHanh = movieHandler.getMoviesByMovie(1,2);
+                arrayListPhimKinhDi = movieHandler.getMoviesByMovie(2,2);
+                arrayListPhimAnime = movieHandler.getMoviesByMovie(5,2);
+                arrayListPhimHanhDong = movieHandler.getMoviesByMovie(1,2);
+                addRecycleViewByGenres();
+
+            }
+        });
+
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -499,6 +536,8 @@ String email;
         }
     }
 
+
+
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -506,6 +545,15 @@ String email;
         ft.addToBackStack(null);
         ft.commit();
     }
+
+    private boolean hasBackgroundTint(Button button) {
+        // Get the background drawable of the button
+        Drawable backgroundDrawable = button.getBackground();
+
+        // Check if the background drawable is an instance of ColorDrawable (solid color)
+        return backgroundDrawable instanceof ColorDrawable;
+    }
+
 
     @Override
     public void onItemClick(int position) {
@@ -524,7 +572,7 @@ String email;
                         Toast.makeText(getContext(),email,Toast.LENGTH_SHORT).show();
                     }
                 });
-                Movie movie = adapterRecyFilm.GetItem(position);
+                Movie movie = customAdapterRecyFilm.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putString("email", email);

@@ -7,11 +7,11 @@
     android:background="@color/black"
     tools:context=".View.Fragment.FragmentDetailMovie">
 
-    <ScrollView
-        android:id="@+id/scrollViewDetailMovie"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/transparent_background">
+<!--    <ScrollView-->
+<!--        android:id="@+id/scrollViewDetailMovie"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@drawable/transparent_background">-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -67,61 +67,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <EditText
+            <TextView
                 android:id="@+id/tvDetailMV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                android:maxLines="4"
+                android:textColor="#D5D0D0"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:ems="10"
                 android:gravity="start|top"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:enabled="false"
-                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:padding="5dp"
                 />
 
             <TextView
                 android:id="@+id/tvActorMV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#CDCDCD"
+                android:layout_marginLeft="5dp"
+                android:textColor="#EFEBEB"
                 android:text="Diễn viên: Song Joong Ki, Lee Huyn Min, Son Tung" />
 
             <TextView
                 android:id="@+id/tvAuthorMV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#CDCDCD"
+                android:textColor="#EFEBEB"
+                android:layout_marginLeft="5dp"
                 android:text="Tác giả: Song Joong Ki, Lee Huyn Min, Son Tung" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnAddDanhSach"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/add_icon"
-                    android:text="Danh sách" />
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/favorite_icon"
-                    android:text="Xếp hạng" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
                 <Button
@@ -129,6 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="6.3pt"
                     android:backgroundTint="@color/black"
                     android:text="Các tập" />
                 <Button
@@ -136,8 +116,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="6.1pt"
                     android:backgroundTint="@color/black"
                     android:text="Nội dung tương tự" />
+                <Button
+                    android:id="@+id/btnAddDanhSach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:textSize="6.1pt"
+                    android:layout_weight="1"
+                    android:text="Yêu thích" />
             </LinearLayout>
 
             <FrameLayout
@@ -145,5 +134,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-    </ScrollView>
+<!--    </ScrollView>-->
 </FrameLayout>
