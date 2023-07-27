@@ -279,9 +279,6 @@ String email;
 
     private void addEvents(){
 
-
-
-
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
