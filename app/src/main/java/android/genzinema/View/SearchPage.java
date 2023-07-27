@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.genzinema.Controller.Cus_Item_Search_Adapter;
+import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SearchView;
@@ -27,6 +29,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     SearchView searchView;
     ArrayList<Movie> arrayList = new ArrayList<>();
     Cus_Item_Search_Adapter adapter;
+    MovieHandler movieHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +37,8 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         setContentView(R.layout.activity_search_page);
         addControls();
 
-        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        arrayList.add(movie);
-
+        movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        arrayList = movieHandler.getAllMovie();
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -45,6 +47,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         adapter = new Cus_Item_Search_Adapter(arrayList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -72,15 +75,66 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
 
             }
         });
+
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(searchView.getQuery().length() == 0){
+                    adapter = new Cus_Item_Search_Adapter(arrayList);
+                    recyclerView.setAdapter(adapter);
+                }
+                else{
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(searchView.getQuery().toString());
+                    if (tempArrayList != null){
+                        adapter = new Cus_Item_Search_Adapter(tempArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else{
+                        adapter = new Cus_Item_Search_Adapter(arrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                if(searchView.getQuery().length() == 0){
+                    adapter = new Cus_Item_Search_Adapter(arrayList);
+                    recyclerView.setAdapter(adapter);
+                }
+                else{
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(searchView.getQuery().toString());
+                    if (tempArrayList != null){
+                        adapter = new Cus_Item_Search_Adapter(tempArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else{
+                        adapter = new Cus_Item_Search_Adapter(arrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(searchView.getQuery().length() == 0){
+                    adapter = new Cus_Item_Search_Adapter(arrayList);
+                    recyclerView.setAdapter(adapter);
+                    Log.d("go", " go");
+                }
+                else{
+                    ArrayList<Movie> tempArrayList = movieHandler.searchData(searchView.getQuery().toString());
+                    if (tempArrayList == null){
 
+                    }
+                    else{
+                        adapter = new Cus_Item_Search_Adapter(tempArrayList);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
                 return false;
             }
         });
