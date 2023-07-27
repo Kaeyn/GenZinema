@@ -26,6 +26,7 @@ import android.genzinema.R;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -75,6 +76,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi;
     ImageView imgFilm;
 
+    FrameLayout frameLayout;
     // array list phim thinh hanh
     ArrayList<Movie> arrayListPhimThinhHanh = new ArrayList<>();
 
@@ -252,6 +254,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
     private void addRootViewControls(View rootView){
+        frameLayout = rootView.findViewById(R.id.framelayout_content);
         btnMovie = rootView.findViewById(R.id.btnMovie);
         recyclerViewPhimThinhHanh = rootView.findViewById(R.id.recyViewPhimThinhHanh);
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
@@ -272,8 +275,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     private void addEvents(){
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                return false;
+            public void onClick(View v) {
+
             }
         });
 
@@ -289,8 +292,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
         btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public boolean onLongClick(View v) {
+                return false;
             }
         });
 
