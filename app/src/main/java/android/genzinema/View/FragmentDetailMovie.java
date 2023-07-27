@@ -53,7 +53,9 @@ import com.google.android.exoplayer2.util.Util;
  * Use the {@link FragmentDetailMovie#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class FragmentDetailMovie extends Fragment {
+
     private boolean btnEpStateIsCollect = true;
     int idMV;
     String UrlTrailer;
@@ -415,5 +417,13 @@ public class FragmentDetailMovie extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

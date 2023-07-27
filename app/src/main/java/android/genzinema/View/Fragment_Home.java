@@ -561,4 +561,16 @@ String email;
         nestedScrollView.smoothScrollTo(0, titleY, 1000);
     }
 
+    public void updateAppName(String newAppName) {
+        // Get the application info to access the label attribute
+        try {
+            // Update the title in the ActionBar/Toolbar
+            requireActivity().setTitle(newAppName);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
