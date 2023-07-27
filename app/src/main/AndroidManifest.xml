@@ -16,28 +16,28 @@
         android:theme="@style/Theme.GenZinema"
         tools:targetApi="31">
         <activity
-            android:name=".View.Activity.Activity_Collections"
+            android:name=".View.Activity_Collections"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.DetailMoviePage"
+            android:name=".View.DetailMoviePage"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.MainHome"
+            android:name=".View.MainHome"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.UserProfile_Edit"
+            android:name=".View.UserProfile_Edit"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.UserProfile"
+            android:name=".View.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.SearchPage"
+            android:name=".View.SearchPage"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.WatchMovie"
+            android:name=".View.WatchMovie"
             android:exported="false" />
         <activity
-            android:name=".View.Activity.Login"
+            android:name=".View.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
