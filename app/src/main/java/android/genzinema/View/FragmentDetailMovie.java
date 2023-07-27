@@ -112,17 +112,13 @@ public class FragmentDetailMovie extends Fragment {
 
         String keySearchTo = "keyMain";
         String keyHometo = "keyDetailMV";
-        String keyCollectionsto = "keyDetailMVfromCollections";
 
-
+            Toast.makeText(getContext(),"loadFragmentDetailMV",Toast.LENGTH_SHORT).show();
         if(getContext() instanceof MainHome){
-            Toast.makeText(getContext(),"van o MainHome",Toast.LENGTH_SHORT).show();
             HandleBundle(keyHometo);
         }
         else if (getContext() instanceof DetailMoviePage){
             HandleBundle(keySearchTo);
-        }else{
-            HandleBundle(keyCollectionsto);
         }
 
 
@@ -297,7 +293,7 @@ public class FragmentDetailMovie extends Fragment {
                 int idMV = result.getInt("idMV");
                 int idGenre = result.getInt("idGenreMV");
                 int idStyle = result.getInt("idStyleMV");
-                Toast.makeText(getContext(),"idMVDetail "+idMV,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"idMVDetail "+idMV,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getContext(),"idGenreMV "+idGenre,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getContext(),"idStyleMV "+idStyle,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getContext(),"DetailMovie idMV: "+idMV,Toast.LENGTH_SHORT).show();
@@ -313,32 +309,36 @@ public class FragmentDetailMovie extends Fragment {
                 tvActorMV.setText("Diễn viên: "+movie.getActors());
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
-
-                if(idStyle==1) {
-                    btnSimilar.setTextColor(colorWhite);
-                    btnEp.setTextColor(colorRed);
-                    if (btnEpStateIsCollect) {
-                        btnEpStateIsCollect = false;
-                        Bundle results = new Bundle();
-                        results.putInt("idMV", idMV);
-                        results.putInt("idGenreMV", idGenre);
-                        results.putInt("idStyleMV", idStyle);
-                        getParentFragmentManager().setFragmentResult("collectsMV", results);
-                        loadFragment(new FragmentCollect());
-                    }
+                btnSimilar.setTextColor(colorWhite);
+                btnEp.setTextColor(colorRed);
+                Bundle results = new Bundle();
+                results.putInt("idMV", idMV);
+                results.putInt("idGenreMV", idGenre);
+                results.putInt("idStyleMV", idStyle);
+                if (idStyle == 1) {
+                    getParentFragmentManager().setFragmentResult("collectsMV", results);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadFragment(new FragmentCollect());
+                        }
+                    }, 5000); // 500 milliseconds delay
                 } else {
-                    btnSimilar.setTextColor(colorWhite);
-                    btnEp.setTextColor(colorRed);
-                    if (btnEpStateIsCollect) {
-                        btnEpStateIsCollect = false;
-                        Bundle results = new Bundle();
-                        results.putInt("idMV", idMV);
-                        results.putInt("idGenreMV", idGenre);
-                        results.putInt("idStyleMV", idStyle);
-                        getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                        loadFragment(new FragmentEps());
-                    }
+                    getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadFragment(new FragmentEps());
+                        }
+                    }, 5000); // 500 milliseconds delay
                 }
+
+
+
+
+
+
+
 
 
 

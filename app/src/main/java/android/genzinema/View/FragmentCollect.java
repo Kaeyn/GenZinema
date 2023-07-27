@@ -107,7 +107,7 @@ public class FragmentCollect extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Movie movie = adapter.GetItem(position);
-                Toast.makeText(getContext(),"idMVCollect: "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),"idMVCollect: "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
 
 
                 Bundle results = new Bundle();

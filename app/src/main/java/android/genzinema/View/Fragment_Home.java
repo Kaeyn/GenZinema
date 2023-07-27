@@ -29,6 +29,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -270,12 +272,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     }
 
     private void addEvents(){
-        btnPhat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
+//        btnPhat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                return false;
+//            }
+//        });
 
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,12 +289,12 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
             }
         });
 
-        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        btnDanhSach.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         tvTrangChu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -488,11 +490,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
 
 
 
-
-
-        AppBarLayout appBarLayout = rootView.findViewById(R.id.appBarLayout);
-        NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollHome);
-
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
@@ -543,7 +540,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 results.putInt("idMV", movie.getIdMV());
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
-                Toast.makeText(getContext(),"idMV "+movie.getIdMV(),Toast.LENGTH_SHORT).show();
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
                 loadFragment(new FragmentDetailMovie());
             }
