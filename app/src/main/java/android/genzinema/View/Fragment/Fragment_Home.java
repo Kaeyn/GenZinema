@@ -47,13 +47,6 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
-String email;
-    AppBarLayout appBarLayout;
-    NestedScrollView nestedScrollView;
-    Button btnMovie, btnPhim, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
-
-    TextView tvTrangChu;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,57 +56,79 @@ String email;
     private String mParam1;
     private String mParam2;
 
-    private boolean isCheckedMovie = false;
-    private boolean isCheckedPhim = false;
-
-    private GradientDrawable originalBackgroundDrawable;
-
-    private int scrollY = 0;
-    private int threshold = 20;
-
-    private int recommendedMovieId = 0;
-    Dialog dialog;
+    //Controls
+    Button btnMovie,
+            btnPhim,
+            btnGenres,
+            btnCloseGenres,
+            btnAnime,
+            btnHanhDong,
+            btnHaiHuoc,
+            btnKinhDi,
+            btnTinhCam,
+            btnPhat,
+            btnDanhSach;
+    TextView tvTrangChu;
+    View tiltleKinhDi,
+            tiltleAnime,
+            tiltleHanhDong,
+            tiltleHaiHuoc,
+            tiltleTinhCam;
+    RecyclerView recyclerViewPhimAnime,
+            recyclerViewPhimHanhDong,
+            recyclerViewPhimKinhDi,
+            recyclerViewPhimTinhCam,
+            recyclerViewPhimHaiHuoc;
+    ImageView imgFilm;
+    FrameLayout frameLayout;
     LinearLayout recommendedBackground;
 
-    View tiltleKinhDi, tiltleAnime, tiltleHanhDong,tiltleHaiHuoc,tiltleTinhCam;
 
-    MovieHandler movieHandler;;
+    String email;
+    AppBarLayout appBarLayout;
+    NestedScrollView nestedScrollView;
+    boolean isCheckedMovie = false,
+            isCheckedPhim = false;
+    GradientDrawable originalBackgroundDrawable;
+    int scrollY = 0,
+        threshold = 20,
+        recommendedMovieId = 0;
+    Dialog dialog;
+    MovieHandler movieHandler;
     SQLiteDatabase db;
+
+
+
+
     ArrayList<String> type_of_filmArrayList = new ArrayList<>();
-
-    RecyclerView recyclerViewPhimThinhHanh, recyclerViewPhimAnime, recyclerViewPhimHanhDong, recyclerViewPhimKinhDi,recyclerViewPhimTinhCam,recyclerViewPhimHaiHuoc;
-    ImageView imgFilm;
-
-    FrameLayout frameLayout;
-    // array list phim thinh hanh
-//    ArrayList<Movie> arrayListPhimThinhHanh = new ArrayList<>();
-
     // array list phim anime
-    ArrayList<Movie> arrayListPhimAnime = new ArrayList<>();
-
-    // array list phim hanh dong
-    ArrayList<Movie> arrayListPhimHanhDong = new ArrayList<>();
-
-    // array list phim kinh di
-    ArrayList<Movie> arrayListPhimKinhDi = new ArrayList<>();
-    // array list phim hai huoc
-    ArrayList<Movie> arrayListPhimHaiHuoc = new ArrayList<>();
-    // array list phim tinh cam
-    ArrayList<Movie> arrayListPhimTinhCam = new ArrayList<>();
-
-    CustomAdapterRecyFilm adapterRecyFilmHanhDong;
-    CustomAdapterRecyFilm adapterRecyFilmKinhDi;
-    CustomAdapterRecyFilm adapterRecyFilmTinhCam;
-
-    CustomAdapterRecyFilm adapterRecyFilmHaiHuoc;
-    CustomAdapterRecyFilm adapterRecyFilmAnime;
-    DividerItemDecoration ItemDecoKinhDi,ItemDecoAnime,ItemDecoHaiHuoc,ItemDecoHanhDong,ItemDecoTinhCam;
-    RecyclerItemTouchListener touchListenerAnime,touchListenerHanhDong,touchListenerHaiHuoc,touchListenerKinhDi,touchListenerTinhCam;
-
+    ArrayList<Movie> arrayListPhimAnime = new ArrayList<>(),
+            arrayListPhimHanhDong = new ArrayList<>(),
+            arrayListPhimKinhDi = new ArrayList<>(),
+            arrayListPhimHaiHuoc = new ArrayList<>(),
+            arrayListPhimTinhCam = new ArrayList<>();
+    CustomAdapterRecyFilm adapterRecyFilmHanhDong,
+            adapterRecyFilmKinhDi,
+            adapterRecyFilmTinhCam,
+            adapterRecyFilmHaiHuoc,
+            adapterRecyFilmAnime;
+    DividerItemDecoration ItemDecoKinhDi,
+            ItemDecoAnime,
+            ItemDecoHaiHuoc,
+            ItemDecoHanhDong,
+            ItemDecoTinhCam;
+    RecyclerItemTouchListener touchListenerAnime,
+            touchListenerHanhDong,
+            touchListenerHaiHuoc,
+            touchListenerKinhDi,
+            touchListenerTinhCam;
     Animation fadeInAnimation;
 
     public Fragment_Home() {
         // Required empty public constructor
+    }
+    public Fragment_Home(String email) {
+        this.email = email;
     }
 
     /**

@@ -33,6 +33,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.ArrayList;
 
 public class MainHome extends AppCompatActivity{
+    //Controls
     ActionBar actionBar;
     String email;
     FrameLayout frameFragment, childFrameLayout;
@@ -44,39 +45,31 @@ public class MainHome extends AppCompatActivity{
     FavoriteMovieHander favoriteMovieHander;
 
     SQLiteDatabase db;
-    ArrayList<Movie> arrayListMV = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
-        Intent intent = getIntent();
-        email = intent.getStringExtra("email");
-
-//        if(intent.hasExtra("idMV")) {
-//            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
-//            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
-//            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
-//
-//            FragmentManager fm = getSupportFragmentManager();
-//            fm.setFragmentResult("keyMain", bundle);
-//            loadFragment(new DetailMovie());
-//        }
-        actionBar = getSupportActionBar();
+        setUserEmail();
         addControls();
+        //Load home page as default
+        loadFragment(new Fragment_Home(email));
+
         addEvents();
     }
-
-    public void addControls(){
-        frameFragment = (FrameLayout) findViewById(R.id.frameFragment);
-        bttNav = (BottomNavigationView) findViewById(R.id.bttnav);
-        childFrameLayout = (FrameLayout) findViewById(R.id.framelayout_content);
+    private void setUserEmail(){
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+    }
+    private void addControls(){
+        actionBar = getSupportActionBar();
+        bttNav = findViewById(R.id.bttnav);
+        frameFragment = findViewById(R.id.frameFragment);
+        childFrameLayout = findViewById(R.id.framelayout_content);
     }
 
-    public void addEvents(){
+    private void addEvents(){
         loadFragment(new Fragment_Home());
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         genresHandler = new GenresHandler(getApplicationContext(),GenresHandler.DB_NAME,null,1);
@@ -93,15 +86,12 @@ public class MainHome extends AppCompatActivity{
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int idFrame = item.getItemId();
                 if(idFrame == R.id.home){
-                    loadFragment(new Fragment_Home());
-                    return true;
+                    loadFragment(new Fragment_Home(email));
                 } else if (idFrame == R.id.hotnnew) {
                     loadFragment(new Fragment_HotnNew(email));
-                    return true;
                 }
                 else if (idFrame == R.id.collections) {
                     loadFragment(new Fragment_Collections(email));
-                    return true;
                 }
                 return true;
             }
@@ -136,9 +126,6 @@ public class MainHome extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
     public void loadFragment(Fragment fragment){
-        Bundle results = new Bundle();
-        results.putString("email", email);
-        getSupportFragmentManager().setFragmentResult("emailMainToFHome", results);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameFragment, fragment);

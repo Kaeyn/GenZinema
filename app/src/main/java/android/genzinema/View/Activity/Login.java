@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
     UserHandler userHandler;
     SQLiteDatabase db;
     ArrayList<User> arrayListUser = new ArrayList<User>();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
                     if(edtUsername.getText().toString().equals(user.getEmail()) &&
                             edtPass.getText().toString().equals(user.getPassword())){
                                 Intent intent = new Intent(Login.this, MainHome.class);
-                                intent.putExtra("Email",user.getEmail());
+                                intent.putExtra("email",user.getEmail());
                                 startActivity(intent);
                                 check = true;
                                 break;
