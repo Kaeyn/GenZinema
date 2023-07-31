@@ -20,6 +20,7 @@ import android.genzinema.Model.Movie;
 import android.genzinema.View.HotnNew.Fragment_HotnNew;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ public class MainHome extends AppCompatActivity{
 
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
+
 //        if(intent.hasExtra("idMV")) {
 //            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
 //            Bundle bundle = new Bundle();
@@ -128,6 +130,7 @@ public class MainHome extends AppCompatActivity{
         int id = item.getItemId();
         if (id == R.id.searchIcon){
             Intent intent = new Intent(MainHome.this, SearchPage.class);
+            intent.putExtra("email",email);
             startActivity(intent);
         } else if (id == R.id.userProfile) {
 

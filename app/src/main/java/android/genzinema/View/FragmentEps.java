@@ -1,5 +1,6 @@
 package android.genzinema.View;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterEp;
 import android.genzinema.Controller.EpHandler;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,8 @@ public class FragmentEps extends Fragment {
     MovieHandler movieHandler;
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
     ArrayList<Movie> arrayListMV = new ArrayList<Movie>();
+
+    String UrlMovie;
 
     //    int movieID ;
     CustomAdapterEp adapter;
@@ -112,7 +116,16 @@ public class FragmentEps extends Fragment {
         lvEp = view.findViewById(R.id.lvEp);
     }
     void addEvents(){
-
+        lvEp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Ep ep = adapter.getItem(position);
+                UrlMovie = ep.getUrlEp();
+                Intent intent = new Intent(getContext(), WatchMovie.class);
+                intent.putExtra("vidUrl", UrlMovie);
+                startActivity(intent);
+            }
+        });
     }
 
 }

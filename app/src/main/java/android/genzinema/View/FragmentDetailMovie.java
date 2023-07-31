@@ -78,6 +78,7 @@ public class FragmentDetailMovie extends Fragment {
     ScrollView scrollView;
     Animation fadeInAnimate,fadeOutAnimation;
 
+
     int colorRed = Color.parseColor("#FF0000"); // Màu đỏ
     int colorWhite = Color.parseColor("#FFFFFF");
 
@@ -217,6 +218,9 @@ public class FragmentDetailMovie extends Fragment {
         String keyHometo = "keyDetailMV";
         String keyHometosc = "keyDetailMVsc";
 
+
+        favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+        favoriteMovieHander.onCreate(db);
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
 
