@@ -3,12 +3,8 @@ package android.genzinema.Controller;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.genzinema.Model.Ep;
 import android.genzinema.Model.Movie;
-import android.genzinema.Model.Style;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -32,9 +28,6 @@ public class MovieHandler extends SQLiteOpenHelper {
     static final String TRAILERMOVIE_COL = "trailer_url";
     static final String THUMBNAILMOVIE_COL = "thumbnail";
     static final String VIDEOMOVIE_COL = "video_url";
-
-
-
 
 
     public MovieHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -87,6 +80,7 @@ public class MovieHandler extends SQLiteOpenHelper {
     }
 
     public Movie GetMovieByID(int ID){
+        Log.d("test", "test");
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
         cursor.moveToFirst();
@@ -317,7 +311,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public ArrayList<Movie> getMoviesByMovie(int genreId, int idType) {
+    public ArrayList<Movie> getMoviesByGenreType(int genreId, int idType) {
         loadData();
         ArrayList<Movie> arrayList = new ArrayList<Movie>();
         for (Movie movie : arrayListMovie) {

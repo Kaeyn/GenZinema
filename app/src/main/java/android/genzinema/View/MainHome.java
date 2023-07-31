@@ -53,12 +53,8 @@ public class MainHome extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
-
-        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
-        movieHandler.onCreate(db);
-
         Intent intent = getIntent();
-        email = intent.getStringExtra("Email");
+        email = intent.getStringExtra("email");
 //        if(intent.hasExtra("idMV")) {
 //            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
 //            Bundle bundle = new Bundle();
@@ -89,7 +85,6 @@ public class MainHome extends AppCompatActivity{
         epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
-
         movieHandler.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -132,7 +127,7 @@ public class MainHome extends AppCompatActivity{
         } else if (id == R.id.userProfile) {
 
             Intent intent = new Intent(MainHome.this, UserProfile.class);
-            intent.putExtra("Email",email);
+            intent.putExtra("email",email);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

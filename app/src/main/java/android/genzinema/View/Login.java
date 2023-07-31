@@ -60,7 +60,7 @@ public class Login extends AppCompatActivity {
     private void addEvent()
     {
         Intent intent = new Intent(Login.this, MainHome.class);
-        intent.putExtra("Email","1");
+        intent.putExtra("email","1");
         startActivity(intent);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity {
                     if(edtUsername.getText().toString().equals(user.getEmail()) &&
                             edtPass.getText().toString().equals(user.getPassword())){
                                 Intent intent = new Intent(Login.this, MainHome.class);
-                                intent.putExtra("Email",user.getEmail());
+                                intent.putExtra("email",user.getEmail());
                                 startActivity(intent);
                                 check = true;
                                 break;
