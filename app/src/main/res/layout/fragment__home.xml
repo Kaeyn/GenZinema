@@ -152,7 +152,7 @@
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="1"
                                 android:text="Danh sách"
-                                android:backgroundTint="#20000000"
+                                android:backgroundTint="#8B000000"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"
