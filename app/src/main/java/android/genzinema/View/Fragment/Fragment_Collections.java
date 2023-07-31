@@ -46,7 +46,8 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
     // TODO: Rename and change types of parameters
     FavoriteMovieHander favoriteMovieHander;
     MovieHandler movieHandler;
-    String email = "";
+    String email;
+    SQLiteDatabase db;
     RecyclerView recyclerView;
     ImageView imgColFilm;
     TextView nameColFilm;
@@ -90,6 +91,12 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.setFragmentResultListener("emailMainToFavorite", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            }
+        });
     }
 
     @SuppressLint("MissingInflatedId")
@@ -128,6 +135,7 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
             @Override
             public void onItemClick(View view, int position) {
                 Movie movie = adapterRecyColFilm.GetItem(position);
+                Log.d("custom", ""+ movie.getIdMV() +"-"+ email);
                 Intent intent = new Intent(getContext(), DetailMoviePage.class);
                 intent.putExtra("idMV", movie.getIdMV());
                 intent.putExtra("email", email);

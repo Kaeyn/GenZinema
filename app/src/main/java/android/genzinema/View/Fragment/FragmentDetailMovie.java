@@ -93,10 +93,10 @@ public class FragmentDetailMovie extends Fragment {
     public FragmentDetailMovie() {
         // Required empty public constructor
     }
-    public FragmentDetailMovie(String Email, int MovieID) {
+    public FragmentDetailMovie(String email, int movieID) {
         // Required empty public constructor
-        email = Email;
-        movieID = MovieID;
+        this.email = email;
+        this.movieID = movieID;
     }
 
     /**
@@ -290,6 +290,18 @@ public class FragmentDetailMovie extends Fragment {
                 getParentFragmentManager().setFragmentResult("collectsMV", results);
                 loadFragment(new FragmentCollect(idGenre, idStyle));
             }
+
+        } else {
+            btnSimilar.setTextColor(colorWhite);
+            btnEp.setTextColor(colorRed);
+            if (btnEpStateIsCollect) {
+                btnEpStateIsCollect = false;
+                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                loadFragment(new FragmentEps(movieID,email));
+            }
+
+        }
+        if(idStyle==1){
             btnEp.setText("Phim lẻ");
             btnEp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -304,13 +316,6 @@ public class FragmentDetailMovie extends Fragment {
 
             });
         } else {
-            btnSimilar.setTextColor(colorWhite);
-            btnEp.setTextColor(colorRed);
-            if (btnEpStateIsCollect) {
-                btnEpStateIsCollect = false;
-                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                loadFragment(new FragmentEps(movieID,email));
-            }
             btnEp.setText("Các tập");
             btnEp.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -325,6 +330,7 @@ public class FragmentDetailMovie extends Fragment {
 
             });
         }
+
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
 
