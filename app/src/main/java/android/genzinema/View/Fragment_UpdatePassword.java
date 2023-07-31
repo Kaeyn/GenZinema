@@ -70,7 +70,8 @@ public class Fragment_UpdatePassword extends Fragment {
         fm.setFragmentResultListener("UpdatePasswordKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                email = result.getString("Email");
+                Intent intent = getActivity().getIntent();
+                email = intent.getStringExtra("email");
             }
         });
     }
@@ -93,12 +94,12 @@ public class Fragment_UpdatePassword extends Fragment {
                         || edtNewPass.getText().toString().equals("")
                         || edtNewPass2.getText().toString().equals("")) {
                     Toast.makeText(getContext(), "Nhập đúng hoặc mất acc", Toast.LENGTH_SHORT).show();
-                } else if (!edtOldPass.getText().toString().equals(userHandler.getUserByEmail(email).getPassword())
+                } else if (edtOldPass.getText().toString().equals(userHandler.getUserByEmail(email).getPassword())
                         && !edtNewPass.getText().toString().equals(edtOldPass.getText().toString())
-                        && !edtNewPass.getText().toString().equals(edtNewPass2.getText().toString())) {
+                        && edtNewPass.getText().toString().equals(edtNewPass2.getText().toString())) {
                     userHandler.UpdateUserPass(edtOldPass.getText().toString(), edtNewPass.getText().toString());
                     Intent intent = new Intent(getContext(), UserProfile.class);
-                    intent.putExtra("Email", email);
+                    intent.putExtra("email", email);
                     startActivity(intent);
                     Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                 } else {

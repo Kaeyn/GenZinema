@@ -1,5 +1,6 @@
 package android.genzinema.View;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterEp;
 import android.genzinema.Controller.EpHandler;
@@ -13,10 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,9 +40,12 @@ public class FragmentEps extends Fragment {
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
     ArrayList<Movie> arrayListMV = new ArrayList<Movie>();
 
+    String UrlMovie;
+
     //    int movieID ;
     CustomAdapterEp adapter;
     private int idMV;
+
 
 
 
@@ -99,9 +105,11 @@ public class FragmentEps extends Fragment {
 
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
         arrayListEp = epHandler.GetAllEpByMovieID(idMV);
+
         adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         Movie movie = movieHandler.GetMovieByID(idMV);
+
         tvNameMV.setText(movie.getNameMovie());
         lvEp.setAdapter(adapter);
         addEvents();
@@ -112,7 +120,16 @@ public class FragmentEps extends Fragment {
         lvEp = view.findViewById(R.id.lvEp);
     }
     void addEvents(){
-
+        lvEp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Ep ep = adapter.getItem(position);
+                UrlMovie = ep.getUrlEp();
+                Intent intent = new Intent(getContext(), WatchMovie.class);
+                intent.putExtra("vidUrl", UrlMovie);
+                startActivity(intent);
+            }
+        });
     }
 
 }

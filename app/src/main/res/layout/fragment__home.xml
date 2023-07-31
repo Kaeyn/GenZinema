@@ -37,7 +37,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
                         android:text="Movie"
-                            app:cornerRadius="100dp"
+                        app:cornerRadius="100dp"
+                        android:backgroundTint="#212121"
+                        android:textColor="@color/white"
                         app:strokeColor="#FFFFFF"
                         app:strokeWidth="1dp" />
 
@@ -47,6 +49,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
                         android:text="Phim"
+                        android:backgroundTint="#212121"
+                        android:textColor="@color/white"
                         app:cornerRadius="100dp"
                         app:strokeColor="#FFFFFF"
                         app:strokeWidth="1dp" />
@@ -127,7 +131,7 @@
                             <Button
                                 android:id="@+id/btnPhat"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="60dp"
                                 android:layout_gravity="bottom"
                                 android:layout_marginHorizontal="15dp"
                                 android:layout_marginBottom="2dp"
@@ -142,13 +146,13 @@
                             <Button
                                 android:id="@+id/btnDanhSach"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="60dp"
                                 android:layout_gravity="bottom"
                                 android:layout_marginRight="15dp"
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="1"
-                                android:background="#85000000"
                                 android:text="Danh sách"
+                                android:backgroundTint="#20000000"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"
@@ -177,11 +181,11 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tiltleThinhHanh"
+                android:id="@+id/tiltleTinhCam"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:text="Hiện đang thịnh hành"
+                android:text="Phim tình cảm"
                 android:layout_marginTop="20dp"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -197,7 +201,7 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyViewPhimThinhHanh"
+                android:id="@+id/recyViewPhimTinhCam"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"/>
@@ -299,6 +303,38 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyViewPhimKinhDi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tiltleHaiHuoc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:text="Phim hài"
+                android:layout_marginTop="20dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyViewPhimHaiHuoc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"/>

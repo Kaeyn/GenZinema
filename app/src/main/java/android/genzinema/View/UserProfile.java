@@ -9,6 +9,8 @@ import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -45,14 +47,16 @@ public class UserProfile extends AppCompatActivity {
     {
         userHandler = new UserHandler(this,UserHandler.DB_NAME,null,1);
         Intent intent = getIntent();
-        user = userHandler.getUserByEmail(intent.getStringExtra("Email"));
+        String email = intent.getStringExtra("email");
+        Log.d("email Profi", email);
+        user = userHandler.getUserByEmail(email);
         tv_UserName.setText(user.getDisplayName());
 
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, UserProfile_Edit.class);
-                intent.putExtra("Email",user.getEmail());
+                intent.putExtra("email",user.getEmail());
                 startActivity(intent);
             }
         });
@@ -60,7 +64,7 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserProfile.this, Activity_Collections.class);
-                intent.putExtra("Email",user.getEmail());
+                intent.putExtra("email",user.getEmail());
                 startActivity(intent);
             }
         });
@@ -68,7 +72,7 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(UserProfile.this, MainHome.class);
-                intent1.putExtra("Email",user.getEmail());
+                intent1.putExtra("email",user.getEmail());
                 startActivity(intent1);
             }
         });
@@ -76,7 +80,7 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(UserProfile.this, MainHome.class);
-                intent1.putExtra("Email",user.getEmail());
+                intent1.putExtra("email",user.getEmail());
                 startActivity(intent1);
 
             }

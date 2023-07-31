@@ -43,7 +43,7 @@ public class EpHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY("+IDMOVIE_COL+") REFERENCES "+MovieHandler.TABLE_NAME+"("+MovieHandler.IDMOVIE_COL+")," +
                 "PRIMARY KEY( "+IDEP_COL+" ));";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'johnweak','Tâp 1', 3, 'Oh yeahhhhhhhhhhhhh.','1EUXzjIRJFniKTiHg9sW_T14eByhyCvcN')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'johnweak','Tâp 1', 3, 'Oh yeahhhhhhhhhhhhh.','1tazr67-wERTdQ9tCdnJBiK3-P_ZqWJU0')";
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'johnwick','Tâp 2', 3, 'Oh nooooooooooo.','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
