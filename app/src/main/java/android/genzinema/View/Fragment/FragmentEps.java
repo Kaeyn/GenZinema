@@ -107,7 +107,7 @@ public class FragmentEps extends Fragment {
 
         adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
-        Movie movie = movieHandler.getMovieByID(idMV);
+        Movie movie = movieHandler.GetMovieByID(idMV);
 
         tvNameMV.setText(movie.getNameMovie());
         lvEp.setAdapter(adapter);

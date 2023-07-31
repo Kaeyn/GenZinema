@@ -141,7 +141,7 @@ public class WatchMovie extends AppCompatActivity {
                 Intent intent = new Intent(WatchMovie.this, DetailMoviePage.class);
                 Log.d("aa", "onClick: "+idMV);
                 movieHandler = new MovieHandler(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
-                Movie movie = movieHandler.getMovieByID(idMV);
+                Movie movie = movieHandler.GetMovieByID(idMV);
                 intent.putExtra("email",email);
                 intent.putExtra("idMV", idMV);
                 intent.putExtra("idGenreMV",movie.getIdGenre());
