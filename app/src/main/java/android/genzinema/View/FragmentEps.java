@@ -46,7 +46,6 @@ public class FragmentEps extends Fragment {
     CustomAdapterEp adapter;
     private int idMV;
 
-    private String UrlMovie = "";
 
 
 

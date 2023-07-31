@@ -9,8 +9,10 @@ import android.genzinema.Controller.RecyclerItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -86,6 +88,13 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.setFragmentResultListener("emailMainToFavorite", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+
+            }
+        });
     }
 
     @SuppressLint("MissingInflatedId")
