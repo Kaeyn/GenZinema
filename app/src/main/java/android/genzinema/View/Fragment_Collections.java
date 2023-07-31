@@ -1,6 +1,7 @@
 package android.genzinema.View;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterRecyCollectionFilm;
 import android.genzinema.Controller.FavoriteMovieHander;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,8 +124,9 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         adapterRecyColFilm = new CustomAdapterRecyCollectionFilm(colFilmArrayList);
-
         recyclerView.setAdapter(adapterRecyColFilm);
+
+        recyclerView.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerView, adapterRecyColFilm));
         return rootView;
     }
     private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyCollectionFilm customAdapterRecyFilm){
@@ -131,13 +134,13 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
             @Override
             public void onItemClick(View view, int position) {
                 Movie movie = adapterRecyColFilm.GetItem(position);
-                Bundle results = new Bundle();
-                results.putInt("idMV", movie.getIdMV());
-                results.putString("email", email);
-                results.putInt("idGenreMV", movie.getIdGenre());
-                results.putInt("idStyleMV", movie.getIdType());
-                getParentFragmentManager().setFragmentResult("keyDetailMVsc", results);
-                loadFragment(new FragmentDetailMovie());
+                Log.d("custom", ""+ movie.getIdMV() +"-"+ email);
+                Intent intent = new Intent(getContext(), DetailMoviePage.class);
+                intent.putExtra("idMV", movie.getIdMV());
+                intent.putExtra("email", email);
+                intent.putExtra("idGenreMV", movie.getIdGenre());
+                intent.putExtra("idStyleMV", movie.getIdType());
+                startActivity(intent);
             }
 
             @Override

@@ -180,7 +180,7 @@ public class FragmentDetailMovie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d("asdsadsadsa",email + " "+idMV);
+                Log.d("asdsadsadsa",email + " "+idMV);
                 Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, idMV),Toast.LENGTH_SHORT).show();
                 checkFMV();
             }
@@ -308,6 +308,7 @@ public class FragmentDetailMovie extends Fragment {
                 tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
                 tvDetailMV.setText(movie.getDetail());
                 UrlTrailer = movie.getUrlTrailer();
+
 //                Toast.makeText(getContext(),"URL: "+movie.getUrlTrailer(),Toast.LENGTH_SHORT).show();
 
                 UrlMovie = movie.getUrlVideo();

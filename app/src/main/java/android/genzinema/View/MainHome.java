@@ -102,7 +102,7 @@ public class MainHome extends AppCompatActivity{
                     loadFragment(new Fragment_Home());
                     return true;
                 } else if (idFrame == R.id.hotnnew) {
-                    loadFragment(new Fragment_HotnNew());
+                    loadFragment(new Fragment_HotnNew(email));
                     return true;
                 }
                 else if (idFrame == R.id.collections) {

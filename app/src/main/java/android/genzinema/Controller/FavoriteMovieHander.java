@@ -66,7 +66,7 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
     public int getLastID()
     {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
-        Cursor cursor = db.rawQuery("SELECT MAX( "+ IDMOVIE_COL+") FROM  " + TABLE_NAME , null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME + " ORDER BY "+ID_COL+" DESC LIMIT 1", null);
         cursor.moveToLast();
         int lastID = cursor.getInt(0);
         cursor.close();
