@@ -5,18 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.Handler.FavoriteMovieHander;
 import android.genzinema.Controller.Handler.MovieHandler;
 import android.genzinema.Model.Movie;
-import android.genzinema.View.Activity.Activity_Collections;
-import android.genzinema.View.Activity.DetailMoviePage;
-import android.genzinema.View.Activity.MainHome;
 import android.genzinema.View.Activity.WatchMovie;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Handler;
@@ -59,19 +54,19 @@ import com.google.android.exoplayer2.util.Util;
 
 public class FragmentDetailMovie extends Fragment {
 
-    private boolean btnEpStateIsCollect = true;
-    int idMV , idGenre, idStyle;
-    String UrlTrailer;
-
-    String keySearchTo = "keyMain";
-    String keyHometo = "keyDetailMV";
+    boolean btnEpStateIsCollect = true;
+    String email = "",UrlTrailer, UrlMovie;
+    int movieID = 0, idGenre, idStyle;
+    Movie movie = new Movie();
     SQLiteDatabase db;
-    String email = "2";
+    MovieHandler movieHandler;
+
     TextView tvTenMV,tvNamMV,tvDetailMV,tvActorMV,tvAuthorMV;
     ProgressBar pb;
     Button btnEp,btnSimilar, btnPlayVideo, btnAddList;
     ImageButton btnVolumeOn, btnVolumeMute;
-    MovieHandler movieHandler;
+
+
     SimpleExoPlayer exoPlayer;
     Handler handler;
     PlayerView playerView;
@@ -83,7 +78,6 @@ public class FragmentDetailMovie extends Fragment {
     int colorRed = Color.parseColor("#FF0000"); // Màu đỏ
     int colorWhite = Color.parseColor("#FFFFFF");
 
-    private String UrlMovie = "";
 
 
 
@@ -98,6 +92,11 @@ public class FragmentDetailMovie extends Fragment {
 
     public FragmentDetailMovie() {
         // Required empty public constructor
+    }
+    public FragmentDetailMovie(String email, int movieID) {
+        // Required empty public constructor
+        this.email = email;
+        this.movieID = movieID;
     }
 
     /**
@@ -145,20 +144,14 @@ public class FragmentDetailMovie extends Fragment {
         btnPlayVideo = view.findViewById(R.id.btnPlayVideo_Detail);
         btnAddList = view.findViewById(R.id.btnAddDanhSach);
     }
-    private void checkFMV()
-    {
-        if(favoriteMovieHander.existInFMV(email,idMV) == true)
-        {
+    private void checkFMV(){
+        if(favoriteMovieHander.existInFMV(email, movieID))
             btnAddList.setTextColor(colorRed);
-        }
         else
-        {
             btnAddList.setTextColor(colorWhite);
-        }
     }
 
     private void addEvents(){
-
         btnPlayVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,8 +160,7 @@ public class FragmentDetailMovie extends Fragment {
                 intent.putExtra("vidUrl", UrlMovie);
                 intent.putExtra("idGenreMV", idGenre);
                 intent.putExtra("idStyleMV",idStyle);
-                intent.putExtra("idMV", idMV);
-//                Log.d("vidUrlafterclick", ""+UrlMovie);
+                intent.putExtra("idMV", movieID);
                 startActivity(intent);
             }
         });
@@ -181,8 +173,7 @@ public class FragmentDetailMovie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("asdsadsadsa",email + " "+idMV);
-                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, idMV),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, movieID),Toast.LENGTH_SHORT).show();
                 checkFMV();
             }
         });
@@ -192,8 +183,6 @@ public class FragmentDetailMovie extends Fragment {
                 exoPlayer.setVolume(1);
             }
         });
-
-
         exoPlayer.addListener(new Player.Listener() {
             @Override
             public void onVolumeChanged(float volume) {
@@ -218,25 +207,12 @@ public class FragmentDetailMovie extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_movie, container, false);
-        String keySearchTo = "keyMain";
-        String keyHometo = "keyDetailMV";
-        String keyHometosc = "keyDetailMVsc";
-
         favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+        movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         favoriteMovieHander.onCreate(db);
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-
-
-        if(getContext() instanceof MainHome){
-            HandleBundle(keyHometo,view);
-        }
-        else if (getContext() instanceof DetailMoviePage){
-            HandleBundle(keySearchTo,view);
-        }else if (getContext() instanceof Activity_Collections){
-            HandleBundle(keyHometosc,view);
-        }
-
+        HandleBundle(view);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -245,7 +221,6 @@ public class FragmentDetailMovie extends Fragment {
                 playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
                     @Override
                     public void onVisibilityChange(int visibility) {
-                        Log.d("state", String.valueOf(visibility));
                         if (visibility == View.VISIBLE) {
                             playerView.startAnimation(fadeInAnimate);
                         } else {
@@ -287,136 +262,105 @@ public class FragmentDetailMovie extends Fragment {
         exoPlayer.getPlaybackState();
     }
 
-    public void HandleBundle(String key, View view){
-        FragmentManager fm = getParentFragmentManager();
-        fm.setFragmentResultListener(key, this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                addControl(view);
-                applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
-                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
-                email = result.getString("email");
-                idMV = result.getInt("idMV");
-                idGenre = result.getInt("idGenreMV");
-                idStyle = result.getInt("idStyleMV");
-                checkFMV();
+    private void HandleBundle(View view){
+        addControl(view);
+        movie = movieHandler.getMovieByID(movieID);
+        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
+        favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+        checkFMV();
+        tvTenMV.setText(movie.getNameMovie());
+        tvNamMV.setText(movie.getYearProduce());
+        tvActorMV.setText("Diễn viên: "+movie.getActors());
+        tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
+        tvDetailMV.setText(movie.getDetail());
+        UrlTrailer = movie.getUrlTrailer();
+        UrlMovie = movie.getUrlVideo();
 
-                movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
-                Movie movie = movieHandler.GetMovieByID(idMV);
-                tvTenMV.setText(movie.getNameMovie());
-                tvNamMV.setText(movie.getYearProduce());
-                tvActorMV.setText("Diễn viên: "+movie.getActors());
-                tvAuthorMV.setText("Đạo diễn: "+movie.getAuthors());
-                tvDetailMV.setText(movie.getDetail());
-                UrlTrailer = movie.getUrlTrailer();
+        Bundle results = new Bundle();
+        results.putInt("idMV", movieID);
+        results.putString("email",email);
+        results.putInt("idGenreMV", idGenre);
+        results.putInt("idStyleMV", idStyle);
 
-//                Toast.makeText(getContext(),"URL: "+movie.getUrlTrailer(),Toast.LENGTH_SHORT).show();
-
-                UrlMovie = movie.getUrlVideo();
-                Bundle results = new Bundle();
-                results.putInt("idMV", idMV);
-                results.putString("email",email);
-                results.putInt("idGenreMV", idGenre);
-                results.putInt("idStyleMV", idStyle);
-
-                if(idStyle==1) {
-                    btnSimilar.setTextColor(colorWhite);
-                    btnEp.setTextColor(colorRed);
-                    if (btnEpStateIsCollect) {
-                        btnEpStateIsCollect = false;
-                        getParentFragmentManager().setFragmentResult("collectsMV", results);
-                        loadFragment(new FragmentCollect(idGenre, idStyle));
-                    }
-
-                } else {
-                    btnSimilar.setTextColor(colorWhite);
-                    btnEp.setTextColor(colorRed);
-                    if (btnEpStateIsCollect) {
-                        btnEpStateIsCollect = false;
-                        getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                        loadFragment(new FragmentEps(idMV,email));
-                    }
-
-                }
-                if(idStyle==1){
-                    btnEp.setText("Phim lẻ");
-                    btnEp.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            btnSimilar.setTextColor(colorWhite);
-                            btnEp.setTextColor(colorRed);
-                            if(btnEpStateIsCollect){
-                                btnEpStateIsCollect = false;
-//                                Bundle results = new Bundle();
-//                                results.putInt("idMV", idMV);
-//                                results.putInt("idGenreMV", idGenre);
-//                                results.putInt("idStyleMV", idStyle);
-//                                getParentFragmentManager().setFragmentResult("collectsMV", results);
-                                loadFragment(new FragmentCollect(idGenre,idStyle));
-                            }
-                        }
-
-                    });
-                } else {
-                    btnEp.setText("Các tập");
-
-                    btnEp.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            btnEp.setTextColor(colorRed);
-                            btnSimilar.setTextColor(colorWhite);
-                            if (btnEpStateIsCollect) {
-                                btnEpStateIsCollect = false;
-//                                Bundle results = new Bundle();
-//                                results.putInt("idMV", idMV);
-//                                results.putInt("idGenreMV", idGenre);
-//                                results.putInt("idStyleMV", idStyle);
-//                                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                                loadFragment(new FragmentEps(idMV,email));
-                            }
-                        }
-
-                    });
-                }
-
-                fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
-                fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
-//        applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
-
-                exoPlayerCreate();
-                addEvents();
-
-                playerView.setControllerShowTimeoutMs(3000);
-                playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
-                    @Override
-                    public void onVisibilityChange(int visibility) {
-                        Log.d("state", String.valueOf(visibility));
-                        if (visibility == View.VISIBLE) {
-                            playerView.startAnimation(fadeInAnimate);
-                        } else {
-                            playerView.startAnimation(fadeOutAnimation);
-                        }
-                    }
-                });
-                btnSimilar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        btnEp.setTextColor(colorWhite);
-                        btnSimilar.setTextColor(colorRed);
-                        if(!btnEpStateIsCollect) {
-                            btnEpStateIsCollect = true;
-//                            Bundle results = new Bundle();
-//                            results.putInt("idMV", idMV);
-//                            results.putInt("idGenreMV", idGenre);
-//                            getParentFragmentManager().setFragmentResult("similarMV", results);
-                            loadFragment(new FragmentSimilarStyle(idGenre));
-                        }
-                    }
-                });
-                exoPlayerCreate();
+        if(idStyle==1) {
+            btnSimilar.setTextColor(colorWhite);
+            btnEp.setTextColor(colorRed);
+            if (btnEpStateIsCollect) {
+                btnEpStateIsCollect = false;
+                getParentFragmentManager().setFragmentResult("collectsMV", results);
+                loadFragment(new FragmentCollect(idGenre, idStyle));
             }
 
+        } else {
+            btnSimilar.setTextColor(colorWhite);
+            btnEp.setTextColor(colorRed);
+            if (btnEpStateIsCollect) {
+                btnEpStateIsCollect = false;
+                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
+                loadFragment(new FragmentEps(movieID,email));
+            }
+
+        }
+        if(idStyle==1){
+            btnEp.setText("Phim lẻ");
+            btnEp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnSimilar.setTextColor(colorWhite);
+                    btnEp.setTextColor(colorRed);
+                    if(btnEpStateIsCollect){
+                        btnEpStateIsCollect = false;
+                        loadFragment(new FragmentCollect(idGenre,idStyle));
+                    }
+                }
+
+            });
+        } else {
+            btnEp.setText("Các tập");
+            btnEp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnEp.setTextColor(colorRed);
+                    btnSimilar.setTextColor(colorWhite);
+                    if (btnEpStateIsCollect) {
+                        btnEpStateIsCollect = false;
+                        loadFragment(new FragmentEps(movieID,email));
+                    }
+                }
+
+            });
+        }
+
+        fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
+        fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+
+        exoPlayerCreate();
+        addEvents();
+
+        playerView.setControllerShowTimeoutMs(3000);
+        playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
+            @Override
+            public void onVisibilityChange(int visibility) {
+                Log.d("state", String.valueOf(visibility));
+                if (visibility == View.VISIBLE) {
+                    playerView.startAnimation(fadeInAnimate);
+                } else {
+                    playerView.startAnimation(fadeOutAnimation);
+                }
+            }
         });
+        btnSimilar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnEp.setTextColor(colorWhite);
+                btnSimilar.setTextColor(colorRed);
+                if(!btnEpStateIsCollect) {
+                    btnEpStateIsCollect = true;
+                    loadFragment(new FragmentSimilarStyle(idGenre));
+                }
+            }
+        });
+        exoPlayerCreate();
 
     }
     private void exoPlayerCreate(){
@@ -431,9 +375,6 @@ public class FragmentDetailMovie extends Fragment {
                 .build();
         // Create a DefaultHttpDataSource.Factory to provide the media data
         exoPlayer.setAudioAttributes(AudioAttributes.DEFAULT, true);
-
-
-
         String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
         DataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
                 .setUserAgent(userAgent)
@@ -442,7 +383,6 @@ public class FragmentDetailMovie extends Fragment {
         String videoUrlStr = "https://drive.google.com/uc?id=" + UrlTrailer;
         Log.d("URLFULL", ""+videoUrlStr);
         Uri videoUrl = Uri.parse(videoUrlStr);
-//        Toast.makeText(getContext(),"URLFull: "+videoUrlStr,Toast.LENGTH_SHORT).show();
 
 
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));

@@ -22,6 +22,7 @@ import android.genzinema.View.Fragment.Fragment_Home;
 import android.genzinema.View.Fragment.Fragment_HotnNew;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;

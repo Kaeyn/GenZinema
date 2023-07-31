@@ -84,18 +84,15 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     LinearLayout recommendedBackground;
 
 
-    String email;
+    String email = "";
     AppBarLayout appBarLayout;
     NestedScrollView nestedScrollView;
-    boolean isCheckedMovie = false,
-            isCheckedPhim = false;
     GradientDrawable originalBackgroundDrawable;
     int scrollY = 0,
         threshold = 20,
         recommendedMovieId = 0;
     Dialog dialog;
     MovieHandler movieHandler;
-    SQLiteDatabase db;
 
 
 
@@ -127,8 +124,8 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     public Fragment_Home() {
         // Required empty public constructor
     }
-    public Fragment_Home(String email) {
-        this.email = email;
+    public Fragment_Home(String Email) {
+        email = Email;
     }
 
     /**
@@ -164,12 +161,10 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
-        movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
-
         addRootViewControls(rootView);
         addViewControls(view);
-
+        movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in_home);
         applyFadeInAnimationToChildren(nestedScrollView, fadeInAnimation);
 
@@ -308,6 +303,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         frameLayout = rootView.findViewById(R.id.framelayout_content);
         btnMovie = rootView.findViewById(R.id.btnMovie);
         btnPhim = rootView.findViewById(R.id.btnPhim);
+
         recyclerViewPhimAnime = rootView.findViewById(R.id.recyViewPhimAnime);
         recyclerViewPhimHanhDong = rootView.findViewById(R.id.recyViewPhimHanhDong);
         recyclerViewPhimKinhDi = rootView.findViewById(R.id.recyViewPhimKinhDi);
@@ -337,11 +333,7 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("idMV", recommendedMovieId);
-                bundle.putString("email",email);
-                getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
-                loadFragment(new FragmentDetailMovie());
+                loadFragment(new FragmentDetailMovie(email,recommendedMovieId));
             }
         });
 
@@ -357,7 +349,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 arrayListPhimHaiHuoc = movieHandler.getMoviesByGenreType(4,2);
                 arrayListPhimAnime = movieHandler.getMoviesByGenreType(5,2);
                 addRecycleViewByGenres();
-                Log.d("test", "onClick: "+arrayListPhimTinhCam.size());
                 addRecycleViewEvents();
 
             }
@@ -376,7 +367,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
                 arrayListPhimHaiHuoc = movieHandler.getMoviesByGenreType(4,1);
                 arrayListPhimAnime = movieHandler.getMoviesByGenreType(5,1);
                 addRecycleViewByGenres();
-                Log.d("test", "onClick: "+arrayListPhimTinhCam.size());
                 addRecycleViewEvents();
             }
         });
@@ -558,25 +548,9 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FragmentManager fm = getParentFragmentManager();
-                fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        email = result.getString("email");
-                    }
-                });
                 Movie movie = customAdapterRecyFilm.GetItem(position);
-                Log.d("custom", "addRecycleViewByGenres: "+customAdapterRecyFilm.getItemCount());
-
-                Bundle results = new Bundle();
-                results.putInt("idMV", movie.getIdMV());
-                results.putString("email", email);
-                results.putInt("idGenreMV", movie.getIdGenre());
-                results.putInt("idStyleMV", movie.getIdType());
-                getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                loadFragment(new FragmentDetailMovie());
+                loadFragment(new FragmentDetailMovie(email,movie.getIdMV()));
             }
-
             @Override
             public void onItemLongClick(View view, int position) {
             }
@@ -591,18 +565,6 @@ public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnI
         int titleY = location[1] - nestedScrollView.getTop() - 250;
         // Smooth scroll to the "title action" view
         nestedScrollView.smoothScrollTo(0, titleY, 1000);
-    }
-
-    public void updateAppName(String newAppName) {
-        // Get the application info to access the label attribute
-        try {
-            // Update the title in the ActionBar/Toolbar
-            requireActivity().setTitle(newAppName);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void refreshRecyclerView(){
