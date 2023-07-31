@@ -44,7 +44,9 @@ public class FragmentEps extends Fragment {
     CustomAdapterEp adapter;
     private int idMV;
 
-    private String UrlMovie = "";
+     String UrlMovie;
+
+     String email;
 
 
 
@@ -61,7 +63,8 @@ public class FragmentEps extends Fragment {
         // Required empty public constructor
     }
 
-    public FragmentEps(int idMV) {
+    public FragmentEps(int idMV, String email) {
+        this.email = email;
         this.idMV = idMV;
     }
 
@@ -122,8 +125,13 @@ public class FragmentEps extends Fragment {
         lvEp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Ep ep = adapter.getItem(position);
+                UrlMovie = ep.getUrlEp();
                 Intent intent = new Intent(getContext(), WatchMovie.class);
                 intent.putExtra("vidUrl", UrlMovie);
+                intent.putExtra("email", email);
+                intent.putExtra("idMV", idMV);
+                Log.d("idMVEp", "onClick: "+idMV);
                 Log.d("vidUrlafterclick", ""+UrlMovie);
                 startActivity(intent);
             }

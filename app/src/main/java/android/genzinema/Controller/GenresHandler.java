@@ -26,7 +26,6 @@ public class GenresHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        droptbGenres();
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " ( " +
                 IDGENRE_COL + " INTEGER NOT NULL UNIQUE, "+
