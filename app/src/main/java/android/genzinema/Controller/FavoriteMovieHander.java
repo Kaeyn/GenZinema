@@ -22,14 +22,14 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
     static final String  ID_COL = "fvmovie_id";
     static final String IDMOVIE_COL = "movie_id";
     static final String EMAIL_COL = "email";
-    static int lastIndex = 7;
 
-
+    static final int lastID = 0;
 
     public FavoriteMovieHander(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, TABLE_NAME, null, version);
         this.context = context;
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -64,6 +64,16 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
+    public int getLastID()
+    {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select @IDENTITY " , null);
+        cursor.moveToLast();
+        int lastID = cursor.getInt(0);
+        cursor.close();
+        db.close();
+        return lastID;
+    }
 
     public void loadData(){
         arrayListFMV.clear();
@@ -97,8 +107,8 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
     public String AddOrDelete(String email, Integer idMV) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDMOVIE_COL + " = ? AND " + EMAIL_COL + " = ?", new String[]{idMV.toString(), email});
-        Log.d("me", "AddOrDelete: " + cursor.getCount());
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDMOVIE_COL + " = ? AND " + EMAIL_COL + " = ?",
+                new String[]{idMV.toString(), email});
         if (cursor.getCount() > 0) {
             cursor.close(); // Close the cursor after use
             db.close();
@@ -111,15 +121,31 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
     }
     public String AddFavoriteMV(String email, Integer idMV){
         loadData();
-        lastIndex++;
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
-        values.put(ID_COL,lastIndex);
+        values.put(ID_COL,getLastID()+1);
         values.put(IDMOVIE_COL,idMV);
         values.put(EMAIL_COL,email);
         db.insert(TABLE_NAME,null, values);
         db.close();
         return "Thêm ok";
+    }
+
+    public boolean existInFMV(String email,Integer idMV)
+    {
+        loadData();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDMOVIE_COL + " = ? AND " + EMAIL_COL + " = ?",
+                new String[]{idMV.toString(), email});
+        if (cursor.getCount() > 0) {
+            cursor.close(); // Close the cursor after use
+            db.close();
+            return true;
+        } else {
+            cursor.close(); // Close the cursor after use
+            db.close();
+            return false;
+        }
     }
     public String DeleteFavoriteMV(String email, Integer idMV){
 //        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);

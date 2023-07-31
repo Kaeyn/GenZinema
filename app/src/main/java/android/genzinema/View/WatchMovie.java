@@ -1,9 +1,14 @@
 package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.genzinema.Controller.FavoriteMovieHander;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.genzinema.R;
@@ -15,8 +20,10 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.MediaItem;
@@ -39,9 +46,17 @@ import java.util.List;
 
 public class WatchMovie extends AppCompatActivity {
     SimpleExoPlayer exoPlayer;
+    Button btn_back, btn_addToCollection, btn_movieDetail;
+    FavoriteMovieHander favoriteMovieHander;
     Handler handler;
     PlayerView playerView;
+    String email;
+    int idMV;
     ProgressBar progressBar;
+    Drawable drawable;
+    PorterDuff.Mode mode;
+    int colorRed = Color.parseColor("#FF0000"); // Màu đỏ
+    int colorWhite = Color.parseColor("#FFFFFF");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,21 +68,44 @@ public class WatchMovie extends AppCompatActivity {
         setContentView(R.layout.activity_watch_movie);
         addControls();
         Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        idMV = intent.getIntExtra("idMV",0);
+        Log.d("SDSDDSSDS", String.valueOf(email));
+        checkFMV();
+
         String vidUrl = intent.getStringExtra("vidUrl");
         Log.d("vidUrlafterclickinwatch", ""+vidUrl);
         exoPlayerCreate(vidUrl);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         addEvents();
-
     }
     private void addControls(){
         playerView = findViewById(R.id.player);
         progressBar = findViewById(R.id.progress_bar);
-
+        btn_back = findViewById(R.id.btn_back);
+        btn_movieDetail = findViewById(R.id.btn_toMovieDetail);
+        btn_addToCollection = findViewById(R.id.btn_addToCollections);
+        favoriteMovieHander = new FavoriteMovieHander(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
+    }
+    private void checkFMV()
+    {
+        drawable = btn_addToCollection.getCompoundDrawables()[0];
+        mode= PorterDuff.Mode.SRC_ATOP; // Chế độ tô màu (hoặc bạn có thể sử dụng một hằng số khác từ PorterDuff.Mode)
+        if(favoriteMovieHander.existInFMV(email,idMV) == true)
+        {
+            drawable.setColorFilter(colorRed, mode);
+            btn_addToCollection.setTextColor(colorRed);
+            btn_addToCollection.setCompoundDrawables(drawable, null, null, null);
+        }
+        else
+        {
+            drawable.setColorFilter(colorWhite, mode);
+            btn_addToCollection.setTextColor(colorWhite);
+            btn_addToCollection.setCompoundDrawables(drawable, null, null, null);
+        }
     }
     private void addEvents(){
-
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_out);
         playerView.setControllerShowTimeoutMs(3000);
@@ -96,6 +134,34 @@ public class WatchMovie extends AppCompatActivity {
             }
 
         });
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentReturn = getIntent();
+                email = intentReturn.getStringExtra("email");
+                idMV = intentReturn.getIntExtra("idMV",0);
+                Intent intent = new Intent(WatchMovie.this, DetailMoviePage.class);
+                intent.putExtra("email",email);
+                intent.putExtra("idMV", idMV);
+                startActivity(intent);
+            }
+        });
+        btn_addToCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Toast.makeText(getApplicationContext(),favoriteMovieHander.AddOrDelete(email, idMV),Toast.LENGTH_SHORT).show();
+               checkFMV();
+            }
+        });
+        btn_movieDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WatchMovie.this, DetailMoviePage.class);
+                intent.putExtra("email",email);
+                intent.putExtra("idMV",idMV);
+                startActivity(intent);
+            }
+        });
 
     }
     private void exoPlayerCreate(String vidUrl){
@@ -118,7 +184,7 @@ public class WatchMovie extends AppCompatActivity {
 
         String videoUrlStr = "https://drive.google.com/uc?id=" + vidUrl;
         Uri videoUrl = Uri.parse(videoUrlStr);
-        Log.d("vidUrlFULLafterclickinwatch", ""+videoUrl);
+//        Log.d("vidUrlFULLafterclickinwatch", ""+videoUrl);
 
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(videoUrl));
 

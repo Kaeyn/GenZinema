@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.MenuItem;
@@ -14,20 +16,22 @@ import android.widget.Toast;
 
 public class DetailMoviePage extends AppCompatActivity {
 
+    String email;
+    MovieHandler movieHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("GenZinema");
+        getSupportActionBar().setTitle("Thông tin phim");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_detail_movie_page);
         Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         if(intent.hasExtra("idMV")) {
-//            Toast.makeText(getApplication(),"DetailMoviePage idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
+            Movie movie = movieHandler.GetMovieByID(intent.getIntExtra("idMV",0));
             Bundle bundle = new Bundle();
-            bundle.putInt("idMV", intent.getIntExtra("idMV", 0));
-            bundle.putInt("idGenreMV", intent.getIntExtra("idGenreMV", 0));
-            bundle.putInt("idStyleMV", intent.getIntExtra("idStyleMV", 0));
-
+            bundle.putInt("idMV", movie.getIdMV());
+            bundle.putString("email",email);
             FragmentManager fm = getSupportFragmentManager();
             fm.setFragmentResult("keyMain", bundle);
             loadFragment(new FragmentDetailMovie());
@@ -52,7 +56,9 @@ public class DetailMoviePage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(this, MainHome.class);
+        intent.putExtra("email",email);
+        startActivity(intent);
     }
 
     @Override
