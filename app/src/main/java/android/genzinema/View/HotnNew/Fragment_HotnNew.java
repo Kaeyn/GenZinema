@@ -35,6 +35,8 @@ public class Fragment_HotnNew extends Fragment {
     boolean isTransitionComplete = true;
     int selectedTabIndex = 0;
 
+    String email;
+
     int currentScrollX = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +49,9 @@ public class Fragment_HotnNew extends Fragment {
 
     public Fragment_HotnNew() {
         // Required empty public constructor
+    }
+    public Fragment_HotnNew(String email) {
+        this.email = email;
     }
 
     /**
@@ -87,7 +92,7 @@ public class Fragment_HotnNew extends Fragment {
         subcategoryViewPager.setUserInputEnabled(false);
         subcategoryLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
 
-        Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity());
+        Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity(), email);
         subcategoryViewPager.setAdapter(hot_new_pager_adapter);
 
         new TabLayoutMediator(subcategoryLayout, subcategoryViewPager, (tab, position) -> {

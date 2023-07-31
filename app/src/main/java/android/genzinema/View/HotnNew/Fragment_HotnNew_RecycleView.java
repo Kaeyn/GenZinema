@@ -38,8 +38,11 @@ public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecy
     SQLiteDatabase database;
     CustomRecycleView adapter;
 
-    public Fragment_HotnNew_RecycleView(String subcategoryName){
+    String email;
+
+    public Fragment_HotnNew_RecycleView(String subcategoryName, String email){
         this.subcategoryName = subcategoryName;
+        this.email = email;
     }
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,8 +56,8 @@ public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecy
     public Fragment_HotnNew_RecycleView() {
         // Required empty public constructor
     }
-    public static Fragment_HotnNew_RecycleView newInstance(String subcategoryName) {
-        Fragment_HotnNew_RecycleView fragment = new Fragment_HotnNew_RecycleView(subcategoryName);
+    public static Fragment_HotnNew_RecycleView newInstance(String subcategoryName, String email) {
+        Fragment_HotnNew_RecycleView fragment = new Fragment_HotnNew_RecycleView(subcategoryName, email);
         return fragment;
     }
 
@@ -116,6 +119,7 @@ public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecy
                         results.putInt("idMV", movie.getIdMV());
                         results.putInt("idGenreMV", movie.getIdGenre());
                         results.putInt("idStyleMV", movie.getIdType());
+                        results.putString("email", email);
                         getParentFragmentManager().setFragmentResult("keyDetailMV", results);
                         loadFragment(new FragmentDetailMovie());
                     }
