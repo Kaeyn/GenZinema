@@ -35,15 +35,7 @@ public class DetailMoviePage extends AppCompatActivity {
 
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         if(intent.hasExtra("idMV")) {
-            Movie movie = movieHandler.getMovieByID(idmv);
-            Bundle bundle = new Bundle();
-            bundle.putInt("idMV", movie.getIdMV());
-            bundle.putString("email",email);
-            bundle.putInt("idGenreMV", movie.getIdGenre());
-            bundle.putInt("idStyleMV", movie.getIdType());
-            FragmentManager fm = getSupportFragmentManager();
-            fm.setFragmentResult("keyMain", bundle);
-            loadFragment(new FragmentDetailMovie());
+            loadFragment(new FragmentDetailMovie(email,idmv));
         }
     }
     public void loadFragment(Fragment fragment){
