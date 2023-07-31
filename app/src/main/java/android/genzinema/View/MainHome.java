@@ -13,9 +13,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.EpHandler;
+import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.GenresHandler;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.StyleHandler;
+import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
 import android.genzinema.View.HotnNew.Fragment_HotnNew;
 import android.os.Bundle;
@@ -45,6 +47,7 @@ public class MainHome extends AppCompatActivity{
     StyleHandler styleHandler;
     MovieHandler movieHandler;
     EpHandler epHandler;
+    FavoriteMovieHander favoriteMovieHander;
 
     SQLiteDatabase db;
     ArrayList<Movie> arrayListMV = new ArrayList<>();
@@ -82,12 +85,15 @@ public class MainHome extends AppCompatActivity{
     public void addEvents(){
         loadFragment(new Fragment_Home());
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
-        genresHandler = new GenresHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
-        styleHandler = new StyleHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
-        epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
+        genresHandler = new GenresHandler(getApplicationContext(),GenresHandler.DB_NAME,null,1);
+        styleHandler = new StyleHandler(getApplicationContext(),StyleHandler.DB_NAME,null,1);
+        epHandler = new EpHandler(getApplicationContext(),EpHandler.DB_NAME,null,1);
+        favoriteMovieHander = new FavoriteMovieHander(getApplication(), FavoriteMovieHander.DB_NAME,null,1);
+
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
         movieHandler.onCreate(db);
+        favoriteMovieHander.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

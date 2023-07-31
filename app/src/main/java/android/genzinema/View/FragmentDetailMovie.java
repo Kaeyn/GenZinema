@@ -85,6 +85,7 @@ public class FragmentDetailMovie extends Fragment {
     private String UrlMovie = "";
 
 
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -291,8 +292,8 @@ public class FragmentDetailMovie extends Fragment {
                 addControl(view);
                 applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
                 email = result.getString("email");
-                idMV = result.getInt("idMV");
 //                Log.d("hahahh", String.valueOf(idMV));
+                idMV = result.getInt("idMV");
                 favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
                 idGenre = result.getInt("idGenreMV");
                 idStyle = result.getInt("idStyleMV");
@@ -330,7 +331,7 @@ public class FragmentDetailMovie extends Fragment {
                     if (btnEpStateIsCollect) {
                         btnEpStateIsCollect = false;
                         getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                        loadFragment(new FragmentEps(idMV));
+                        loadFragment(new FragmentEps(idMV,email));
                     }
 
                 }
@@ -368,7 +369,7 @@ public class FragmentDetailMovie extends Fragment {
 //                                results.putInt("idGenreMV", idGenre);
 //                                results.putInt("idStyleMV", idStyle);
 //                                getParentFragmentManager().setFragmentResult("keyEpsMV", results);
-                                loadFragment(new FragmentEps(idMV));
+                                loadFragment(new FragmentEps(idMV,email));
                             }
                         }
 

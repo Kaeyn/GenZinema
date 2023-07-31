@@ -6,6 +6,8 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.genzinema.Controller.FavoriteMovieHander;
+import android.genzinema.Controller.MovieHandler;
+import android.genzinema.Model.Movie;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -57,6 +59,8 @@ public class WatchMovie extends AppCompatActivity {
     PorterDuff.Mode mode;
     int colorRed = Color.parseColor("#FF0000"); // Màu đỏ
     int colorWhite = Color.parseColor("#FFFFFF");
+
+    MovieHandler movieHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,12 +141,17 @@ public class WatchMovie extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentReturn = getIntent();
-                email = intentReturn.getStringExtra("email");
-                idMV = intentReturn.getIntExtra("idMV",0);
+//                Intent intentReturn = getIntent();
+//                email = intentReturn.getStringExtra("email");
+//                idMV = intentReturn.getIntExtra("idMV",0);
                 Intent intent = new Intent(WatchMovie.this, DetailMoviePage.class);
+                Log.d("aa", "onClick: "+idMV);
+                movieHandler = new MovieHandler(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
+                Movie movie = movieHandler.GetMovieByID(idMV);
                 intent.putExtra("email",email);
                 intent.putExtra("idMV", idMV);
+                intent.putExtra("idGenreMV",movie.getIdGenre());
+                intent.putExtra("idStyleMV",movie.getIdType());
                 startActivity(intent);
             }
         });

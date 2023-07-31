@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class DetailMoviePage extends AppCompatActivity {
 
     String email;
-    int idMV;
+    int idmv,idGenre,idStyle;
     MovieHandler movieHandler;
 
     @Override
@@ -29,11 +29,14 @@ public class DetailMoviePage extends AppCompatActivity {
         setContentView(R.layout.activity_detail_movie_page);
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
-        idMV = intent.getIntExtra("idMV", 0);
-        Log.d("email", ""+email +"  - "+idMV);
+        idmv = intent.getIntExtra("idMV",0);
+        idGenre = intent.getIntExtra("idGenreMV",0);
+        idStyle = intent.getIntExtra("idStyleMV",0);
+
+
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         if(intent.hasExtra("idMV")) {
-            Movie movie = movieHandler.GetMovieByID(idMV);
+            Movie movie = movieHandler.GetMovieByID(idmv);
             Bundle bundle = new Bundle();
             bundle.putInt("idMV", movie.getIdMV());
             bundle.putString("email",email);
@@ -71,7 +74,8 @@ public class DetailMoviePage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // Call the onBackPressed() method to navigate back
+//            finish(); // Call the onBackPressed() method to navigate back
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

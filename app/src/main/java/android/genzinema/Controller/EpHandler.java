@@ -45,11 +45,11 @@ public class EpHandler extends SQLiteOpenHelper {
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'johnweak','Tâp 1', 3, 'Oh yeahhhhhhhhhhhhh.','1tazr67-wERTdQ9tCdnJBiK3-P_ZqWJU0')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'johnwick','Tâp 2', 3, 'Oh nooooooooooo.','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'sieunhan','Tâp 2', 3, 'Oh nooooooooooo.','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'johnweak','Tâp 3', 3, 'It movie 2.','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'johnwick','Tâp 4', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'bogia','Tâp 4', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
         sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'ttcs','Tâp 5', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);

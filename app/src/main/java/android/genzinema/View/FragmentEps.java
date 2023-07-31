@@ -46,6 +46,7 @@ public class FragmentEps extends Fragment {
     CustomAdapterEp adapter;
     private int idMV;
 
+     String email;
 
 
 
@@ -62,7 +63,8 @@ public class FragmentEps extends Fragment {
         // Required empty public constructor
     }
 
-    public FragmentEps(int idMV) {
+    public FragmentEps(int idMV, String email) {
+        this.email = email;
         this.idMV = idMV;
     }
 
@@ -127,6 +129,10 @@ public class FragmentEps extends Fragment {
                 UrlMovie = ep.getUrlEp();
                 Intent intent = new Intent(getContext(), WatchMovie.class);
                 intent.putExtra("vidUrl", UrlMovie);
+                intent.putExtra("email", email);
+                intent.putExtra("idMV", idMV);
+                Log.d("idMVEp", "onClick: "+idMV);
+                Log.d("vidUrlafterclick", ""+UrlMovie);
                 startActivity(intent);
             }
         });
