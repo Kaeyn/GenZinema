@@ -17,7 +17,7 @@ public class DetailMoviePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Search");
+        getSupportActionBar().setTitle("GenZinema");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_detail_movie_page);
         Intent intent = getIntent();
@@ -58,7 +58,7 @@ public class DetailMoviePage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // Call the onBackPressed() method to navigate back
+            finish(); // Call the onBackPressed() method to navigate back
             return true;
         }
         return super.onOptionsItemSelected(item);
