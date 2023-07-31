@@ -36,7 +36,7 @@ public class DetailMoviePage extends AppCompatActivity {
 
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         if(intent.hasExtra("idMV")) {
-            Movie movie = movieHandler.GetMovieByID(idMV);
+            Movie movie = movieHandler.GetMovieByID(idmv);
             Bundle bundle = new Bundle();
             bundle.putInt("idMV", movie.getIdMV());
             bundle.putString("email",email);

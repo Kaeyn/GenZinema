@@ -84,8 +84,6 @@ public class FragmentDetailMovie extends Fragment {
 
     private String UrlMovie = "";
 
-    int colorRed = Color.parseColor("#FF0000"); // Màu đỏ
-    int colorWhite = Color.parseColor("#FFFFFF");
 
 
     // TODO: Rename parameter arguments, choose names that match
