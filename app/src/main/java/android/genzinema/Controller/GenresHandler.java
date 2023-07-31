@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.genzinema.Model.Genres;
 import android.genzinema.Model.Movie;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -25,6 +26,7 @@ public class GenresHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        droptbGenres();
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " ( " +
                 IDGENRE_COL + " INTEGER NOT NULL UNIQUE, "+
@@ -64,5 +66,13 @@ public class GenresHandler extends SQLiteOpenHelper {
         cursor.close(); // Close the cursor after use
         db.close();
         return arrayListGenres;
+    }
+
+    public void droptbGenres(){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        String sql = "Drop table " + TABLE_NAME;
+        Log.d("droptbGenres", "a");
+        db.execSQL(sql);
+        db.close();
     }
 }

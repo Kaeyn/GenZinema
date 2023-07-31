@@ -54,10 +54,6 @@ public class MainHome extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
-
-        movieHandler = new MovieHandler(getApplication(),MovieHandler.DB_NAME,null,1);
-        movieHandler.onCreate(db);
-
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
 
@@ -91,7 +87,6 @@ public class MainHome extends AppCompatActivity{
         epHandler = new EpHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         genresHandler.onCreate(db);
         styleHandler.onCreate(db);
-
         movieHandler.onCreate(db);
         bttNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

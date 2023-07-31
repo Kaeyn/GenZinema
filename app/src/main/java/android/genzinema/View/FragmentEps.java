@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,8 @@ public class FragmentEps extends Fragment {
     //    int movieID ;
     CustomAdapterEp adapter;
     private int idMV;
+
+    private String UrlMovie = "";
 
 
 
@@ -103,9 +106,11 @@ public class FragmentEps extends Fragment {
 
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
         arrayListEp = epHandler.GetAllEpByMovieID(idMV);
+
         adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         Movie movie = movieHandler.GetMovieByID(idMV);
+
         tvNameMV.setText(movie.getNameMovie());
         lvEp.setAdapter(adapter);
         addEvents();
