@@ -37,7 +37,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
                         android:text="Movie"
-                            app:cornerRadius="100dp"
+                        app:cornerRadius="100dp"
+                        android:backgroundTint="#212121"
+                        android:textColor="@color/white"
                         app:strokeColor="#FFFFFF"
                         app:strokeWidth="1dp" />
 
@@ -47,6 +49,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
                         android:text="Phim"
+                        android:backgroundTint="#212121"
+                        android:textColor="@color/white"
                         app:cornerRadius="100dp"
                         app:strokeColor="#FFFFFF"
                         app:strokeWidth="1dp" />
@@ -127,7 +131,7 @@
                             <Button
                                 android:id="@+id/btnPhat"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="60dp"
                                 android:layout_gravity="bottom"
                                 android:layout_marginHorizontal="15dp"
                                 android:layout_marginBottom="2dp"
@@ -142,13 +146,13 @@
                             <Button
                                 android:id="@+id/btnDanhSach"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="60dp"
                                 android:layout_gravity="bottom"
                                 android:layout_marginRight="15dp"
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="1"
-                                android:background="#85000000"
                                 android:text="Danh sách"
+                                android:backgroundTint="#20000000"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"

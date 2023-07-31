@@ -63,7 +63,8 @@ String email;
     private String mParam1;
     private String mParam2;
 
-    private boolean isScrolling = false;
+    private boolean isCheckedMovie = false;
+    private boolean isCheckedPhim = false;
 
     private GradientDrawable originalBackgroundDrawable;
 
@@ -116,7 +117,6 @@ String email;
 
 
 
-
     Animation fadeInAnimation;
 
     public Fragment_Home() {
@@ -159,14 +159,11 @@ String email;
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
 
-
         addRootViewControls(rootView);
         addViewControls(view);
 
         fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in_home);
         applyFadeInAnimationToChildren(nestedScrollView, fadeInAnimation);
-
-
 
         Movie recommendedMovie = movieHandler.GetRecommendedMovie();
         recommendedMovieId = recommendedMovie.getIdMV();
@@ -179,7 +176,6 @@ String email;
         type_of_filmArrayList.add("Kinh dị");
         type_of_filmArrayList.add("Hài hước");
         type_of_filmArrayList.add("Animme");
-
 
         dialog = new Dialog(getActivity(), R.style.CustomDialog);
         dialog.setContentView(view);
@@ -338,11 +334,11 @@ String email;
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idMV", recommendedMovieId);
+                bundle.putString("email",email);
                 getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
                 loadFragment(new FragmentDetailMovie());
             }
         });
-
 
         btnPhim.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -363,6 +359,7 @@ String email;
         });
 
         btnMovie.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 refreshRecyclerView();

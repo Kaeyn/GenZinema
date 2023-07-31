@@ -7,6 +7,8 @@ import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -57,7 +59,7 @@ import com.google.android.exoplayer2.util.Util;
 public class FragmentDetailMovie extends Fragment {
 
     private boolean btnEpStateIsCollect = true;
-    int idMV;
+    int idMV , idGenre, idStyle;
     String UrlTrailer;
 
     String keySearchTo = "keyMain";
@@ -73,9 +75,7 @@ public class FragmentDetailMovie extends Fragment {
     Handler handler;
     PlayerView playerView;
     FavoriteMovieHander favoriteMovieHander;
-
     ScrollView scrollView;
-
     Animation fadeInAnimate,fadeOutAnimation;
 
     String UrlMovie;
@@ -119,6 +119,7 @@ public class FragmentDetailMovie extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1); 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     private void addControl(View view){
@@ -137,6 +138,17 @@ public class FragmentDetailMovie extends Fragment {
         btnPlayVideo = view.findViewById(R.id.btnPlayVideo_Detail);
         btnAddList = view.findViewById(R.id.btnAddDanhSach);
     }
+    private void checkFMV()
+    {
+        if(favoriteMovieHander.existInFMV(email,idMV) == true)
+        {
+            btnAddList.setTextColor(colorRed);
+        }
+        else
+        {
+            btnAddList.setTextColor(colorWhite);
+        }
+    }
 
     private void addEvents(){
 
@@ -144,8 +156,12 @@ public class FragmentDetailMovie extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), WatchMovie.class);
+                intent.putExtra("email",email);
                 intent.putExtra("vidUrl", UrlMovie);
-                Log.d("vidUrlafterclick", ""+UrlMovie);
+                intent.putExtra("idGenreMV", idGenre);
+                intent.putExtra("idStyleMV",idStyle);
+                intent.putExtra("idMV", idMV);
+//                Log.d("vidUrlafterclick", ""+UrlMovie);
                 startActivity(intent);
             }
         });
@@ -158,10 +174,10 @@ public class FragmentDetailMovie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email,idMV),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, idMV),Toast.LENGTH_SHORT).show();
+                checkFMV();
             }
         });
-
         btnVolumeMute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,12 +226,10 @@ public class FragmentDetailMovie extends Fragment {
             HandleBundle(keyHometosc,view);
         }
 
-
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                exoPlayerCreate();
+                exoPlayerCreate();
                 playerView.setControllerShowTimeoutMs(3000);
                 playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
                     @Override
@@ -231,9 +245,6 @@ public class FragmentDetailMovie extends Fragment {
                 addEvents();
             }
         }, 200);
-
-
-
         return view;
     }
 
@@ -258,8 +269,6 @@ public class FragmentDetailMovie extends Fragment {
     }
 
 
-
-
     @Override
     public void onPause() {
         super.onPause();
@@ -276,13 +285,11 @@ public class FragmentDetailMovie extends Fragment {
                 applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
                 email = result.getString("email");
                 idMV = result.getInt("idMV");
+//                Log.d("hahahh", String.valueOf(idMV));
                 favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
-                int idGenre = result.getInt("idGenreMV");
-                int idStyle = result.getInt("idStyleMV");
-                String textColorHexCodeRed = "#FF0909";
-                String textColorHexCodeWhite = "#FFFFFF";
-                int colorRed = Color.parseColor(textColorHexCodeRed);
-                int colorWhite = Color.parseColor(textColorHexCodeWhite);
+                idGenre = result.getInt("idGenreMV");
+                idStyle = result.getInt("idStyleMV");
+                checkFMV();
 
                 movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);
@@ -297,6 +304,7 @@ public class FragmentDetailMovie extends Fragment {
                 UrlMovie = movie.getUrlVideo();
                 Bundle results = new Bundle();
                 results.putInt("idMV", idMV);
+                results.putString("email",email);
                 results.putInt("idGenreMV", idGenre);
                 results.putInt("idStyleMV", idStyle);
 
@@ -359,8 +367,6 @@ public class FragmentDetailMovie extends Fragment {
 
                     });
                 }
-
-
 
                 fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
                 fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);

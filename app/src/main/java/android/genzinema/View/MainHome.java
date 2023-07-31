@@ -54,7 +54,7 @@ public class MainHome extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav);
         Intent intent = getIntent();
-        email = intent.getStringExtra("Email");
+        email = intent.getStringExtra("email");
 //        if(intent.hasExtra("idMV")) {
 //            Toast.makeText(getApplication(),"Main home idMV: "+intent.getIntExtra("idMV",0),Toast.LENGTH_SHORT).show();
 //            Bundle bundle = new Bundle();
@@ -127,7 +127,7 @@ public class MainHome extends AppCompatActivity{
         } else if (id == R.id.userProfile) {
 
             Intent intent = new Intent(MainHome.this, UserProfile.class);
-            intent.putExtra("Email",email);
+            intent.putExtra("email",email);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
