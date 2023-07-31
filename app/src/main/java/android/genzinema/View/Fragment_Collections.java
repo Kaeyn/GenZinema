@@ -92,7 +92,6 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
         fragmentManager.setFragmentResultListener("emailMainToFavorite", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-
             }
         });
     }
@@ -109,8 +108,10 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
         // Inflate the layout for this fragment
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
-        favoriteMovieHander.loadData();
+
         movieHandler.loadData();
+        favoriteMovieHander.loadData();
+
         arrayList = favoriteMovieHander.getArrayListFMV(email);
         colFilmArrayList = movieHandler.getMoviesById(arrayList);
 
@@ -119,7 +120,9 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         adapterRecyColFilm = new CustomAdapterRecyCollectionFilm(colFilmArrayList);
+
         recyclerView.setAdapter(adapterRecyColFilm);
         return rootView;
     }

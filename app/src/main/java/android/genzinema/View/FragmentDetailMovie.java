@@ -125,6 +125,7 @@ public class FragmentDetailMovie extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
     }
 
     private void addControl(View view){
@@ -179,6 +180,7 @@ public class FragmentDetailMovie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Log.d("asdsadsadsa",email + " "+idMV);
                 Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, idMV),Toast.LENGTH_SHORT).show();
                 checkFMV();
             }
@@ -219,11 +221,11 @@ public class FragmentDetailMovie extends Fragment {
         String keyHometo = "keyDetailMV";
         String keyHometosc = "keyDetailMVsc";
 
-
         favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
         favoriteMovieHander.onCreate(db);
         fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
+
 
         if(getContext() instanceof MainHome){
             HandleBundle(keyHometo,view);
@@ -291,10 +293,9 @@ public class FragmentDetailMovie extends Fragment {
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 addControl(view);
                 applyFadeInAnimationToChildren(scrollView, fadeInAnimate);
-                email = result.getString("email");
-//                Log.d("hahahh", String.valueOf(idMV));
-                idMV = result.getInt("idMV");
                 favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+                email = result.getString("email");
+                idMV = result.getInt("idMV");
                 idGenre = result.getInt("idGenreMV");
                 idStyle = result.getInt("idStyleMV");
                 checkFMV();

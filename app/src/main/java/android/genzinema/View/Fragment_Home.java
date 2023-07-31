@@ -107,15 +107,8 @@ String email;
 
     CustomAdapterRecyFilm adapterRecyFilmHaiHuoc;
     CustomAdapterRecyFilm adapterRecyFilmAnime;
-
     DividerItemDecoration ItemDecoKinhDi,ItemDecoAnime,ItemDecoHaiHuoc,ItemDecoHanhDong,ItemDecoTinhCam;
-
     RecyclerItemTouchListener touchListenerAnime,touchListenerHanhDong,touchListenerHaiHuoc,touchListenerKinhDi,touchListenerTinhCam;
-
-
-
-
-
 
     Animation fadeInAnimation;
 
@@ -184,8 +177,6 @@ String email;
 
         loadArrayListData();
         addEvents();
-
-
         return rootView;
     }
 
@@ -328,7 +319,6 @@ String email;
         int colorRed = Color.parseColor(textColorHexCodeRed);
         int colorWhite = Color.parseColor(textColorHexCodeWhite);
 
-
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -390,8 +380,6 @@ String email;
                 dialog.dismiss();
             }
         });
-
-
 
         btnGenres.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -510,8 +498,6 @@ String email;
             }
         });
 
-
-
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
@@ -538,8 +524,6 @@ String email;
             }
         }
     }
-
-
 
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();

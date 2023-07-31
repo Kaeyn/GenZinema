@@ -251,7 +251,6 @@ public class MovieHandler extends SQLiteOpenHelper {
         {
             for(Movie movie : arrayListMovie)
             {
-
                 if(id.equals(movie.getIdMV()))
                 {
                     moviesArray.add(movie);
