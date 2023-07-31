@@ -34,9 +34,6 @@ public class MovieHandler extends SQLiteOpenHelper {
     static final String VIDEOMOVIE_COL = "video_url";
 
 
-
-
-
     public MovieHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, TABLE_NAME, null, version);
         this.context = context;

@@ -106,7 +106,6 @@ String email;
     CustomAdapterRecyFilm adapterRecyFilmAnime;
     CustomAdapterRecyFilm adapterRecyFilmHanhDong;
 
-
     Animation fadeInAnimation;
 
     public Fragment_Home() {
@@ -149,14 +148,11 @@ String email;
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
 
-
         addRootViewControls(rootView);
         addViewControls(view);
 
         fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in_home);
         applyFadeInAnimationToChildren(nestedScrollView, fadeInAnimation);
-
-
 
         Movie recommendedMovie = movieHandler.GetRecommendedMovie();
         recommendedMovieId = recommendedMovie.getIdMV();
@@ -168,7 +164,6 @@ String email;
         type_of_filmArrayList.add("Animme");
         type_of_filmArrayList.add("Hành động");
         type_of_filmArrayList.add("Kinh dị");
-
 
         dialog = new Dialog(getActivity(), R.style.CustomDialog);
         dialog.setContentView(view);
@@ -206,8 +201,6 @@ String email;
         recyclerViewPhimThinhHanh.setItemAnimator(new DefaultItemAnimator());
         adapterRecyFilm = new CustomAdapterRecyFilm(arrayListPhimThinhHanh);
         recyclerViewPhimThinhHanh.setAdapter(adapterRecyFilm);
-
-
 
 
         // Display list film of "Anime"
@@ -286,17 +279,16 @@ String email;
     }
 
     private void addEvents(){
-
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idMV", recommendedMovieId);
+                bundle.putString("email",email);
                 getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
                 loadFragment(new FragmentDetailMovie());
             }
         });
-
 
         btnPhim.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,7 +303,6 @@ String email;
         btnMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Update the button's background color
 
                 // Get the background drawable of the button
@@ -457,11 +448,6 @@ String email;
                 return false;
             }
         });
-
-
-
-
-
 
 
         // Apply the adapter to the spinner

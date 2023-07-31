@@ -119,14 +119,15 @@
                     android:textSize="6.1pt"
                     android:backgroundTint="@color/black"
                     android:text="Nội dung tương tự" />
+
                 <Button
                     android:id="@+id/btnAddDanhSach"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
-                    android:textSize="6.1pt"
                     android:layout_weight="1"
-                    android:text="Yêu thích" />
+                    android:backgroundTint="@color/black"
+                    android:text="Yêu thích"
+                    android:textSize="6.1pt" />
             </LinearLayout>
 
             <FrameLayout
