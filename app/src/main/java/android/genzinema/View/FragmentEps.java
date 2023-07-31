@@ -40,6 +40,8 @@ public class FragmentEps extends Fragment {
     ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
     ArrayList<Movie> arrayListMV = new ArrayList<Movie>();
 
+    String UrlMovie;
+
     //    int movieID ;
     CustomAdapterEp adapter;
     private int idMV;

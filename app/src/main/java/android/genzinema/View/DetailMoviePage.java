@@ -11,6 +11,7 @@ import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ public class DetailMoviePage extends AppCompatActivity {
     String email;
     int idmv,idGenre,idStyle;
     MovieHandler movieHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,12 +36,12 @@ public class DetailMoviePage extends AppCompatActivity {
 
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         if(intent.hasExtra("idMV")) {
-            Movie movie = movieHandler.GetMovieByID(intent.getIntExtra("idMV",0));
+            Movie movie = movieHandler.GetMovieByID(idMV);
             Bundle bundle = new Bundle();
             bundle.putInt("idMV", movie.getIdMV());
             bundle.putString("email",email);
-            bundle.putInt("idGenreMV",idGenre);
-            bundle.putInt("idStyleMV",idStyle);
+            bundle.putInt("idGenreMV", movie.getIdGenre());
+            bundle.putInt("idStyleMV", movie.getIdType());
             FragmentManager fm = getSupportFragmentManager();
             fm.setFragmentResult("keyMain", bundle);
             loadFragment(new FragmentDetailMovie());

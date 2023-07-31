@@ -32,6 +32,8 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     Cus_Item_Search_Adapter adapter;
     MovieHandler movieHandler;
 
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +41,8 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         getSupportActionBar().setTitle("Search");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addControls();
-
-
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");
 //        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 //        arrayList.add(movie);
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
@@ -54,7 +56,6 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         adapter = new Cus_Item_Search_Adapter(arrayList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-        Log.d("Test", "test");
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -66,6 +67,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
                     intent.putExtra("idMV",movie.getIdMV());
                     intent.putExtra("idGenreMV",movie.getIdGenre());
                     intent.putExtra("idStyleMV",movie.getIdType());
+                    intent.putExtra("email", email);
                     startActivity(intent);
 
                 }

@@ -21,11 +21,11 @@ public class Activity_Collections extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle results = new Bundle();
-        results.putString("Email", intent.getStringExtra("Email"));
+        results.putString("email", intent.getStringExtra("email"));
         getSupportFragmentManager().setFragmentResult("emailMainToFavorite", results);
 
         frameLayout = findViewById(R.id.frameFragment);
-        loadFragment(new Fragment_Collections());
+        loadFragment(new Fragment_Collections(intent.getStringExtra("email")));
 
     }
     public void loadFragment(Fragment frag){

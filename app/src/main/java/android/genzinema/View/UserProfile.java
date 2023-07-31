@@ -9,6 +9,8 @@ import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -45,7 +47,9 @@ public class UserProfile extends AppCompatActivity {
     {
         userHandler = new UserHandler(this,UserHandler.DB_NAME,null,1);
         Intent intent = getIntent();
-        user = userHandler.getUserByEmail(intent.getStringExtra("email"));
+        String email = intent.getStringExtra("email");
+        Log.d("email Profi", email);
+        user = userHandler.getUserByEmail(email);
         tv_UserName.setText(user.getDisplayName());
 
         btn_edit.setOnClickListener(new View.OnClickListener() {
