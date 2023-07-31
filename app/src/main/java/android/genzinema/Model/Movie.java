@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Movie {
     Integer IdMV, IdGenre,IdType,IdThumbnails;
-    String UrlTrailer, NameMovie,Actors,Authors,YearProduce,Detail;
+    String UrlTrailer, NameMovie,Actors,Authors,YearProduce,Detail,UrlVideo;
 
     public Movie() {
     }
 
-    public Movie(Integer idMV, Integer idGenre, Integer idType, Integer idThumbnails, String urlTrailer, String nameMovie, String actors, String authors, String yearProduce, String detail) {
+    public Movie(Integer idMV, Integer idGenre, Integer idType, Integer idThumbnails, String urlTrailer, String nameMovie, String actors, String authors, String yearProduce, String detail,String urlVideo) {
         IdMV = idMV;
         IdGenre = idGenre;
         IdType = idType;
@@ -20,6 +20,7 @@ public class Movie {
         Authors = authors;
         YearProduce = yearProduce;
         Detail = detail;
+        UrlVideo = UrlVideo;
     }
 
     public Integer getIdMV() {
@@ -112,6 +113,14 @@ public class Movie {
     public void setIdThumbnails(Integer idThumbnails) {
         this.IdThumbnails = idThumbnails;
     }
+    public String getUrlVideo() {
+        return UrlVideo;
+    }
+
+    public void setUrlVideo(String urlVideo) {
+        UrlVideo = urlVideo;
+    }
+
 
     public static ArrayList<Movie> initData(int[] lstIdImg, int[] lstImgFilm){
         ArrayList<Movie> movieArrayList = new ArrayList<>();

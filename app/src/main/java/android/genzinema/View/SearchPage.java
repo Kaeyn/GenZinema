@@ -16,7 +16,6 @@ import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,12 +35,16 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setTitle("Search");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         addControls();
 
+
+//        Movie movie = new Movie(1, 1, 1, R.drawable.johnweak,"url", "Mua He Hoa Phuong No", "SonTungMTP", "LeHuuMyn", "2018", "Phim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//        arrayList.add(movie);
         movieHandler = new MovieHandler(getApplicationContext(),MovieHandler.DB_NAME,null,1);
         arrayList = movieHandler.getAllMovie();
+
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -50,7 +53,6 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         adapter = new Cus_Item_Search_Adapter(arrayList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
@@ -79,7 +81,6 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
 
             }
         });
-
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -148,7 +149,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // Call the onBackPressed() method to navigate back
+            finish(); // Call the onBackPressed() method to navigate back
             return true;
         }
         return super.onOptionsItemSelected(item);
