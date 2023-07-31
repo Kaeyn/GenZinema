@@ -68,7 +68,8 @@ String email;
     private String mParam1;
     private String mParam2;
 
-    private boolean isScrolling = false;
+    private boolean isCheckedMovie = false;
+    private boolean isCheckedPhim = false;
 
     private GradientDrawable originalBackgroundDrawable;
 
@@ -293,26 +294,58 @@ String email;
         btnPhim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrayListPhimKinhDi = movieHandler.getMoviesByMovie(2,1);
-                arrayListPhimAnime = movieHandler.getMoviesByMovie(5,1);
-                arrayListPhimHanhDong = movieHandler.getMoviesByMovie(1,1);
-                addRecycleViewByGenres();
+                if(isCheckedPhim == false){
+                    btnMovie.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.button_background_normal));
+                    btnMovie.setTextColor(ContextCompat.getColorStateList(getActivity(), R.color.white));
+                    btnPhim.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.white));
+                    btnPhim.setTextColor(ContextCompat.getColorStateList(getActivity(), R.color.black));
+                    isCheckedMovie = false;
+                    isCheckedPhim = true;
+//                arrayListPhimThinhHanh = movieHandler.getMoviesByMovie(1,2);
+                    arrayListPhimKinhDi = movieHandler.getMoviesByMovie(2,1);
+                    arrayListPhimAnime = movieHandler.getMoviesByMovie(5,1);
+                    arrayListPhimHanhDong = movieHandler.getMoviesByMovie(1,1);
+                    addRecycleViewByGenres();
+                }
+                else{
+                    btnPhim.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.button_background_normal));
+                    btnPhim.setTextColor(ContextCompat.getColorStateList(getActivity(), R.color.white));
+                    isCheckedPhim = false;
+                    loadArrayListData();
+                    addRecycleViewByGenres();
+                }
             }
         });
 
         btnMovie.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 // Update the button's background color
 
                 // Get the background drawable of the button
-                btnMovie.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.button_background_clicked));
-
+                if(isCheckedMovie == false){
+                    btnMovie.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.white));
+                    btnMovie.setTextColor(ContextCompat.getColorStateList(getActivity(), R.color.black));
+                    btnPhim.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.button_background_normal));
+                    btnPhim.setTextColor(ContextCompat.getColorStateList(getActivity(), R.color.white));
+                    isCheckedMovie = true;
+                    isCheckedPhim = false;
 //                arrayListPhimThinhHanh = movieHandler.getMoviesByMovie(1,2);
-                arrayListPhimKinhDi = movieHandler.getMoviesByMovie(2,2);
-                arrayListPhimAnime = movieHandler.getMoviesByMovie(5,2);
-                arrayListPhimHanhDong = movieHandler.getMoviesByMovie(1,2);
-                addRecycleViewByGenres();
+                    arrayListPhimKinhDi = movieHandler.getMoviesByMovie(2,2);
+                    arrayListPhimAnime = movieHandler.getMoviesByMovie(5,2);
+                    arrayListPhimHanhDong = movieHandler.getMoviesByMovie(1,2);
+                    addRecycleViewByGenres();
+                }
+                else{
+                    btnMovie.setBackgroundTintList(ContextCompat.getColorStateList(getActivity(), R.color.button_background_normal));
+                    btnMovie.setTextColor(ContextCompat.getColorStateList(getActivity(), R.color.white));
+                    isCheckedMovie = false;
+                    loadArrayListData();
+                    addRecycleViewByGenres();
+                }
+
+
 
             }
         });

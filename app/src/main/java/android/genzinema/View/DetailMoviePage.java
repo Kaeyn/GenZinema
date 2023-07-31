@@ -64,7 +64,7 @@ public class DetailMoviePage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed(); // Call the onBackPressed() method to navigate back
+            finish(); // Call the onBackPressed() method to navigate back
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -165,7 +165,35 @@ public class MovieHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public ArrayList<Movie> searchData(String strSearch){
+        arrayListMovie.clear();
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME +" WHERE UPPER(" + NAMEMOVIE_COL + ") LIKE UPPER('%"+strSearch+"%')", null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0){
+            do {
+                Movie movie = new Movie();
+                movie.setIdMV(cursor.getInt(0));
+                movie.setNameMovie(cursor.getString(1));
+                movie.setIdGenre(cursor.getInt(2));
+                movie.setIdType(cursor.getInt(3));
+                movie.setUrlTrailer(cursor.getString(4));
+                movie.setActors(cursor.getString(5));
+                movie.setAuthors(cursor.getString(6));
+                movie.setYearProduce(cursor.getString(7));
+                movie.setDetail(cursor.getString(8));
+                movie.setIdThumbnails(context.getResources().getIdentifier(cursor.getString(9), "drawable", "android.genzinema"));
+                arrayListMovie.add(movie);
+            }while (cursor.moveToNext());
+        }
+        else{
+            return null;
+        }
 
+        cursor.close(); // Close the cursor after use
+        db.close();
+        return arrayListMovie;
+    }
 
     public ArrayList<Movie> GetNewestMovie(){
         ArrayList<Movie> tempArrayList = new ArrayList<>();
@@ -190,6 +218,11 @@ public class MovieHandler extends SQLiteOpenHelper {
         cursor.close(); // Close the cursor after use
         db.close();
         return tempArrayList;
+    }
+
+    public ArrayList<Movie> getAllMovie(){
+        loadData();
+        return arrayListMovie;
     }
 
     public ArrayList<Movie> GetCollectMVBy(Integer IDGenre, Integer IDStyle) {
