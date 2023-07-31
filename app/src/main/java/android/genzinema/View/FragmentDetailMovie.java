@@ -215,7 +215,7 @@ public class FragmentDetailMovie extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                exoPlayerCreate();
+                exoPlayerCreate();
                 playerView.setControllerShowTimeoutMs(3000);
                 playerView.setControllerVisibilityListener(new PlayerControlView.VisibilityListener() {
                     @Override

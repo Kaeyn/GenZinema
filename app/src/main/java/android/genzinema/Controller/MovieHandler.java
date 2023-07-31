@@ -87,6 +87,7 @@ public class MovieHandler extends SQLiteOpenHelper {
     }
 
     public Movie GetMovieByID(int ID){
+        Log.d("test", "test");
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
         cursor.moveToFirst();

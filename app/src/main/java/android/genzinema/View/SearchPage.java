@@ -16,6 +16,7 @@ import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,6 +54,7 @@ public class SearchPage extends AppCompatActivity implements Cus_Item_Search_Ada
         adapter = new Cus_Item_Search_Adapter(arrayList);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+        Log.d("Test", "test");
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
