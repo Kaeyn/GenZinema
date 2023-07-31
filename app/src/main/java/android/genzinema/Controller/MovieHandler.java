@@ -3,12 +3,8 @@ package android.genzinema.Controller;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.genzinema.Model.Ep;
 import android.genzinema.Model.Movie;
-import android.genzinema.Model.Style;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -284,7 +280,7 @@ public class MovieHandler extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public ArrayList<Movie> getMoviesByMovie(int genreId, int idType) {
+    public ArrayList<Movie> getMoviesByGenreType(int genreId, int idType) {
         loadData();
         ArrayList<Movie> arrayList = new ArrayList<Movie>();
         for (Movie movie : arrayListMovie) {

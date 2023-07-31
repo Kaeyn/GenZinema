@@ -78,7 +78,7 @@ public class FragmentDetailMovie extends Fragment {
 
     Animation fadeInAnimate,fadeOutAnimation;
 
-    private String UrlMovie = "";
+    String UrlMovie;
 
 
     // TODO: Rename parameter arguments, choose names that match
