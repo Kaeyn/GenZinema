@@ -52,8 +52,8 @@ public class WatchMovie extends AppCompatActivity {
     FavoriteMovieHander favoriteMovieHander;
     Handler handler;
     PlayerView playerView;
-    String email;
-    int idMV;
+    String email = "";
+    int idMV = 0;
     ProgressBar progressBar;
     Drawable drawable;
     PorterDuff.Mode mode;

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.CustomAdapterRecyFilm;
+import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.RecyclerItemTouchListener;
+import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -36,6 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -53,6 +56,7 @@ String email;
     Button btnMovie, btnPhim, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
 
     TextView tvTrangChu;
+    FavoriteMovieHander favoriteMovieHander;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -149,6 +153,13 @@ String email;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                email = result.getString("email");
+            }
+        });
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
 
@@ -319,6 +330,13 @@ String email;
         int colorRed = Color.parseColor(textColorHexCodeRed);
         int colorWhite = Color.parseColor(textColorHexCodeWhite);
 
+        btnDanhSach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, recommendedMovieId),Toast.LENGTH_SHORT).show();
+            }
+        });
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -543,13 +561,6 @@ String email;
         RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FragmentManager fm = getParentFragmentManager();
-                fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        email = result.getString("email");
-                    }
-                });
                 Movie movie = customAdapterRecyFilm.GetItem(position);
                 Log.d("custom", "addRecycleViewByGenres: "+customAdapterRecyFilm.getItemCount());
 

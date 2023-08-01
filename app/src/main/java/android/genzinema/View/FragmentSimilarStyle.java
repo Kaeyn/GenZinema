@@ -32,7 +32,8 @@ public class FragmentSimilarStyle extends Fragment {
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
     CustomGridCollectMV adapter;
 
-    private int idGenre = 0;
+    int idGenre = 0;
+    String email = "";
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -47,7 +48,8 @@ public class FragmentSimilarStyle extends Fragment {
     public FragmentSimilarStyle() {
         // Required empty public constructor
     }
-    public FragmentSimilarStyle(int idGenre){
+    public FragmentSimilarStyle(String email, int idGenre){
+        this.email = email;
         this.idGenre = idGenre;
     }
 
@@ -105,6 +107,7 @@ public class FragmentSimilarStyle extends Fragment {
                 Movie movie = adapter.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
+                results.putString("email",email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);

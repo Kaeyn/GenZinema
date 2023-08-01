@@ -33,7 +33,7 @@ public class FragmentCollect extends Fragment {
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
     CustomGridCollectMV adapter;
     MovieHandler movieHandler;
-
+    String email = "";
     private int idGenre = 0;
     private int idStyle = 0;
     // TODO: Rename parameter arguments, choose names that match
@@ -49,7 +49,8 @@ public class FragmentCollect extends Fragment {
         // Required empty public constructor
     }
 
-    public FragmentCollect(int idGenre, int idStyle){
+    public FragmentCollect(String email, int idGenre, int idStyle){
+        this.email = email;
         this.idGenre = idGenre;
         this.idStyle = idStyle;
     }
@@ -104,21 +105,20 @@ public class FragmentCollect extends Fragment {
         gridCollect.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 Movie movie = adapter.GetItem(position);
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
+                results.putString("email", email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-
             }
         });
     }
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frameFragment, fragment);
+        ft.replace(R.id.frameLayoutDMP, fragment);
         ft.commit();
     }
 

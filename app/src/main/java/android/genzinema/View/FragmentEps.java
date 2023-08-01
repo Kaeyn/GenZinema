@@ -104,8 +104,6 @@ public class FragmentEps extends Fragment {
         addControls(view);
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
         epHandler.onCreate(db);
-
-        epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
         arrayListEp = epHandler.GetAllEpByMovieID(idMV);
 
         adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
