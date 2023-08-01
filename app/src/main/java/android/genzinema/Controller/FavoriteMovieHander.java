@@ -30,7 +30,6 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
         this.context = context;
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -67,14 +66,13 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
     public int getLastID()
     {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
-        Cursor cursor = db.rawQuery("select @IDENTITY " , null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_NAME + " ORDER BY "+ID_COL+" DESC LIMIT 1", null);
         cursor.moveToLast();
         int lastID = cursor.getInt(0);
         cursor.close();
         db.close();
         return lastID;
     }
-
     public void loadData(){
         arrayListFMV.clear();
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
@@ -106,7 +104,6 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
 
     public String AddOrDelete(String email, Integer idMV) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH, null, SQLiteDatabase.CREATE_IF_NECESSARY);
-
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + IDMOVIE_COL + " = ? AND " + EMAIL_COL + " = ?",
                 new String[]{idMV.toString(), email});
         if (cursor.getCount() > 0) {
@@ -123,7 +120,7 @@ public class FavoriteMovieHander extends SQLiteOpenHelper {
         loadData();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         ContentValues values = new ContentValues();
-        values.put(ID_COL,getLastID()+1);
+        values.put(ID_COL,getLastID() +1);
         values.put(IDMOVIE_COL,idMV);
         values.put(EMAIL_COL,email);
         db.insert(TABLE_NAME,null, values);

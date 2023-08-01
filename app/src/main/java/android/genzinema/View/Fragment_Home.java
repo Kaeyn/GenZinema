@@ -3,9 +3,10 @@ package android.genzinema.View;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.CustomAdapterRecyFilm;
+import android.genzinema.Controller.Custom_Adapter_RecyclerView_Movie_MainPage;
+import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Controller.RecyclerItemTouchListener;
+import android.genzinema.Controller.Custom_RecyclerView_ItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -36,6 +37,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -46,13 +48,14 @@ import java.util.ArrayList;
  * Use the {@link Fragment_Home#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Home extends Fragment implements CustomAdapterRecyFilm.OnItemClickListener{
+public class Fragment_Home extends Fragment implements Custom_Adapter_RecyclerView_Movie_MainPage.OnItemClickListener{
 String email;
     AppBarLayout appBarLayout;
     NestedScrollView nestedScrollView;
     Button btnMovie, btnPhim, btnGenres, btnCloseGenres, btnAnime, btnHanhDong, btnHaiHuoc, btnKinhDi, btnTinhCam, btnPhat, btnDanhSach;
 
     TextView tvTrangChu;
+    FavoriteMovieHander favoriteMovieHander;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -101,21 +104,14 @@ String email;
     // array list phim tinh cam
     ArrayList<Movie> arrayListPhimTinhCam = new ArrayList<>();
 
-    CustomAdapterRecyFilm adapterRecyFilmHanhDong;
-    CustomAdapterRecyFilm adapterRecyFilmKinhDi;
-    CustomAdapterRecyFilm adapterRecyFilmTinhCam;
+    Custom_Adapter_RecyclerView_Movie_MainPage adapterRecyFilmHanhDong;
+    Custom_Adapter_RecyclerView_Movie_MainPage adapterRecyFilmKinhDi;
+    Custom_Adapter_RecyclerView_Movie_MainPage adapterRecyFilmTinhCam;
 
-    CustomAdapterRecyFilm adapterRecyFilmHaiHuoc;
-    CustomAdapterRecyFilm adapterRecyFilmAnime;
-
+    Custom_Adapter_RecyclerView_Movie_MainPage adapterRecyFilmHaiHuoc;
+    Custom_Adapter_RecyclerView_Movie_MainPage adapterRecyFilmAnime;
     DividerItemDecoration ItemDecoKinhDi,ItemDecoAnime,ItemDecoHaiHuoc,ItemDecoHanhDong,ItemDecoTinhCam;
-
-    RecyclerItemTouchListener touchListenerAnime,touchListenerHanhDong,touchListenerHaiHuoc,touchListenerKinhDi,touchListenerTinhCam;
-
-
-
-
-
+    Custom_RecyclerView_ItemTouchListener touchListenerAnime,touchListenerHanhDong,touchListenerHaiHuoc,touchListenerKinhDi,touchListenerTinhCam;
 
     Animation fadeInAnimation;
 
@@ -156,6 +152,13 @@ String email;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment__home, container, false);
+        FragmentManager fm = getParentFragmentManager();
+        fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                email = result.getString("email");
+            }
+        });
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         View view = getLayoutInflater().inflate(R.layout.display_genres, null);
 
@@ -184,8 +187,6 @@ String email;
 
         loadArrayListData();
         addEvents();
-
-
         return rootView;
     }
 
@@ -221,7 +222,7 @@ String email;
         layoutManagerAnime = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimAnime.setLayoutManager(layoutManagerAnime);
         recyclerViewPhimAnime.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmAnime = new CustomAdapterRecyFilm(arrayListPhimAnime);
+        adapterRecyFilmAnime = new Custom_Adapter_RecyclerView_Movie_MainPage(arrayListPhimAnime);
         recyclerViewPhimAnime.setAdapter(adapterRecyFilmAnime);
 
 
@@ -232,7 +233,7 @@ String email;
         layoutManagerHanhDong = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimHanhDong.setLayoutManager(layoutManagerHanhDong);
         recyclerViewPhimHanhDong.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmHanhDong = new CustomAdapterRecyFilm(arrayListPhimHanhDong);
+        adapterRecyFilmHanhDong = new Custom_Adapter_RecyclerView_Movie_MainPage(arrayListPhimHanhDong);
         recyclerViewPhimHanhDong.setAdapter(adapterRecyFilmHanhDong);
 
 
@@ -243,7 +244,7 @@ String email;
         layoutManagerKinhDi = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimKinhDi.setLayoutManager(layoutManagerKinhDi);
         recyclerViewPhimKinhDi.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmKinhDi = new CustomAdapterRecyFilm(arrayListPhimKinhDi);
+        adapterRecyFilmKinhDi = new Custom_Adapter_RecyclerView_Movie_MainPage(arrayListPhimKinhDi);
         recyclerViewPhimKinhDi.setAdapter(adapterRecyFilmKinhDi);
 
         // Display list film of "Hai huoc"
@@ -253,7 +254,7 @@ String email;
         layoutManagerHaiHuoc = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimHaiHuoc.setLayoutManager(layoutManagerHaiHuoc);
         recyclerViewPhimHaiHuoc.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmHaiHuoc = new CustomAdapterRecyFilm(arrayListPhimHaiHuoc);
+        adapterRecyFilmHaiHuoc = new Custom_Adapter_RecyclerView_Movie_MainPage(arrayListPhimHaiHuoc);
         recyclerViewPhimHaiHuoc.setAdapter(adapterRecyFilmHaiHuoc);
 
         // Display list film of "Tinh cam"
@@ -263,7 +264,7 @@ String email;
         layoutManagerTinhCam = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewPhimTinhCam.setLayoutManager(layoutManagerTinhCam);
         recyclerViewPhimTinhCam.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyFilmTinhCam = new CustomAdapterRecyFilm(arrayListPhimTinhCam);
+        adapterRecyFilmTinhCam = new Custom_Adapter_RecyclerView_Movie_MainPage(arrayListPhimTinhCam);
         Log.d("arr", "addRecycleViewByGenres: "+arrayListPhimTinhCam.size());
         recyclerViewPhimTinhCam.setAdapter(adapterRecyFilmTinhCam);
 
@@ -328,7 +329,13 @@ String email;
         int colorRed = Color.parseColor(textColorHexCodeRed);
         int colorWhite = Color.parseColor(textColorHexCodeWhite);
 
-
+        btnDanhSach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
+                Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, recommendedMovieId),Toast.LENGTH_SHORT).show();
+            }
+        });
         btnPhat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -336,7 +343,7 @@ String email;
                 bundle.putInt("idMV", recommendedMovieId);
                 bundle.putString("email",email);
                 getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
-                loadFragment(new FragmentDetailMovie());
+                loadFragment(new Fragment_Detail_Movie());
             }
         });
 
@@ -390,8 +397,6 @@ String email;
                 dialog.dismiss();
             }
         });
-
-
 
         btnGenres.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -510,8 +515,6 @@ String email;
             }
         });
 
-
-
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int y, int oldScrollX, int oldScrollY) {
@@ -539,8 +542,6 @@ String email;
         }
     }
 
-
-
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getParentFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -555,27 +556,21 @@ String email;
 
     }
 
-    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyFilm customAdapterRecyFilm){
-        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
+    private Custom_RecyclerView_ItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, Custom_Adapter_RecyclerView_Movie_MainPage customAdapterRecyclerViewMovieMainPage){
+        Custom_RecyclerView_ItemTouchListener itemTouchListener = new Custom_RecyclerView_ItemTouchListener(getActivity(), recyclerView, new Custom_RecyclerView_ItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FragmentManager fm = getParentFragmentManager();
-                fm.setFragmentResultListener("emailMainToFHome", getViewLifecycleOwner(), new FragmentResultListener() {
-                    @Override
-                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        email = result.getString("email");
-                    }
-                });
-                Movie movie = customAdapterRecyFilm.GetItem(position);
-                Log.d("custom", "addRecycleViewByGenres: "+customAdapterRecyFilm.getItemCount());
+                Movie movie = customAdapterRecyclerViewMovieMainPage.GetItem(position);
+                Log.d("custom", "addRecycleViewByGenres: "+ customAdapterRecyclerViewMovieMainPage.getItemCount());
 
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putString("email", email);
+                Log.d("email", "emailhome "+email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                loadFragment(new FragmentDetailMovie());
+                loadFragment(new Fragment_Detail_Movie());
             }
 
             @Override

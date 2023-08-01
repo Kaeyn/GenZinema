@@ -1,22 +1,26 @@
 package android.genzinema.View;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.CustomAdapterRecyCollectionFilm;
+import android.genzinema.Controller.Custom_Adapter_RecyclerView_Collection;
 import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Controller.RecyclerItemTouchListener;
+import android.genzinema.Controller.Custom_RecyclerView_ItemTouchListener;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
  * Use the {@link Fragment_Collections#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Collections extends Fragment implements CustomAdapterRecyCollectionFilm.OnItemClickListener {
+public class Fragment_Collections extends Fragment implements Custom_Adapter_RecyclerView_Collection.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +51,7 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
     ImageView imgColFilm;
     TextView nameColFilm;
     ArrayList<Movie> colFilmArrayList = new ArrayList<>();
-    CustomAdapterRecyCollectionFilm adapterRecyColFilm;
+    Custom_Adapter_RecyclerView_Collection adapterRecyColFilm;
     ArrayList<Integer> arrayList = new ArrayList<>();
 
     private String mParam1;
@@ -86,6 +90,12 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.setFragmentResultListener("emailMainToFavorite", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+            }
+        });
     }
 
     @SuppressLint("MissingInflatedId")
@@ -100,8 +110,10 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
         // Inflate the layout for this fragment
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         favoriteMovieHander = new FavoriteMovieHander(getContext(),FavoriteMovieHander.DB_NAME,null,1);
-        favoriteMovieHander.loadData();
+
         movieHandler.loadData();
+        favoriteMovieHander.loadData();
+
         arrayList = favoriteMovieHander.getArrayListFMV(email);
         colFilmArrayList = movieHandler.getMoviesById(arrayList);
 
@@ -110,22 +122,25 @@ public class Fragment_Collections extends Fragment implements CustomAdapterRecyC
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        adapterRecyColFilm = new CustomAdapterRecyCollectionFilm(colFilmArrayList);
+
+        adapterRecyColFilm = new Custom_Adapter_RecyclerView_Collection(colFilmArrayList);
         recyclerView.setAdapter(adapterRecyColFilm);
+
+        recyclerView.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerView, adapterRecyColFilm));
         return rootView;
     }
-    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, CustomAdapterRecyCollectionFilm customAdapterRecyFilm){
-        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView, new RecyclerItemTouchListener.OnItemClickListener() {
+    private Custom_RecyclerView_ItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, Custom_Adapter_RecyclerView_Collection customAdapterRecyFilm){
+        Custom_RecyclerView_ItemTouchListener itemTouchListener = new Custom_RecyclerView_ItemTouchListener(getActivity(), recyclerView, new Custom_RecyclerView_ItemTouchListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Movie movie = adapterRecyColFilm.GetItem(position);
-                Bundle results = new Bundle();
-                results.putInt("idMV", movie.getIdMV());
-                results.putString("email", email);
-                results.putInt("idGenreMV", movie.getIdGenre());
-                results.putInt("idStyleMV", movie.getIdType());
-                getParentFragmentManager().setFragmentResult("keyDetailMVsc", results);
-                loadFragment(new FragmentDetailMovie());
+                Log.d("custom", ""+ movie.getIdMV() +"-"+ email);
+                Intent intent = new Intent(getContext(), Activity_Detail_Movie.class);
+                intent.putExtra("idMV", movie.getIdMV());
+                intent.putExtra("email", email);
+                intent.putExtra("idGenreMV", movie.getIdGenre());
+                intent.putExtra("idStyleMV", movie.getIdType());
+                startActivity(intent);
             }
 
             @Override

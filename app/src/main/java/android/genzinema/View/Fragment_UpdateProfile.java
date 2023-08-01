@@ -1,7 +1,5 @@
 package android.genzinema.View;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
@@ -12,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,14 +70,17 @@ public class Fragment_UpdateProfile extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         FragmentManager fm = getParentFragmentManager();
+        userHandler = new UserHandler(getContext(),UserHandler.DB_NAME,null,1);
         fm.setFragmentResultListener("UpdateProfileKey", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                User user = userHandler.getUserByEmail(result.getString("Email"));
+                Intent intent = getActivity().getIntent();
+                User user = userHandler.getUserByEmail(intent.getStringExtra("email"));
+                Log.d("USEREMAIL", intent.getStringExtra("email"));
                 edtEmail.setText(user.getEmail());
                 edtUsername.setText(user.getDisplayName());
                 edtSDT.setText(user.getPhone());
-                email = result.getString("Email");
+                email = intent.getStringExtra("email");
             }
         });
     }
@@ -92,7 +94,7 @@ public class Fragment_UpdateProfile extends Fragment {
         edtSDT =  view.findViewById(R.id.edt_SDT);
         btnUpdate = view.findViewById(R.id.btn_update);
 
-        userHandler = new UserHandler(getContext(),UserHandler.DB_NAME,null,1);
+
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,8 +103,8 @@ public class Fragment_UpdateProfile extends Fragment {
                 } else if (!edtUsername.getText().toString().equals(userHandler.getUserByEmail(email).getDisplayName())
                         || !edtSDT.getText().toString().equals(userHandler.getUserByEmail(email).getPhone())) {
                     userHandler.UpdateUserProfile(edtEmail.getText().toString(),edtUsername.getText().toString(),edtSDT.getText().toString());
-                    Intent intent = new Intent(getContext(), UserProfile.class);
-                    intent.putExtra("Email",edtEmail.getText().toString());
+                    Intent intent = new Intent(getContext(), Activity_User_Profile.class);
+                    intent.putExtra("email",edtEmail.getText().toString());
                     startActivity(intent);
                     Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();
                 } else {

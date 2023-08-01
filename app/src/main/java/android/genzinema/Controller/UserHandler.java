@@ -22,8 +22,6 @@ public class UserHandler extends SQLiteOpenHelper {
     static final String PASSWORD = "password";
     static final String PHONE = "phone";
 
-
-
     public UserHandler(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, TABLE_NAME, factory, version);
     }
