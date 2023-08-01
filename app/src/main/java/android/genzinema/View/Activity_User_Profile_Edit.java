@@ -36,7 +36,7 @@ public class Activity_User_Profile_Edit extends AppCompatActivity {
     {
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
-        bundle.putString("Email",intent.getStringExtra("Email"));
+        bundle.putString("email",intent.getStringExtra("email"));
         FragmentManager fm = getSupportFragmentManager();
         fm.setFragmentResult("UpdateProfileKey",bundle);
         loadFragment(new Fragment_UpdateProfile());
@@ -47,7 +47,7 @@ public class Activity_User_Profile_Edit extends AppCompatActivity {
                     isProfile = false;
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
-                    bundle.putString("Email",intent.getStringExtra("Email"));
+                    bundle.putString("email",intent.getStringExtra("email"));
                     FragmentManager fm = getSupportFragmentManager();
                     fm.setFragmentResult("UpdatePasswordKey",bundle);
                     loadFragment(new Fragment_UpdatePassword());
@@ -61,7 +61,7 @@ public class Activity_User_Profile_Edit extends AppCompatActivity {
                     isProfile = true;
                     Intent intent = getIntent();
                     Bundle bundle = new Bundle();
-                    bundle.putString("Email",intent.getStringExtra("Email"));
+                    bundle.putString("email",intent.getStringExtra("email"));
                     FragmentManager fm = getSupportFragmentManager();
                     fm.setFragmentResult("UpdateProfileKey",bundle);
                     loadFragment(new Fragment_UpdateProfile());
@@ -73,7 +73,7 @@ public class Activity_User_Profile_Edit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(Activity_User_Profile_Edit.this, Activity_User_Profile.class);
-                intent1.putExtra("Email",intent.getStringExtra("Email"));
+                intent1.putExtra("email",intent.getStringExtra("email"));
                 startActivity(intent1);
             }
         });
