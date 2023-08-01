@@ -44,7 +44,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginBottom="15dp"
-            app:srcCompat="@drawable/account_icon" />
+            app:srcCompat="@drawable/johnweak" />
 
         <TextView
             android:id="@+id/tv_UserName"
@@ -98,7 +98,7 @@
                 android:drawableLeft="@drawable/notification_icon"
                 android:drawableRight="@drawable/arrow_icon"
                 android:background="#00E1E1E1"
-                android:text="Thông báo"/>
+                android:text="Phim mới"/>
 
         </LinearLayout>
 

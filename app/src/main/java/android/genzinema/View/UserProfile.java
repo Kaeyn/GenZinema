@@ -51,7 +51,12 @@ public class UserProfile extends AppCompatActivity {
         Log.d("email Profi", email);
         user = userHandler.getUserByEmail(email);
         tv_UserName.setText(user.getDisplayName());
-
+        btn_appInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"Phiên bản 1.0",Toast.LENGTH_SHORT).show();
+            }
+        });
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
