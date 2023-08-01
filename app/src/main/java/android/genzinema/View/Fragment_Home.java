@@ -566,6 +566,7 @@ String email;
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putString("email", email);
+                Log.d("email", "emailhome "+email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);

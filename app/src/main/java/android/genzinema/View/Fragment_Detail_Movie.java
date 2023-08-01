@@ -350,6 +350,7 @@ public class Fragment_Detail_Movie extends Fragment {
                     });
                 }
 
+
                 fadeInAnimate = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in);
                 fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
 

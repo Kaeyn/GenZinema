@@ -100,8 +100,8 @@ public class Fragment_Episodes extends Fragment {
         addControls(view);
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
         epHandler.onCreate(db);
-        arrayListEpisode = epHandler.GetAllEpByMovieID(idMV);
 
+        arrayListEpisode = epHandler.GetAllEpByMovieID(idMV);
         adapter = new Custom_Adapter_ListrView_Episode(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEpisode);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         Movie movie = movieHandler.GetMovieByID(idMV);
