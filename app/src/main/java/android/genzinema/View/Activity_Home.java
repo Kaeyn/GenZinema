@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.EpHandler;
@@ -17,28 +16,20 @@ import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.GenresHandler;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Controller.StyleHandler;
-import android.genzinema.Model.FavoriteMovie;
 import android.genzinema.Model.Movie;
-import android.genzinema.View.HotnNew.Fragment_HotnNew;
 import android.os.Bundle;
 import android.genzinema.R;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 
-public class MainHome extends AppCompatActivity{
+public class Activity_Home extends AppCompatActivity{
     ActionBar actionBar;
     String email;
     FrameLayout frameFragment, childFrameLayout;
@@ -56,7 +47,7 @@ public class MainHome extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bottom_nav);
+        setContentView(R.layout.activity_home);
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
 
@@ -130,12 +121,12 @@ public class MainHome extends AppCompatActivity{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.searchIcon){
-            Intent intent = new Intent(MainHome.this, SearchPage.class);
+            Intent intent = new Intent(Activity_Home.this, Activity_Search.class);
             intent.putExtra("email",email);
             startActivity(intent);
         } else if (id == R.id.userProfile) {
 
-            Intent intent = new Intent(MainHome.this, UserProfile.class);
+            Intent intent = new Intent(Activity_Home.this, Activity_User_Profile.class);
             intent.putExtra("email",email);
             startActivity(intent);
         }

@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
-public class Login extends AppCompatActivity {
+public class Activity_Login extends AppCompatActivity {
 
     EditText edtUsername,edtPass;
     Button btnLogin;
@@ -59,7 +59,7 @@ public class Login extends AppCompatActivity {
     }
     private void addEvent()
     {
-        Intent intent = new Intent(Login.this, MainHome.class);
+        Intent intent = new Intent(Activity_Login.this, Activity_Home.class);
         intent.putExtra("email","1");
         startActivity(intent);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +68,7 @@ public class Login extends AppCompatActivity {
                 for (User user: arrayListUser) {
                     if(edtUsername.getText().toString().equals(user.getEmail()) &&
                             edtPass.getText().toString().equals(user.getPassword())){
-                                Intent intent = new Intent(Login.this, MainHome.class);
+                                Intent intent = new Intent(Activity_Login.this, Activity_Home.class);
                                 intent.putExtra("email",user.getEmail());
                                 startActivity(intent);
                                 check = true;
@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
                 }
                 if(check == false)
                 {
-                    Toast.makeText(Login.this,"Tên đăng nhập hoặc mật khẩu không đúng!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Login.this,"Tên đăng nhập hoặc mật khẩu không đúng!",Toast.LENGTH_SHORT).show();
                     edtUsername.setText("");
                     edtPass.setText("");
                 }

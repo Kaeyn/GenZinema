@@ -11,11 +11,9 @@ import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-public class DetailMoviePage extends AppCompatActivity {
+public class Activity_Detail_Movie extends AppCompatActivity {
 
     String email;
     int idmv,idGenre,idStyle;
@@ -26,7 +24,7 @@ public class DetailMoviePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Thông tin phim");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_detail_movie_page);
+        setContentView(R.layout.activity_detail_movie);
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         idmv = intent.getIntExtra("idMV",0);
@@ -44,7 +42,7 @@ public class DetailMoviePage extends AppCompatActivity {
             bundle.putInt("idStyleMV", movie.getIdType());
             FragmentManager fm = getSupportFragmentManager();
             fm.setFragmentResult("keyMain", bundle);
-            loadFragment(new FragmentDetailMovie());
+            loadFragment(new Fragment_Detail_Movie());
         }
     }
     public void loadFragment(Fragment fragment){
@@ -66,7 +64,7 @@ public class DetailMoviePage extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainHome.class);
+        Intent intent = new Intent(this, Activity_Home.class);
         intent.putExtra("email",email);
         startActivity(intent);
     }

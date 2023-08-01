@@ -1,10 +1,6 @@
-package android.genzinema.View.HotnNew;
+package android.genzinema.View;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.Hot_New_Pager_Adapter;
-import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Controller.UserHandler;
-import android.genzinema.Model.Movie;
+import android.genzinema.Controller.Custom_Adapter_FragmentState_HotNewPager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,8 +14,6 @@ import android.genzinema.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Fragment_HotnNew#newInstance} factory method to
@@ -30,7 +24,7 @@ public class Fragment_HotnNew extends Fragment {
     ViewPager2 subcategoryViewPager;
     TabLayout subcategoryLayout;
 
-    Hot_New_Pager_Adapter hot_new_pager_adapter;
+    Custom_Adapter_FragmentState_HotNewPager custom_adapterFragmentStateHotNewPager;
 
     boolean isTransitionComplete = true;
     int selectedTabIndex = 0;
@@ -92,8 +86,8 @@ public class Fragment_HotnNew extends Fragment {
         subcategoryViewPager.setUserInputEnabled(false);
         subcategoryLayout.setSelectedTabIndicator(R.drawable.tab_indicator);
 
-        Hot_New_Pager_Adapter hot_new_pager_adapter = new Hot_New_Pager_Adapter(requireActivity(), email);
-        subcategoryViewPager.setAdapter(hot_new_pager_adapter);
+        Custom_Adapter_FragmentState_HotNewPager custom_adapterFragmentStateHotNewPager = new Custom_Adapter_FragmentState_HotNewPager(requireActivity(), email);
+        subcategoryViewPager.setAdapter(custom_adapterFragmentStateHotNewPager);
 
         new TabLayoutMediator(subcategoryLayout, subcategoryViewPager, (tab, position) -> {
 

@@ -1,8 +1,6 @@
 package android.genzinema.Model;
 
-import java.util.ArrayList;
-
-public class Ep {
+public class Episode {
     Integer idEp,idImgEp,idMV;
     String NameEp, DetailEp, UrlEp;
 
@@ -54,11 +52,11 @@ public class Ep {
         UrlEp = urlEp;
     }
 
-    public Ep(){
+    public Episode(){
 
     }
 
-    public Ep(Integer idEp, Integer idImgEp, Integer idMV, String nameEp, String detailEp, String urlEp) {
+    public Episode(Integer idEp, Integer idImgEp, Integer idMV, String nameEp, String detailEp, String urlEp) {
         this.idEp = idEp;
         this.idImgEp = idImgEp;
         this.idMV = idMV;

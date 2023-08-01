@@ -1,7 +1,5 @@
 package android.genzinema.View;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
@@ -105,7 +103,7 @@ public class Fragment_UpdateProfile extends Fragment {
                 } else if (!edtUsername.getText().toString().equals(userHandler.getUserByEmail(email).getDisplayName())
                         || !edtSDT.getText().toString().equals(userHandler.getUserByEmail(email).getPhone())) {
                     userHandler.UpdateUserProfile(edtEmail.getText().toString(),edtUsername.getText().toString(),edtSDT.getText().toString());
-                    Intent intent = new Intent(getContext(), UserProfile.class);
+                    Intent intent = new Intent(getContext(), Activity_User_Profile.class);
                     intent.putExtra("email",edtEmail.getText().toString());
                     startActivity(intent);
                     Toast.makeText(getContext(), "Cập nhật thông tin thành công", Toast.LENGTH_SHORT).show();

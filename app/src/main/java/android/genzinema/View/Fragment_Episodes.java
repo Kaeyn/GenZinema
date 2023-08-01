@@ -2,17 +2,14 @@ package android.genzinema.View;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.CustomAdapterEp;
+import android.genzinema.Controller.Custom_Adapter_ListrView_Episode;
 import android.genzinema.Controller.EpHandler;
 import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Model.Ep;
+import android.genzinema.Model.Episode;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,28 +19,27 @@ import android.genzinema.R;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentEps#newInstance} factory method to
+ * Use the {@link Fragment_Episodes#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentEps extends Fragment {
+public class Fragment_Episodes extends Fragment {
     TextView tvNameMV;
     ListView lvEp;
     SQLiteDatabase db;
     EpHandler epHandler;
     MovieHandler movieHandler;
-    ArrayList<Ep> arrayListEp = new ArrayList<Ep>();
+    ArrayList<Episode> arrayListEpisode = new ArrayList<Episode>();
     ArrayList<Movie> arrayListMV = new ArrayList<Movie>();
 
     String UrlMovie;
 
     //    int movieID ;
-    CustomAdapterEp adapter;
+    Custom_Adapter_ListrView_Episode adapter;
     private int idMV;
 
      String email;
@@ -59,11 +55,11 @@ public class FragmentEps extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentEps() {
+    public Fragment_Episodes() {
         // Required empty public constructor
     }
 
-    public FragmentEps(int idMV, String email) {
+    public Fragment_Episodes(int idMV, String email) {
         this.email = email;
         this.idMV = idMV;
     }
@@ -77,8 +73,8 @@ public class FragmentEps extends Fragment {
      * @return A new instance of fragment FrgamentEps.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentEps newInstance(String param1, String param2) {
-        FragmentEps fragment = new FragmentEps();
+    public static Fragment_Episodes newInstance(String param1, String param2) {
+        Fragment_Episodes fragment = new Fragment_Episodes();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -104,9 +100,9 @@ public class FragmentEps extends Fragment {
         addControls(view);
         epHandler = new EpHandler(getContext(), EpHandler.DB_NAME, null, 1);
         epHandler.onCreate(db);
-        arrayListEp = epHandler.GetAllEpByMovieID(idMV);
+        arrayListEpisode = epHandler.GetAllEpByMovieID(idMV);
 
-        adapter = new CustomAdapterEp(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEp);
+        adapter = new Custom_Adapter_ListrView_Episode(getContext(), R.layout.layout_custom_item_ep_dm, arrayListEpisode);
         movieHandler = new MovieHandler(getContext(),MovieHandler.DB_NAME,null,1);
         Movie movie = movieHandler.GetMovieByID(idMV);
 
@@ -123,9 +119,9 @@ public class FragmentEps extends Fragment {
         lvEp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Ep ep = adapter.getItem(position);
-                UrlMovie = ep.getUrlEp();
-                Intent intent = new Intent(getContext(), WatchMovie.class);
+                Episode episode = adapter.getItem(position);
+                UrlMovie = episode.getUrlEp();
+                Intent intent = new Intent(getContext(), Activity_Watch_Movie.class);
                 intent.putExtra("vidUrl", UrlMovie);
                 intent.putExtra("email", email);
                 intent.putExtra("idMV", idMV);

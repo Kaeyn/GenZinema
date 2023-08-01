@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class CustomRecycleView extends RecyclerView.Adapter<CustomRecycleView.YourViewHolder> {
+public class Custom_Adapter_RecyclerView_HotNew extends RecyclerView.Adapter<Custom_Adapter_RecyclerView_HotNew.YourViewHolder> {
 
     private List<Movie> dataList;
 
-    public CustomRecycleView(List<Movie> dataList) {
+    public Custom_Adapter_RecyclerView_HotNew(List<Movie> dataList) {
         this.dataList = dataList;
     }
 
@@ -57,9 +57,9 @@ public class CustomRecycleView extends RecyclerView.Adapter<CustomRecycleView.Yo
         void onItemClick(int position);
     }
 
-    private Cus_Item_Search_Adapter.OnItemClickListener clickListener;
+    private Custom_Adapter_RecyclerView_Search.OnItemClickListener clickListener;
 
-    public void setOnItemClickListener(Cus_Item_Search_Adapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(Custom_Adapter_RecyclerView_Search.OnItemClickListener listener) {
         this.clickListener = listener;
     }
     public Movie GetItem(int position){

@@ -19,25 +19,25 @@
             android:name=".View.Activity_Collections"
             android:exported="false" />
         <activity
-            android:name=".View.DetailMoviePage"
+            android:name=".View.Activity_Detail_Movie"
             android:exported="false" />
         <activity
-            android:name=".View.MainHome"
+            android:name=".View.Activity_Home"
             android:exported="false" />
         <activity
-            android:name=".View.UserProfile_Edit"
+            android:name=".View.Activity_User_Profile_Edit"
             android:exported="false" />
         <activity
-            android:name=".View.UserProfile"
+            android:name=".View.Activity_User_Profile"
             android:exported="false" />
         <activity
-            android:name=".View.SearchPage"
+            android:name=".View.Activity_Search"
             android:exported="false" />
         <activity
-            android:name=".View.WatchMovie"
+            android:name=".View.Activity_Watch_Movie"
             android:exported="false" />
         <activity
-            android:name=".View.Login"
+            android:name=".View.Activity_Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

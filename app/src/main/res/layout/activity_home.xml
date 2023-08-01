@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/layout_bottom_nav"
-    tools:context=".View.MainHome">
+    tools:context=".View.Activity_Home">
 
     <FrameLayout
         android:id="@+id/frameFragment"

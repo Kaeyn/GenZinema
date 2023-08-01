@@ -8,11 +8,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerItemTouchListener implements RecyclerView.OnItemTouchListener {
+public class Custom_RecyclerView_ItemTouchListener implements RecyclerView.OnItemTouchListener {
     private GestureDetector gestureDetector;
     private OnItemClickListener clickListener;
 
-    public RecyclerItemTouchListener(Context context, final RecyclerView recyclerView, OnItemClickListener clickListener) {
+    public Custom_RecyclerView_ItemTouchListener(Context context, final RecyclerView recyclerView, OnItemClickListener clickListener) {
         this.clickListener = clickListener;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override

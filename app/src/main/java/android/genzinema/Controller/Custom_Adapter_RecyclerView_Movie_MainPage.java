@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapterRecyFilm extends RecyclerView.Adapter<CustomAdapterRecyFilm.MyViewHolder>{
+public class Custom_Adapter_RecyclerView_Movie_MainPage extends RecyclerView.Adapter<Custom_Adapter_RecyclerView_Movie_MainPage.MyViewHolder>{
     ArrayList<Movie> movieArrayList = new ArrayList<>();
 
-    public CustomAdapterRecyFilm(ArrayList<Movie> filmArrayList) {
+    public Custom_Adapter_RecyclerView_Movie_MainPage(ArrayList<Movie> filmArrayList) {
         this.movieArrayList = filmArrayList;
     }
 
@@ -61,9 +61,9 @@ public class CustomAdapterRecyFilm extends RecyclerView.Adapter<CustomAdapterRec
         void onItemClick(int position);
     }
 
-    private CustomAdapterRecyFilm.OnItemClickListener clickListener;
+    private Custom_Adapter_RecyclerView_Movie_MainPage.OnItemClickListener clickListener;
 
-    public void setOnItemClickListener(CustomAdapterRecyFilm.OnItemClickListener listener) {
+    public void setOnItemClickListener(Custom_Adapter_RecyclerView_Movie_MainPage.OnItemClickListener listener) {
         this.clickListener = listener;
     }
     public Movie GetItem(int position){

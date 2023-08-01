@@ -8,26 +8,25 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Search_Adapter.MyViewHolder> {
+public class Custom_Adapter_RecyclerView_Search extends RecyclerView.Adapter<Custom_Adapter_RecyclerView_Search.MyViewHolder> {
 
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
 
     @NonNull
     @Override
-    public Cus_Item_Search_Adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Custom_Adapter_RecyclerView_Search.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_layout_item_search, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Cus_Item_Search_Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Custom_Adapter_RecyclerView_Search.MyViewHolder holder, int position) {
         Movie movie = arrayListMovie.get(position);
         holder.imageView.setImageResource(movie.getIdThumbnails());
         holder.textView.setText(movie.getNameMovie());
@@ -51,7 +50,7 @@ public class Cus_Item_Search_Adapter extends RecyclerView.Adapter<Cus_Item_Searc
         return arrayListMovie.size();
     }
 
-    public Cus_Item_Search_Adapter(ArrayList<Movie> arrayListMovie){
+    public Custom_Adapter_RecyclerView_Search(ArrayList<Movie> arrayListMovie){
         this.arrayListMovie = arrayListMovie;
     }
 

@@ -1,14 +1,11 @@
 package android.genzinema.View;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -52,11 +49,11 @@ import com.google.android.exoplayer2.util.Util;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentDetailMovie#newInstance} factory method to
+ * Use the {@link Fragment_Detail_Movie#newInstance} factory method to
  * create an instance of this fragment.
  */
 
-public class FragmentDetailMovie extends Fragment {
+public class Fragment_Detail_Movie extends Fragment {
 
     private boolean btnEpStateIsCollect = true;
     int idMV , idGenre, idStyle;
@@ -92,7 +89,7 @@ public class FragmentDetailMovie extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentDetailMovie() {
+    public Fragment_Detail_Movie() {
         // Required empty public constructor
     }
 
@@ -105,8 +102,8 @@ public class FragmentDetailMovie extends Fragment {
      * @return A new instance of fragment DetailMovie.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentDetailMovie newInstance(String param1, String param2) {
-        FragmentDetailMovie fragment = new FragmentDetailMovie();
+    public static Fragment_Detail_Movie newInstance(String param1, String param2) {
+        Fragment_Detail_Movie fragment = new Fragment_Detail_Movie();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -158,7 +155,7 @@ public class FragmentDetailMovie extends Fragment {
         btnPlayVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), WatchMovie.class);
+                Intent intent = new Intent(getContext(), Activity_Watch_Movie.class);
                 intent.putExtra("email",email);
                 intent.putExtra("vidUrl", UrlMovie);
                 intent.putExtra("idGenreMV", idGenre);
@@ -224,9 +221,9 @@ public class FragmentDetailMovie extends Fragment {
         fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_out);
 
 
-        if(getContext() instanceof MainHome){
+        if(getContext() instanceof Activity_Home){
             HandleBundle(keyHometo,view);
-        }else if (getContext() instanceof DetailMoviePage){
+        }else if (getContext() instanceof Activity_Detail_Movie){
             HandleBundle(keySearchTo,view);
         }else if (getContext() instanceof Activity_Collections){
             HandleBundle(keyHometosc,view);
@@ -319,7 +316,7 @@ public class FragmentDetailMovie extends Fragment {
                     btnEp.setText("Phim lẻ");
                     if (btnEpStateIsCollect) {
                         btnEpStateIsCollect = false;
-                        loadFragment(new FragmentCollect(email,idGenre, idStyle));
+                        loadFragment(new Fragment_Collect(email,idGenre, idStyle));
                     }
                     btnEp.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -328,7 +325,7 @@ public class FragmentDetailMovie extends Fragment {
                             btnEp.setTextColor(colorRed);
                             if(btnEpStateIsCollect){
                                 btnEpStateIsCollect = false;
-                                loadFragment(new FragmentCollect(email,idGenre,idStyle));
+                                loadFragment(new Fragment_Collect(email,idGenre,idStyle));
                             }
                         }
 
@@ -337,7 +334,7 @@ public class FragmentDetailMovie extends Fragment {
                     btnEp.setText("Các tập");
                     if (btnEpStateIsCollect) {
                         btnEpStateIsCollect = false;
-                        loadFragment(new FragmentEps(idMV,email));
+                        loadFragment(new Fragment_Episodes(idMV,email));
                     }
                     btnEp.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -346,7 +343,7 @@ public class FragmentDetailMovie extends Fragment {
                             btnSimilar.setTextColor(colorWhite);
                             if (btnEpStateIsCollect) {
                                 btnEpStateIsCollect = false;
-                                loadFragment(new FragmentEps(idMV,email));
+                                loadFragment(new Fragment_Episodes(idMV,email));
                             }
                         }
 
@@ -378,7 +375,7 @@ public class FragmentDetailMovie extends Fragment {
                         btnSimilar.setTextColor(colorRed);
                         if(!btnEpStateIsCollect) {
                             btnEpStateIsCollect = true;
-                            loadFragment(new FragmentSimilarStyle(email,idGenre));
+                            loadFragment(new Fragment_Similar_Style(email,idGenre));
                         }
                     }
                 });

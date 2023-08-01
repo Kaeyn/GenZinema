@@ -1,16 +1,13 @@
-package android.genzinema.View.HotnNew;
+package android.genzinema.View;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.genzinema.Controller.Cus_Item_Search_Adapter;
-import android.genzinema.Controller.CustomRecycleView;
+import android.genzinema.Controller.Custom_Adapter_RecyclerView_HotNew;
 import android.genzinema.Controller.MovieHandler;
-import android.genzinema.Controller.RecyclerItemTouchListener;
+import android.genzinema.Controller.Custom_RecyclerView_ItemTouchListener;
 import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.Movie;
-import android.genzinema.View.FragmentDetailMovie;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,22 +18,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.genzinema.R;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the  factory method to
  * create an instance of this fragment.
  */
-public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecycleView.OnItemClickListener {
+public class Fragment_HotnNew_RecycleView extends Fragment implements Custom_Adapter_RecyclerView_HotNew.OnItemClickListener {
     private String subcategoryName;
     MovieHandler movieHandler;
     SQLiteDatabase database;
-    CustomRecycleView adapter;
+    Custom_Adapter_RecyclerView_HotNew adapter;
 
     String email;
 
@@ -82,7 +76,7 @@ public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecy
 
         ArrayList<Movie> dataList = getSubcategoryData(subcategoryName);
 
-        adapter = new CustomRecycleView(dataList);
+        adapter = new Custom_Adapter_RecyclerView_HotNew(dataList);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setNestedScrollingEnabled(false); // Disable nested scrolling if needed
@@ -109,9 +103,9 @@ public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecy
         }
     }
 
-    private RecyclerItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
-        RecyclerItemTouchListener itemTouchListener = new RecyclerItemTouchListener(getActivity(), recyclerView,
-                new RecyclerItemTouchListener.OnItemClickListener() {
+    private Custom_RecyclerView_ItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView){
+        Custom_RecyclerView_ItemTouchListener itemTouchListener = new Custom_RecyclerView_ItemTouchListener(getActivity(), recyclerView,
+                new Custom_RecyclerView_ItemTouchListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Movie movie = adapter.GetItem(position);
@@ -121,7 +115,7 @@ public class Fragment_HotnNew_RecycleView extends Fragment implements CustomRecy
                         results.putInt("idStyleMV", movie.getIdType());
                         results.putString("email", email);
                         getParentFragmentManager().setFragmentResult("keyDetailMV", results);
-                        loadFragment(new FragmentDetailMovie());
+                        loadFragment(new Fragment_Detail_Movie());
                     }
 
                     @Override

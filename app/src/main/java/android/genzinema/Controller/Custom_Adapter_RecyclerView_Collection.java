@@ -14,20 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapterRecyCollectionFilm extends RecyclerView.Adapter<CustomAdapterRecyCollectionFilm.MyViewHolder>{
+public class Custom_Adapter_RecyclerView_Collection extends RecyclerView.Adapter<Custom_Adapter_RecyclerView_Collection.MyViewHolder>{
 
     ArrayList<Movie> movieArrayList = new ArrayList<>();
 
-    public CustomAdapterRecyCollectionFilm(ArrayList<Movie> filmArrayList) {
+    public Custom_Adapter_RecyclerView_Collection(ArrayList<Movie> filmArrayList) {
         this.movieArrayList = filmArrayList;
     }
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    private Cus_Item_Search_Adapter.OnItemClickListener clickListener;
+    private Custom_Adapter_RecyclerView_Search.OnItemClickListener clickListener;
 
-    public void setOnItemClickListener(Cus_Item_Search_Adapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(Custom_Adapter_RecyclerView_Search.OnItemClickListener listener) {
         this.clickListener = listener;
     }
     public Movie GetItem(int position){
@@ -37,7 +37,7 @@ public class CustomAdapterRecyCollectionFilm extends RecyclerView.Adapter<Custom
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_collections_recycle_view_custom, parent, false);
-        return new CustomAdapterRecyCollectionFilm.MyViewHolder(itemView);
+        return new Custom_Adapter_RecyclerView_Collection.MyViewHolder(itemView);
     }
 
     @Override

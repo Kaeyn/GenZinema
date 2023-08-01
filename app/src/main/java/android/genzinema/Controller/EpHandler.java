@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.genzinema.Model.Ep;
-import android.util.Log;
+import android.genzinema.Model.Episode;
 
 import androidx.annotation.Nullable;
 
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class EpHandler extends SQLiteOpenHelper {
     private static Context context;
-    static ArrayList<Ep> arrayListEp = new ArrayList<>();
+    static ArrayList<Episode> arrayListEpisode = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
     public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Episode";
@@ -66,46 +65,46 @@ public class EpHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from "+ TABLE_NAME, null);
         cursor.moveToFirst();
         do{
-            Ep ep = new Ep();
-            ep.setIdEp(cursor.getInt(0));
-            ep.setIdImgEp(context.getResources().getIdentifier(cursor.getString(1),"drawable","android.genzinema"));
-            ep.setNameEp(cursor.getString(2));
-            ep.setIdMV(cursor.getInt(3));
-            ep.setDetailEp(cursor.getString(4));
-            ep.setUrlEp(cursor.getString(5));
+            Episode episode = new Episode();
+            episode.setIdEp(cursor.getInt(0));
+            episode.setIdImgEp(context.getResources().getIdentifier(cursor.getString(1),"drawable","android.genzinema"));
+            episode.setNameEp(cursor.getString(2));
+            episode.setIdMV(cursor.getInt(3));
+            episode.setDetailEp(cursor.getString(4));
+            episode.setUrlEp(cursor.getString(5));
 
-            arrayListEp.add(ep);
+            arrayListEpisode.add(episode);
 
         }while (cursor.moveToNext());
         cursor.close(); // Close the cursor after use
         db.close();
     }
-    public ArrayList<Ep> GetAllEpByMovieID(Integer movieID) {
+    public ArrayList<Episode> GetAllEpByMovieID(Integer movieID) {
         loadData();
-        ArrayList<Ep> arrayList = new ArrayList<>();
-        for (Ep ep : arrayListEp) {
-            Integer idMV = ep.getIdMV();
+        ArrayList<Episode> arrayList = new ArrayList<>();
+        for (Episode episode : arrayListEpisode) {
+            Integer idMV = episode.getIdMV();
             if (idMV != null && idMV.intValue() == movieID) {
-                arrayList.add(ep);
+                arrayList.add(episode);
             }
         }
         return arrayList;
     }
 
-    public Ep GetMovieByID(int ID){
+    public Episode GetMovieByID(int ID){
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
         cursor.moveToFirst();
-        Ep ep = new Ep();
-        ep.setIdEp(cursor.getInt(0));
-        ep.setIdImgEp(cursor.getInt(1));
-        ep.setNameEp(cursor.getString(2));
-        ep.setIdMV(cursor.getInt(3));
-        ep.setDetailEp(cursor.getString(4));
-        ep.setUrlEp(cursor.getString(5));
+        Episode episode = new Episode();
+        episode.setIdEp(cursor.getInt(0));
+        episode.setIdImgEp(cursor.getInt(1));
+        episode.setNameEp(cursor.getString(2));
+        episode.setIdMV(cursor.getInt(3));
+        episode.setDetailEp(cursor.getString(4));
+        episode.setUrlEp(cursor.getString(5));
         cursor.close();
         db.close();
-        return ep;
+        return episode;
     }
     public void droptbEp(SQLiteDatabase db){
         db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);

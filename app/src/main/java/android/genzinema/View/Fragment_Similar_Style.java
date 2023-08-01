@@ -1,15 +1,12 @@
 package android.genzinema.View;
 
-import android.genzinema.Controller.CustomGridCollectMV;
+import android.genzinema.Controller.Custom_Adapter_GridView_Collection;
 import android.genzinema.Controller.EpHandler;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +14,19 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentSimilarStyle#newInstance} factory method to
+ * Use the {@link Fragment_Similar_Style#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSimilarStyle extends Fragment {
+public class Fragment_Similar_Style extends Fragment {
     GridView gridSimilar;
     MovieHandler movieHandler;
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
-    CustomGridCollectMV adapter;
+    Custom_Adapter_GridView_Collection adapter;
 
     int idGenre = 0;
     String email = "";
@@ -45,10 +41,10 @@ public class FragmentSimilarStyle extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentSimilarStyle() {
+    public Fragment_Similar_Style() {
         // Required empty public constructor
     }
-    public FragmentSimilarStyle(String email, int idGenre){
+    public Fragment_Similar_Style(String email, int idGenre){
         this.email = email;
         this.idGenre = idGenre;
     }
@@ -61,11 +57,11 @@ public class FragmentSimilarStyle extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSimilarStyle.
+     * @return A new instance of fragment Fragment_Similar_Style.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSimilarStyle newInstance(String param1, String param2) {
-        FragmentSimilarStyle fragment = new FragmentSimilarStyle();
+    public static Fragment_Similar_Style newInstance(String param1, String param2) {
+        Fragment_Similar_Style fragment = new Fragment_Similar_Style();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -91,7 +87,7 @@ public class FragmentSimilarStyle extends Fragment {
         addControls(view);
         movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
         arrayListMovie = movieHandler.GetSimilarMVBy(idGenre);
-        adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
+        adapter = new Custom_Adapter_GridView_Collection(getContext(), arrayListMovie);
         gridSimilar.setAdapter(adapter);
         addEvents();
         return view;

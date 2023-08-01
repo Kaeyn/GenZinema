@@ -6,17 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.genzinema.Controller.UserHandler;
-import android.genzinema.Model.User;
 import android.os.Bundle;
 import android.genzinema.R;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-public class UserProfile_Edit extends AppCompatActivity {
+public class Activity_User_Profile_Edit extends AppCompatActivity {
 
     Button btn_Update, btn_UpdatePassword,btn_UpdateProfile;
     ImageButton imageBtn_return;
@@ -76,7 +72,7 @@ public class UserProfile_Edit extends AppCompatActivity {
         imageBtn_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(UserProfile_Edit.this, UserProfile.class);
+                Intent intent1 = new Intent(Activity_User_Profile_Edit.this, Activity_User_Profile.class);
                 intent1.putExtra("Email",intent.getStringExtra("Email"));
                 startActivity(intent1);
             }

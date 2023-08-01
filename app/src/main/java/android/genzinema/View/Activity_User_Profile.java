@@ -9,16 +9,14 @@ import android.genzinema.Controller.UserHandler;
 import android.genzinema.Model.User;
 import android.os.Bundle;
 import android.genzinema.R;
-import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserProfile extends AppCompatActivity {
+public class Activity_User_Profile extends AppCompatActivity {
 
     Button btn_logout, btn_edit, btn_notification, btn_myList,btn_appInfo;
     TextView tv_UserName;
@@ -60,7 +58,7 @@ public class UserProfile extends AppCompatActivity {
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfile.this, UserProfile_Edit.class);
+                Intent intent = new Intent(Activity_User_Profile.this, Activity_User_Profile_Edit.class);
                 intent.putExtra("email",user.getEmail());
                 startActivity(intent);
             }
@@ -68,7 +66,7 @@ public class UserProfile extends AppCompatActivity {
         btn_myList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserProfile.this, Activity_Collections.class);
+                Intent intent = new Intent(Activity_User_Profile.this, Activity_Collections.class);
                 intent.putExtra("email",user.getEmail());
                 startActivity(intent);
             }
@@ -76,7 +74,7 @@ public class UserProfile extends AppCompatActivity {
         btn_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(UserProfile.this, MainHome.class);
+                Intent intent1 = new Intent(Activity_User_Profile.this, Activity_Home.class);
                 intent1.putExtra("email",user.getEmail());
                 startActivity(intent1);
             }
@@ -84,7 +82,7 @@ public class UserProfile extends AppCompatActivity {
         imgBtn_return.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(UserProfile.this, MainHome.class);
+                Intent intent1 = new Intent(Activity_User_Profile.this, Activity_Home.class);
                 intent1.putExtra("email",user.getEmail());
                 startActivity(intent1);
 
@@ -110,7 +108,7 @@ public class UserProfile extends AppCompatActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent1 = new Intent(UserProfile.this, Login.class);
+                Intent intent1 = new Intent(Activity_User_Profile.this, Activity_Login.class);
                 startActivity(intent1);
             }
         });

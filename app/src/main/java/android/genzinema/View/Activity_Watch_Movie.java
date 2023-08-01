@@ -1,7 +1,6 @@
 package android.genzinema.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,11 +18,9 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -39,14 +36,11 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
 import com.google.android.exoplayer2.util.Util;
 
-import java.util.List;
-
-public class WatchMovie extends AppCompatActivity {
+public class Activity_Watch_Movie extends AppCompatActivity {
     SimpleExoPlayer exoPlayer;
     Button btn_back, btn_addToCollection, btn_movieDetail;
     FavoriteMovieHander favoriteMovieHander;
@@ -144,7 +138,7 @@ public class WatchMovie extends AppCompatActivity {
 //                Intent intentReturn = getIntent();
 //                email = intentReturn.getStringExtra("email");
 //                idMV = intentReturn.getIntExtra("idMV",0);
-                Intent intent = new Intent(WatchMovie.this, DetailMoviePage.class);
+                Intent intent = new Intent(Activity_Watch_Movie.this, Activity_Detail_Movie.class);
                 Log.d("aa", "onClick: "+idMV);
                 movieHandler = new MovieHandler(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
                 Movie movie = movieHandler.GetMovieByID(idMV);
@@ -165,7 +159,7 @@ public class WatchMovie extends AppCompatActivity {
         btn_movieDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WatchMovie.this, DetailMoviePage.class);
+                Intent intent = new Intent(Activity_Watch_Movie.this, Activity_Detail_Movie.class);
                 intent.putExtra("email",email);
                 intent.putExtra("idMV",idMV);
                 startActivity(intent);

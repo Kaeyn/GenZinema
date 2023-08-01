@@ -1,16 +1,13 @@
 package android.genzinema.View;
 
-import android.genzinema.Controller.CustomAdapterEp;
-import android.genzinema.Controller.CustomGridCollectMV;
+import android.genzinema.Controller.Custom_Adapter_GridView_Collection;
 import android.genzinema.Controller.EpHandler;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -19,19 +16,18 @@ import android.view.ViewGroup;
 import android.genzinema.R;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentCollect#newInstance} factory method to
+ * Use the {@link Fragment_Collect#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentCollect extends Fragment {
+public class Fragment_Collect extends Fragment {
     GridView gridCollect;
     ArrayList<Movie> arrayListMovie = new ArrayList<>();
-    CustomGridCollectMV adapter;
+    Custom_Adapter_GridView_Collection adapter;
     MovieHandler movieHandler;
     String email = "";
     private int idGenre = 0;
@@ -45,11 +41,11 @@ public class FragmentCollect extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentCollect() {
+    public Fragment_Collect() {
         // Required empty public constructor
     }
 
-    public FragmentCollect(String email, int idGenre, int idStyle){
+    public Fragment_Collect(String email, int idGenre, int idStyle){
         this.email = email;
         this.idGenre = idGenre;
         this.idStyle = idStyle;
@@ -61,11 +57,11 @@ public class FragmentCollect extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentCollect.
+     * @return A new instance of fragment Fragment_Collect.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentCollect newInstance(String param1, String param2) {
-        FragmentCollect fragment = new FragmentCollect();
+    public static Fragment_Collect newInstance(String param1, String param2) {
+        Fragment_Collect fragment = new Fragment_Collect();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -93,7 +89,7 @@ public class FragmentCollect extends Fragment {
         addControls(view);
         movieHandler = new MovieHandler(getContext(), EpHandler.DB_NAME, null, 1);
         arrayListMovie = movieHandler.GetCollectMVBy(idGenre, idStyle);
-        adapter = new CustomGridCollectMV(getContext(), arrayListMovie);
+        adapter = new Custom_Adapter_GridView_Collection(getContext(), arrayListMovie);
         gridCollect.setAdapter(adapter);
         addEvents();
         return view;

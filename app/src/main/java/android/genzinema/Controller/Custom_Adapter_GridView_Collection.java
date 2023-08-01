@@ -3,23 +3,20 @@ package android.genzinema.Controller;
 import android.content.Context;
 import android.genzinema.Model.Movie;
 import android.genzinema.R;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomGridCollectMV extends BaseAdapter {
+public class Custom_Adapter_GridView_Collection extends BaseAdapter {
 
     Context context;
     ArrayList<Movie> arrayListMovie = new ArrayList<Movie>();
 
-    public CustomGridCollectMV(Context context, ArrayList<Movie> arrayListMovie) {
+    public Custom_Adapter_GridView_Collection(Context context, ArrayList<Movie> arrayListMovie) {
         this.context = context;
         this.arrayListMovie = arrayListMovie;
     }

@@ -1,7 +1,7 @@
 package android.genzinema.Controller;
 
 import android.content.Context;
-import android.genzinema.Model.Ep;
+import android.genzinema.Model.Episode;
 import android.genzinema.R;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,43 +15,43 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class CustomAdapterEp extends ArrayAdapter {
+public class Custom_Adapter_ListrView_Episode extends ArrayAdapter {
     Context context;
-    ArrayList<Ep> arrayListEp= new ArrayList<>();
+    ArrayList<Episode> arrayListEpisode = new ArrayList<>();
     int layoutItem;
 
-    public CustomAdapterEp(@NonNull Context context, int resource, @NonNull ArrayList<Ep>arrayListEp) {
-        super(context, resource, arrayListEp);
+    public Custom_Adapter_ListrView_Episode(@NonNull Context context, int resource, @NonNull ArrayList<Episode> arrayListEpisode) {
+        super(context, resource, arrayListEpisode);
         this.context = context;
-        this.arrayListEp = arrayListEp;
+        this.arrayListEpisode = arrayListEpisode;
         this.layoutItem = resource;
     }
     @Override
     public int getCount() {
-        return arrayListEp.size();
+        return arrayListEpisode.size();
     }
 
-    public Ep getItem(int position) {
-        return arrayListEp.get(position);
+    public Episode getItem(int position) {
+        return arrayListEpisode.get(position);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Ep ep = arrayListEp.get(position);
+        Episode episode = arrayListEpisode.get(position);
 
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(layoutItem,null);
         }
 
         ImageView imgEp = (ImageView)convertView.findViewById(R.id.imgEp);
-        imgEp.setImageResource(ep.getIdImgEp());
+        imgEp.setImageResource(episode.getIdImgEp());
 
         TextView tvName = (TextView) convertView.findViewById(R.id.tvNameEp);
-        tvName.setText(ep.getNameEp());
+        tvName.setText(episode.getNameEp());
 
         TextView tvDetail = (TextView) convertView.findViewById(R.id.tvDetailEp);
-        tvDetail.setText(ep.getDetailEp());
+        tvDetail.setText(episode.getDetailEp());
 
         return convertView;
     }

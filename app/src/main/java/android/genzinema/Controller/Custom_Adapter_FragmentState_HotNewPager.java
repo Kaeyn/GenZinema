@@ -1,16 +1,16 @@
 package android.genzinema.Controller;
 
-import android.genzinema.View.HotnNew.Fragment_HotnNew_RecycleView;
+import android.genzinema.View.Fragment_HotnNew_RecycleView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class Hot_New_Pager_Adapter extends FragmentStateAdapter {
+public class Custom_Adapter_FragmentState_HotNewPager extends FragmentStateAdapter {
 
     String email;
-    public Hot_New_Pager_Adapter(@NonNull FragmentActivity fragmentActivity, String email) {
+    public Custom_Adapter_FragmentState_HotNewPager(@NonNull FragmentActivity fragmentActivity, String email) {
         super(fragmentActivity);
         this.email = email;
     }
