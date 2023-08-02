@@ -174,7 +174,6 @@ public class Fragment_Detail_Movie extends Fragment {
         btnAddList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("asdsadsadsa",email + " "+idMV);
                 Toast.makeText(getContext(),favoriteMovieHander.AddOrDelete(email, idMV),Toast.LENGTH_SHORT).show();
                 checkFMV();
             }

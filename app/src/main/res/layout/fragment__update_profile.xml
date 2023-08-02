@@ -16,7 +16,8 @@
             android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email" />
+            android:text="Email"
+            android:textColor="@color/white"/>
 
         <EditText
             android:id="@+id/edt_Email"
@@ -26,13 +27,15 @@
             android:ems="10"
             android:enabled="false"
             android:hint="Email"
-            android:inputType="none" />
+            android:inputType="none"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên" />
+            android:text="Tên"
+            android:textColor="@color/white"/>
 
         <EditText
             android:id="@+id/edt_UserName"
@@ -40,13 +43,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Số điện thoại" />
+            android:text="Số điện thoại"
+            android:textColor="@color/white"/>
 
         <EditText
             android:id="@+id/edt_SDT"
@@ -54,7 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:textColor="@color/white"/>
         <Button
             android:id="@+id/btn_update"
             android:layout_width="match_parent"
