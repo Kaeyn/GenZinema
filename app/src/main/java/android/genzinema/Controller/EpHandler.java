@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.genzinema.Model.Ep;
-import android.util.Log;
+import android.genzinema.Model.Episode;
 
 import androidx.annotation.Nullable;
 
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 
 public class EpHandler extends SQLiteOpenHelper {
     private static Context context;
-    static ArrayList<Ep> arrayListEp = new ArrayList<>();
+    static ArrayList<Episode> arrayListEpisode = new ArrayList<>();
     public static final String DB_NAME = "qlmv";
     public static final String PATH = "/data/data/android.genzinema/files/database/qlmv.db";
     static final String TABLE_NAME = "Episode";
@@ -32,6 +31,7 @@ public class EpHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        droptbEp();
         db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.CREATE_IF_NECESSARY);
         String sql = " CREATE TABLE IF NOT EXISTS "+TABLE_NAME+" ( " +
                 IDEP_COL+" INTEGER NOT NULL, " +
@@ -43,15 +43,37 @@ public class EpHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY("+IDMOVIE_COL+") REFERENCES "+MovieHandler.TABLE_NAME+"("+MovieHandler.IDMOVIE_COL+")," +
                 "PRIMARY KEY( "+IDEP_COL+" ));";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'johnweak','Tâp 1', 3, 'Oh yeahhhhhhhhhhhhh.','1tazr67-wERTdQ9tCdnJBiK3-P_ZqWJU0')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (1,'ep1ttcs','Tập 1', 3, 'Tôi từ 1 thằng thất nghiệp chuyển sinh sang thế giới mới','16pmiD1vUO1mpNWU85vTgdsZ_fYiu4Ks4')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'sieunhan','Tâp 2', 3, 'Oh nooooooooooo.','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (2,'ep2ttcs','Tập 2', 3, 'Sư phụ của tôi là một cô nhóc?','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'johnweak','Tâp 3', 3, 'It movie 2.','1ENAzcgYVihG8NHmeNDOrxh3mjzJLjD0r')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (3,'ep3ttcs','Tập 3', 3, 'Thế giới mới bắt đầu!','17DqvniSoy6PT0VaGYeMDcsb51rIMwpw8')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'bogia','Tâp 4', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (4,'ep1hdmt','Tập 1', 6, 'Cuộc gặp gỡ đầu tiên với y tá Won','1nejTzBNkuLJmsXcbHH_uxWnW5zAXusN0')";
         db.execSQL(sql);
-        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'ttcs','Tâp 5', 3, 'It movie 1 about johnWeak','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (5,'ep2hdmt','Tập 2', 6, 'Chiến tranh giữa Triều Tiên và Hàn! Cuộc gặp kết thúc','1JBxlijogEPvKjbqf5S5u8xWMLN1DUqP')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (6,'ep3hdmt','Tập 3', 6, 'Trên đường quay về từ chiến thắng','1UQdmP460mYAZKXw-UAamjCwZJhTPWWU9')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (7,'ep1over','Tập 1', 1, 'Game đã bị xóa và tôi bị kẹt lại??','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (8,'ep2over','Tập 2', 1, 'Giả vờ lãnh đạo như một nhà vua','1nejTzBNkuLJmsXcbHH_uxWnW5zAXusN0')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (9,'ep3over','Tập 3', 1, 'Bắt đầu kế hoạch cai trị thế giới!','1UQdmP460mYAZKXw-UAamjCwZJhTPWWU9')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (10,'ep1sanquy','Tập 1', 9, 'Thức tỉnh năng lực!','1mcvF1aLucjkfB06Usm2sh_SZjzrqNxQB')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (11,'ep2sanquy','Tập 2', 9, 'Tiệm mì kì lạ và bất ổn','1d2FtVxPdVAxntHkXJwRagJyW30OYwL6U')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (12,'ep3sanquy','Tập 3', 9, 'Cuộc săn quỷ. Bắt đầu','16pmiD1vUO1mpNWU85vTgdsZ_fYiu4Ks4')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (13,'ep1kingdom','Tập 1', 12, 'Kinh thành đóng cửa, Xác sống là gì?','16pmiD1vUO1mpNWU85vTgdsZ_fYiu4Ks4')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (14,'ep2kingdom','Tập 2', 12, 'Cuộc săn xác sống. Bắt đầu','1nejTzBNkuLJmsXcbHH_uxWnW5zAXusN0')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (15,'ep1cha','Tập 1', 13, 'Cuộc gặp gỡ định mệnh','1nejTzBNkuLJmsXcbHH_uxWnW5zAXusN0')";
+        db.execSQL(sql);
+        sql = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES (16,'ep2cha','Tập 2', 13, 'Ấn tượng xấu và những chiêu trò của dân làng','1S9Fj7wPhvFktzE5Pk4XWJ6ClLFRaadBW')";
         db.execSQL(sql);
         db.close();
     }
@@ -62,53 +84,54 @@ public class EpHandler extends SQLiteOpenHelper {
 
 
     public static void loadData(){
+        arrayListEpisode.clear();
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+ TABLE_NAME, null);
         cursor.moveToFirst();
         do{
-            Ep ep = new Ep();
-            ep.setIdEp(cursor.getInt(0));
-            ep.setIdImgEp(context.getResources().getIdentifier(cursor.getString(1),"drawable","android.genzinema"));
-            ep.setNameEp(cursor.getString(2));
-            ep.setIdMV(cursor.getInt(3));
-            ep.setDetailEp(cursor.getString(4));
-            ep.setUrlEp(cursor.getString(5));
+            Episode episode = new Episode();
+            episode.setIdEp(cursor.getInt(0));
+            episode.setIdImgEp(context.getResources().getIdentifier(cursor.getString(1),"drawable","android.genzinema"));
+            episode.setNameEp(cursor.getString(2));
+            episode.setIdMV(cursor.getInt(3));
+            episode.setDetailEp(cursor.getString(4));
+            episode.setUrlEp(cursor.getString(5));
 
-            arrayListEp.add(ep);
+            arrayListEpisode.add(episode);
 
         }while (cursor.moveToNext());
         cursor.close(); // Close the cursor after use
         db.close();
     }
-    public ArrayList<Ep> GetAllEpByMovieID(Integer movieID) {
+    public ArrayList<Episode> GetAllEpByMovieID(Integer movieID) {
         loadData();
-        ArrayList<Ep> arrayList = new ArrayList<>();
-        for (Ep ep : arrayListEp) {
-            Integer idMV = ep.getIdMV();
+        ArrayList<Episode> arrayList = new ArrayList<>();
+        for (Episode episode : arrayListEpisode) {
+            Integer idMV = episode.getIdMV();
             if (idMV != null && idMV.intValue() == movieID) {
-                arrayList.add(ep);
+                arrayList.add(episode);
             }
         }
         return arrayList;
     }
 
-    public Ep GetMovieByID(int ID){
+    public Episode GetMovieByID(int ID){
         SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery("select * from "+TABLE_NAME+" WHERE "+IDMOVIE_COL+" = "+ID, null);
         cursor.moveToFirst();
-        Ep ep = new Ep();
-        ep.setIdEp(cursor.getInt(0));
-        ep.setIdImgEp(cursor.getInt(1));
-        ep.setNameEp(cursor.getString(2));
-        ep.setIdMV(cursor.getInt(3));
-        ep.setDetailEp(cursor.getString(4));
-        ep.setUrlEp(cursor.getString(5));
+        Episode episode = new Episode();
+        episode.setIdEp(cursor.getInt(0));
+        episode.setIdImgEp(cursor.getInt(1));
+        episode.setNameEp(cursor.getString(2));
+        episode.setIdMV(cursor.getInt(3));
+        episode.setDetailEp(cursor.getString(4));
+        episode.setUrlEp(cursor.getString(5));
         cursor.close();
         db.close();
-        return ep;
+        return episode;
     }
-    public void droptbEp(SQLiteDatabase db){
-        db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+    public void droptbEp(){
+        SQLiteDatabase db =SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
         String sql = "Drop table " + TABLE_NAME;
         db.execSQL(sql);
         db.close();

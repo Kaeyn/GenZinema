@@ -2,7 +2,6 @@ package android.genzinema.View;
 
 import android.content.Intent;
 import android.genzinema.Controller.UserHandler;
-import android.genzinema.Model.User;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -98,7 +97,7 @@ public class Fragment_UpdatePassword extends Fragment {
                         && !edtNewPass.getText().toString().equals(edtOldPass.getText().toString())
                         && edtNewPass.getText().toString().equals(edtNewPass2.getText().toString())) {
                     userHandler.UpdateUserPass(edtOldPass.getText().toString(), edtNewPass.getText().toString());
-                    Intent intent = new Intent(getContext(), UserProfile.class);
+                    Intent intent = new Intent(getContext(), Activity_User_Profile.class);
                     intent.putExtra("email", email);
                     startActivity(intent);
                     Toast.makeText(getContext(), "Cập nhật thành công", Toast.LENGTH_SHORT).show();
