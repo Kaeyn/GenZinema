@@ -16,6 +16,9 @@
         android:theme="@style/Theme.GenZinema"
         tools:targetApi="31">
         <activity
+            android:name=".View.Activity_Register"
+            android:exported="false" />
+        <activity
             android:name=".View.Activity_Collections"
             android:exported="false" />
         <activity
