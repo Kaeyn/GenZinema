@@ -78,6 +78,8 @@ String email;
     Dialog dialog;
     LinearLayout recommendedBackground;
 
+    Movie recommendedMovie;
+
     View tiltleKinhDi, tiltleAnime, tiltleHanhDong,tiltleHaiHuoc,tiltleTinhCam;
 
     MovieHandler movieHandler;;
@@ -168,7 +170,7 @@ String email;
         fadeInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fade_in_home);
         applyFadeInAnimationToChildren(nestedScrollView, fadeInAnimation);
 
-        Movie recommendedMovie = movieHandler.GetRecommendedMovie();
+        recommendedMovie = movieHandler.GetRecommendedMovie();
         recommendedMovieId = recommendedMovie.getIdMV();
         recommendedBackground.setBackgroundResource(recommendedMovie.getIdThumbnails());
 
@@ -342,6 +344,8 @@ String email;
                 Bundle bundle = new Bundle();
                 bundle.putInt("idMV", recommendedMovieId);
                 bundle.putString("email",email);
+                bundle.putInt("idGenreMV", recommendedMovie.getIdGenre());
+                bundle.putInt("idStyleMV", recommendedMovie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
                 loadFragment(new Fragment_Detail_Movie());
             }
@@ -566,7 +570,6 @@ String email;
                 Bundle results = new Bundle();
                 results.putInt("idMV", movie.getIdMV());
                 results.putString("email", email);
-                Log.d("email", "emailhome "+email);
                 results.putInt("idGenreMV", movie.getIdGenre());
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
