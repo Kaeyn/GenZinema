@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.genzinema.Controller.EpHandler;
 import android.genzinema.Controller.FavoriteMovieHander;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
@@ -22,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -51,10 +53,12 @@ public class Activity_Watch_Movie extends AppCompatActivity {
     ProgressBar progressBar;
     Drawable drawable;
     PorterDuff.Mode mode;
+
+    TextView title;
+    MovieHandler movieHandler;
     int colorRed = Color.parseColor("#FF0000"); // Màu đỏ
     int colorWhite = Color.parseColor("#FFFFFF");
 
-    MovieHandler movieHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,9 @@ public class Activity_Watch_Movie extends AppCompatActivity {
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         idMV = intent.getIntExtra("idMV",0);
+        movieHandler = new MovieHandler(getApplicationContext(), EpHandler.DB_NAME,null,1);
+        Movie movieTitle = movieHandler.GetMovieByID(idMV);
+        title.setText(movieTitle.getNameMovie());
         Log.d("SDSDDSSDS", String.valueOf(email));
         checkFMV();
 
@@ -84,6 +91,7 @@ public class Activity_Watch_Movie extends AppCompatActivity {
         btn_back = findViewById(R.id.btn_back);
         btn_movieDetail = findViewById(R.id.btn_toMovieDetail);
         btn_addToCollection = findViewById(R.id.btn_addToCollections);
+        title = findViewById(R.id.titleWatchMovie);
         favoriteMovieHander = new FavoriteMovieHander(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
     }
     private void checkFMV()
