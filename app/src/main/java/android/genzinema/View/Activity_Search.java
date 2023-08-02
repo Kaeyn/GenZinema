@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.genzinema.Controller.Custom_Adapter_RecyclerView_Movie_MainPage;
 import android.genzinema.Controller.Custom_Adapter_RecyclerView_Search;
+import android.genzinema.Controller.Custom_RecyclerView_ItemTouchListener;
 import android.genzinema.Controller.MovieHandler;
 import android.genzinema.Model.Movie;
 import android.os.Bundle;
 import android.genzinema.R;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,36 +53,38 @@ public class Activity_Search extends AppCompatActivity implements Custom_Adapter
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         adapter = new Custom_Adapter_RecyclerView_Search(arrayList);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View view = rv.findChildViewUnder(e.getX(),e.getY());
-                if(view != null){
-                    int position = rv.getChildAdapterPosition(view);
-                    Movie movie = adapter.GetItem(position);
-                    Intent intent = new Intent(Activity_Search.this, Activity_Detail_Movie.class);
-                    intent.putExtra("idMV",movie.getIdMV());
-                    intent.putExtra("idGenreMV",movie.getIdGenre());
-                    intent.putExtra("idStyleMV",movie.getIdType());
-                    intent.putExtra("email", email);
-                    startActivity(intent);
+        recyclerView.addOnItemTouchListener(createOnItemTouchListenerEvent(recyclerView, adapter));
+//        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//                View view = rv.findChildViewUnder(e.getX(),e.getY());
+//                if(view != null){
+//                    int position = rv.getChildAdapterPosition(view);
+//                    Movie movie = adapter.GetItem(position);
+//                    Intent intent = new Intent(Activity_Search.this, Activity_Detail_Movie.class);
+//                    intent.putExtra("idMV",movie.getIdMV());
+//                    intent.putExtra("idGenreMV",movie.getIdGenre());
+//                    intent.putExtra("idStyleMV",movie.getIdType());
+//                    intent.putExtra("email", email);
+//                    startActivity(intent);
+//
+//                }
+//
+//                return true;
+//            }
+//
+//            @Override
+//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//        });
 
-                }
 
-                return true;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -128,6 +133,27 @@ public class Activity_Search extends AppCompatActivity implements Custom_Adapter
         });
     }
 
+    private Custom_RecyclerView_ItemTouchListener createOnItemTouchListenerEvent(RecyclerView recyclerView, Custom_Adapter_RecyclerView_Search customAdapterRecyclerViewSearch){
+        Custom_RecyclerView_ItemTouchListener itemTouchListener = new Custom_RecyclerView_ItemTouchListener(getApplicationContext(), recyclerView, new Custom_RecyclerView_ItemTouchListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Movie movie = customAdapterRecyclerViewSearch.GetItem(position);
+
+                Intent intent = new Intent(Activity_Search.this, Activity_Detail_Movie.class);
+                intent.putExtra("idMV",movie.getIdMV());
+                intent.putExtra("idGenreMV",movie.getIdGenre());
+                intent.putExtra("idStyleMV",movie.getIdType());
+                intent.putExtra("email", email);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+            }
+        });
+        return itemTouchListener;
+    }
 
     private void addControls(){
         recyclerView =findViewById(R.id.searchRecycleView);
