@@ -91,7 +91,8 @@ public class Activity_Register extends AppCompatActivity {
         textToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(Activity_Register.this, Activity_Login.class);
+                startActivity(intent);
             }
         });
     }

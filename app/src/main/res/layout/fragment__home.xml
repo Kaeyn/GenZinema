@@ -140,7 +140,7 @@
                                 android:text="Phát"
                                 android:textAllCaps="false"
                                 android:textColor="@color/black"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textStyle="bold" />
 
                             <Button
@@ -155,7 +155,7 @@
                                 android:backgroundTint="#8B000000"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textStyle="bold"
                                 app:icon="@drawable/add_icon"
                                 app:iconGravity="start" />
