@@ -146,15 +146,16 @@ public class Activity_Watch_Movie extends AppCompatActivity {
 //                Intent intentReturn = getIntent();
 //                email = intentReturn.getStringExtra("email");
 //                idMV = intentReturn.getIntExtra("idMV",0);
-                Intent intent = new Intent(Activity_Watch_Movie.this, Activity_Detail_Movie.class);
-                Log.d("aa", "onClick: "+idMV);
-                movieHandler = new MovieHandler(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
-                Movie movie = movieHandler.GetMovieByID(idMV);
-                intent.putExtra("email",email);
-                intent.putExtra("idMV", idMV);
-                intent.putExtra("idGenreMV",movie.getIdGenre());
-                intent.putExtra("idStyleMV",movie.getIdType());
-                startActivity(intent);
+//                Intent intent = new Intent(Activity_Watch_Movie.this, Activity_Detail_Movie.class);
+//                Log.d("aa", "onClick: "+idMV);
+//                movieHandler = new MovieHandler(getApplicationContext(),FavoriteMovieHander.DB_NAME,null,1);
+//                Movie movie = movieHandler.GetMovieByID(idMV);
+//                intent.putExtra("email",email);
+//                intent.putExtra("idMV", idMV);
+//                intent.putExtra("idGenreMV",movie.getIdGenre());
+//                intent.putExtra("idStyleMV",movie.getIdType());
+//                startActivity(intent);
+                finish();
             }
         });
         btn_addToCollection.setOnClickListener(new View.OnClickListener() {
@@ -167,10 +168,11 @@ public class Activity_Watch_Movie extends AppCompatActivity {
         btn_movieDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Activity_Watch_Movie.this, Activity_Detail_Movie.class);
-                intent.putExtra("email",email);
-                intent.putExtra("idMV",idMV);
-                startActivity(intent);
+//                Intent intent = new Intent(Activity_Watch_Movie.this, Activity_Detail_Movie.class);
+//                intent.putExtra("email",email);
+//                intent.putExtra("idMV",idMV);
+//                startActivity(intent);
+                finish();
             }
         });
 

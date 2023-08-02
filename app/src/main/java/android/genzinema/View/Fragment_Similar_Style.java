@@ -109,5 +109,6 @@ public class Fragment_Similar_Style extends Fragment {
                 results.putInt("idStyleMV", movie.getIdType());
                 getParentFragmentManager().setFragmentResult("keyDetailMV", results);
             }
-        });    }
+        });
+    }
 }
