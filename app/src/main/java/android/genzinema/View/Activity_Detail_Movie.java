@@ -72,8 +72,8 @@ public class Activity_Detail_Movie extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-//            finish(); // Call the onBackPressed() method to navigate back
-            onBackPressed();
+            finish(); // Call the onBackPressed() method to navigate back
+//            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -11,6 +11,7 @@ import android.genzinema.R;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class Activity_Login extends AppCompatActivity {
 
     EditText edtUsername,edtPass;
+    TextView txtToRegis;
     Button btnLogin;
     UserHandler userHandler;
     SQLiteDatabase db;
@@ -56,6 +58,7 @@ public class Activity_Login extends AppCompatActivity {
         edtUsername = findViewById(R.id.edt_username);
         edtPass = findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
+        txtToRegis = findViewById(R.id.txtToRegis);
     }
     private void addEvent()
     {
@@ -78,6 +81,13 @@ public class Activity_Login extends AppCompatActivity {
                     edtUsername.setText("");
                     edtPass.setText("");
                 }
+            }
+        });
+        txtToRegis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Activity_Login.this, Activity_Register.class);
+                startActivity(intent);
             }
         });
     }

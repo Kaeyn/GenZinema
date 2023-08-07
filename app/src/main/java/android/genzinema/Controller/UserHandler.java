@@ -72,6 +72,14 @@ public class UserHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void InsertUser(String email, String pass){
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(PATH,null,SQLiteDatabase.OPEN_READWRITE);
+        String sqlInsert = "INSERT OR IGNORE INTO " + TABLE_NAME +" VALUES ('"+email+"','New Genzinemazer','"+pass+"', '000000000')";
+        db.execSQL(sqlInsert);
+        LoadData();
+        db.close();
+    }
+
     public User getUserByEmail(String email)
     {
         for (User user: arrayListUser)
