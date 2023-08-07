@@ -134,13 +134,20 @@ public class Fragment_Collections extends Fragment implements Custom_Adapter_Rec
             @Override
             public void onItemClick(View view, int position) {
                 Movie movie = adapterRecyColFilm.GetItem(position);
-                Log.d("custom", ""+ movie.getIdMV() +"-"+ email);
+                /*Log.d("custom", ""+ movie.getIdMV() +"-"+ email);
                 Intent intent = new Intent(getContext(), Activity_Detail_Movie.class);
                 intent.putExtra("idMV", movie.getIdMV());
                 intent.putExtra("email", email);
                 intent.putExtra("idGenreMV", movie.getIdGenre());
                 intent.putExtra("idStyleMV", movie.getIdType());
-                startActivity(intent);
+                startActivity(intent);*/
+                Bundle bundle = new Bundle();
+                bundle.putInt("idMV", movie.getIdMV());
+                bundle.putString("email",email);
+                bundle.putInt("idGenreMV", movie.getIdGenre());
+                bundle.putInt("idStyleMV", movie.getIdType());
+                getParentFragmentManager().setFragmentResult("keyDetailMV", bundle);
+                loadFragment(new Fragment_Detail_Movie());
             }
 
             @Override
