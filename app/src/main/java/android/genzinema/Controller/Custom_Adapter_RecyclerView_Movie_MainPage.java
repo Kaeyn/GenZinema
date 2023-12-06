@@ -52,7 +52,6 @@ public class Custom_Adapter_RecyclerView_Movie_MainPage extends RecyclerView.Ada
                             clickListener.onItemClick(position);
                         }
                     }
-
                 }
             });
         }
